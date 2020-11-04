@@ -2,12 +2,12 @@
 
 # 飞污熊笔记本 <small>0.0.1</small>
 
-> 飞污熊的个人笔记本，专注于WEB编程开发领域。
+> 执着于好代码，专注WEB编程开发领域。
 
-- 编程语言，包括Java和Python
+- 编程语言包括Java和Python
+- 信息安全领域常见技术原理
 - Linux服务器和Docker容器运维
-- 算法、开发工具和架构设计的一些思考
-- 信息安全领域技术笔记
+- 算法、开发工具和架构设计的一些思考...
 
 [GitHub](https://github.com/yidao620c)
 [Get Started](#notes)
