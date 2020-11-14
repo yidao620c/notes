@@ -43,16 +43,16 @@ def is_image(file):
     return file.endswith('.jpg') \
            or file.endswith('.jpeg') \
            or file.endswith('.png') \
+           or file.endswith('.gif') \
            or file.endswith('.ico')
 
 
 def upload_image(image):
     # 高级上传接口(推荐)
-    file_name = 'snow.jpg'
     response = client.upload_file(
         Bucket='bucket-appId',
-        LocalFilePath=file_name,
-        Key=file_name,
+        LocalFilePath=image,
+        Key=image,
         PartSize=10,
         MAXThread=10
     )
