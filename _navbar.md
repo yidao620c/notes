@@ -4,6 +4,7 @@
   * [Python](markdown/编程语言/Python/简介.md)
   * [Web前端](markdown/编程语言/Web前端/简介.md)
   * [微信开发](markdown/编程语言/微信开发/简介.md)
+  * [开发工具](markdown/编程语言/开发工具/简介.md)
 * [Spring](markdown/Spring/简介.md)
 * [Linux和网络](markdown/Linux/简介.md)
 * [Docker容器](markdown/Docker/简介.md)
