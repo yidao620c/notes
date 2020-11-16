@@ -1,8 +1,8 @@
 ![logo](https://xnstatic-1253397658.file.myqcloud.com/leaf.svg)
 
-# 飞污熊笔记本 <small>0.0.1</small>
+# 飞污熊知识星球 <small>0.0.1</small>
 
-> 追求编程之美，专注WEB编程开发领域。
+> 追求编程之美，专注WEB开发领域。
 
 - 编程语言包括Java和Python
 - 信息安全领域常见技术原理
