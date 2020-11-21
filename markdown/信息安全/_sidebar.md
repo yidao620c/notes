@@ -3,7 +3,7 @@
   * [CISSP认证](markdown/信息安全/CISSP认证.md)
 * 数字证书
   * [SSL/TLS CipherSuite 介绍](markdown/信息安全/Certificate/CipherSuite.md)
-  * [OpenSSl自签名证书](markdown/信息安全/Certificate/OpenSSl自签名证书.md)
+  * [OpenSSL自签名证书](markdown/信息安全/Certificate/OpenSSL自签名证书.md)
   * [Tomcat证书双向认证](markdown/信息安全/Certificate/Tomcat证书双向认证.md)
   * [Nginx证书双向认证](markdown/信息安全/Certificate/Nginx证书双向认证.md)
   * [Java解析X509证书文件](markdown/信息安全/Certificate/Java解析X509证书文件.md)
