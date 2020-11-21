@@ -2,6 +2,8 @@
 
 ## 提示消息
 
+?> **Notes**: Like docsify-tabs? Be sure to check out
+
 !> **Important!**: a warning
 
 > [!NOTE]
