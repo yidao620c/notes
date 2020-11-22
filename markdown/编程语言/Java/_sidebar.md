@@ -9,4 +9,5 @@
   * [Maven传递依赖无法引入解决办法](markdown/编程语言/Java/Tools/Maven传递依赖无法引入解决办法.md)
   * [Maven下载依赖时候忽略SSL证书校验](markdown/编程语言/Java/Tools/Maven下载依赖时候忽略SSL证书校验.md)
 * Spring框架
-  * [springboot配置文件加载顺序](markdown/编程语言/Java/Spring/springboot配置文件加载顺序.md)
+  * [SpringBoot2配置文件加载顺序](markdown/编程语言/Java/Spring/SpringBoot2配置文件加载顺序.md)
+  * [SpringBoot2单元测试](markdown/编程语言/Java/Spring/SpringBoot2单元测试.md)

@@ -104,3 +104,7 @@ pre[data-lang] code {
 .markdown-section pre > code {
     padding: 1.2em 5px;
 }
+
+.markdown-section pre {
+    padding: 0px 1.0rem;
+}
