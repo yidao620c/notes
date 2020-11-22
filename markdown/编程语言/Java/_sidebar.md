@@ -1,10 +1,12 @@
 * Java语言基础
-  * [简介](markdown/编程语言/Java/简介.md)
-  * [JDK的两个版本解释](markdown/编程语言/Java/JDK的两个版本解释.md)
+  * [简介](markdown/编程语言/Java/)
+  * [JDK的两个版本解释](markdown/编程语言/Java/Core/JDK的两个版本解释.md)
 * Java开发工具
-  * [logback配置示例](markdown/编程语言/Java/logback配置示例.md)
-  * [IDEA工具使用技巧](markdown/编程语言/Java/IDEA工具使用技巧.md)
-  * [IDEA不能下载maven依赖包的源码](markdown/编程语言/Java/IDEA不能下载maven依赖包的源码.md)
-  * [Maven自动上传包和执行脚本](markdown/编程语言/Java/Maven自动上传包和执行脚本.md)
-  * [Maven传递依赖无法引入解决办法](markdown/编程语言/Java/Maven传递依赖无法引入解决办法.md)
-  * [Maven下载依赖时候忽略SSL证书校验](markdown/编程语言/Java/Maven下载依赖时候忽略SSL证书校验.md)
+  * [logback配置示例](markdown/编程语言/Java/Tools/logback配置示例.md)
+  * [IDEA工具使用技巧](markdown/编程语言/Java/Tools/IDEA工具使用技巧.md)
+  * [IDEA不能下载maven依赖包的源码](markdown/编程语言/Java/Tools/IDEA不能下载maven依赖包的源码.md)
+  * [Maven自动上传包和执行脚本](markdown/编程语言/Java/Tools/Maven自动上传包和执行脚本.md)
+  * [Maven传递依赖无法引入解决办法](markdown/编程语言/Java/Tools/Maven传递依赖无法引入解决办法.md)
+  * [Maven下载依赖时候忽略SSL证书校验](markdown/编程语言/Java/Tools/Maven下载依赖时候忽略SSL证书校验.md)
+* Spring框架
+  * [springboot配置文件加载顺序](markdown/编程语言/Java/Spring/springboot配置文件加载顺序.md)

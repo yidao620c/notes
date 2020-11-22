@@ -1,5 +1,5 @@
 * 信息安全基础
-  * [简介](markdown/信息安全/简介.md)
+  * [简介](markdown/信息安全/)
   * [CISSP认证](markdown/信息安全/CISSP认证.md)
 * 数字证书
   * [SSL/TLS CipherSuite 介绍](markdown/信息安全/Certificate/CipherSuite.md)

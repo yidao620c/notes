@@ -1,5 +1,5 @@
 * 介绍
-  * [简介](markdown/编程语言/Python/简介.md)
+  * [简介](markdown/编程语言/Python/)
 * Python核心
   * [Python命名规约](markdown/编程语言/Python/Python命名规约.md)
 * 自己写的小工具

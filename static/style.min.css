@@ -3,6 +3,12 @@
     height: 1rem
 }
 
+.app-nav a.active {
+    border-bottom: 2px solid var(--theme-color, #42b983);
+    color: var(--theme-color, #42b983);
+    font-weight: 700;
+}
+
 .sidebar-nav > ul > li {
     font-size: 1rem
 }
