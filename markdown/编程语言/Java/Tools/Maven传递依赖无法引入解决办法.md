@@ -34,7 +34,8 @@ mvn -X dependency:tree>tree.txt
 开启maven debug功能后，警告后紧跟了一条错误信息，如下。
 
 ```
-[WARNING] The POM for com.huawei.dc.security:security-sdk-https:jar:1.0-SNAPSHOT is invalid, transitive dependencies (if any) will not be available: 2 problems were encountered while building the effective model for com.huawei.dc.security:security-sdk-https:1.0-SNAPSHOT
+[WARNING] The POM for com.xncoding.security:security-sdk-https:jar:1.0-SNAPSHOT is invalid, transitive dependencies (if any) will not be available: 
+2 problems were encountered while building the effective model for com.xncoding.security:security-sdk-https:1.0-SNAPSHOT
 [ERROR] 'dependencies.dependency.version' for org.springframework.boot:spring-boot-configuration-processor:jar is missing. @ 
 [ERROR] 'dependencies.dependency.version' for org.springframework.boot:spring-boot-autoconfigure:jar is missing. @ 
 ```

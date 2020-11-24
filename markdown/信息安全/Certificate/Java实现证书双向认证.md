@@ -14,6 +14,10 @@ public class HttpClientProperties {
      */
     private boolean clientCert = false;
     /**
+     * 证书格式：PKCS12/JKS
+     */
+    private String keystoreType = "PKCS12";
+    /**
      * CA根证书密钥库文件
      */
     private String caRootCertKeyStore;
@@ -42,19 +46,19 @@ public class HttpClientProperties {
      */
     private int socketTimeout = 30000;
     /**
-     * 每个主机最大连接数
+     * 同路由最大连接数
      */
     private int defaultMaxPerRoute = 100;
     /**
-     * 最大连接数
+     * 连接池最大连接数
      */
     private int maxTotalConnections = 300;
     /**
-     * 连接保持活跃的时间（Keep-Alive）
+     * 连接保持活跃的时间Keep-Alive（毫秒）
      */
     private int defaultKeepAliveTimeMillis = 20000;
     /**
-     * 空闲连接的生存时间
+     * 空闲连接的生存时间（秒）
      */
     private int closeIdleConnectionWaitTimeSecs = 30;
 }
@@ -87,8 +91,12 @@ public class X509Util {
                 @Override
                 public void checkServerTrusted(X509Certificate[] certs, String authType) throws CertificateException {
                     logger.debug(">>>>>>>>>>>>>> checkServerTrusted 222222222222222 start ...");
-                    // Original trust checking
+                    // 校验逻辑：如果证书链第一个证书在信任库，则不会去校验该证书过期时间。其他的都会校验
                     origTrustmanager.checkServerTrusted(certs, authType);
+                    // 过期时间校验
+                    for (X509Certificate cert : certs) {
+                        cert.checkValidity();
+                    }
                     if (certs.length > 1) {
                         for (int i = 1; i < certs.length; i++) {
                             X509Certificate ca = certs[i];
@@ -122,7 +130,7 @@ public class X509Util {
         };
 
         try {
-            SSLContext sslContext = SSLContext.getInstance("TLS");
+            SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
             if (properties.isClientCert()) { // 如果开启客户端证书校验，则需要发送客户端证书
                 sslContext.init(getX509KeyManagers(properties), wrappedTrustManagers, new java.security.SecureRandom());
             } else { // 否则不需要发送客户端证书
@@ -143,7 +151,7 @@ public class X509Util {
         }
         try (FileInputStream rootKeyStore = new FileInputStream(caRootCertKeyStore)) {
             // 加载服务端信任根证书库
-            KeyStore trustKeyStore = KeyStore.getInstance("PKCS12");
+            KeyStore trustKeyStore = KeyStore.getInstance(properties.getKeystoreType());
             trustKeyStore.load(rootKeyStore, properties.getCaRootCertPassword().toCharArray());
             // 初始化服务端信任证书管理器
             TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
@@ -164,7 +172,7 @@ public class X509Util {
         }
         try (FileInputStream clientKeystore = new FileInputStream(clientCertKeyStore)) {
             // 加载客户端证书库
-            KeyStore clientKeyStore = KeyStore.getInstance("PKCS12");
+            KeyStore clientKeyStore = KeyStore.getInstance(properties.getKeystoreType());
             clientKeyStore.load(clientKeystore, properties.getClientCertPassword().toCharArray());
             KeyManagerFactory keyManagerFactory = KeyManagerFactory
                 .getInstance(KeyManagerFactory.getDefaultAlgorithm());
@@ -300,7 +308,7 @@ public class SecurityHttpClientConfig {
                 }
                 return true;
             };
-            sslsf = new SSLConnectionSocketFactory(sslContext, hostnameVerifier);
+            sslsf = new SSLConnectionSocketFactory(sslContext, new String[]{"TLSv1.2"}, null, hostnameVerifier);
         } catch (Exception e) {
             logger.error("Pooling Connection Manager Initialisation failure");
             throw new RuntimeException("Pooling Connection Manager Initialisation failure", e);
