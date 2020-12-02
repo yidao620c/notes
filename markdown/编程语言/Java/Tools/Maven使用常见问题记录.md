@@ -1,4 +1,12 @@
-# Maven传递依赖无法引入解决办法
+# Maven使用常见问题记录
+
+## Maven下载依赖时候忽略SSL证书校验
+
+```bash
+mvn clean && mvn compile -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true
+```
+
+## Maven传递依赖无法引入解决办法
 
 今天一个传递依赖问题搞了我半天，终于搞明白原因了。一个jar包A依赖了httpclient，然后另一个jar包B引入A，
 在IDEA里面只能看到依赖A，不管咋样都看不到依赖httpclient。
@@ -11,7 +19,7 @@ the POM for A is invalid, transitive dependencies (if any) will not be available
 
 原来是jar包A的pom依赖有问题。
 
-## 问题排查
+### 问题排查
 
 在应用B的根目录打印依赖树：
 
@@ -43,7 +51,7 @@ mvn -X dependency:tree>tree.txt
 原来是A包中引入的另外的`spring-boot-autoconfigure`没加版本号，这个我以为能继承父pom的版本号，
 发现这里不生效。具体原因我再分析。
 
-## 解决方案
+### 解决方案
 
 在A中把版本号补上重新发布，则一切正常。
 
