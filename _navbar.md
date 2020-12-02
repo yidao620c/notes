@@ -1,9 +1,9 @@
 * 编程开发
+  * [Android](markdown/编程语言/Android/)
   * [Java](markdown/编程语言/Java/)
   * [Python](markdown/编程语言/Python/)
   * [Web前端](markdown/编程语言/Web前端/)
   * [架构设计](markdown/编程语言/架构设计/)
-  * [杂货铺](markdown/编程语言/杂货铺/)
 * 中间件
   * [Database](markdown/中间件/Database/)
   * [Nginx](markdown/中间件/Nginx/)
@@ -17,6 +17,10 @@
   * [Linux](markdown/运维/Linux/)
   * [Docker](markdown/运维/Docker/)
   * [Kubernetes](markdown/运维/Kubernetes/)
+* 杂货铺
+  * [微信公众号](markdown/杂货铺/Weixin/)
+  * [第三方支付](markdown/杂货铺/Payment/)
+  * [开发设计工具](markdown/杂货铺/Tools/)
 * [算法](markdown/算法/)
 * [信息安全](markdown/信息安全/)
 
