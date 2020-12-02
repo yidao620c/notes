@@ -12,7 +12,6 @@
   * [Kafka](markdown/中间件/Kafka/)
   * [ElasticSearch](markdown/中间件/ElasticSearch/)
 * 运维
-  * [DevOps](markdown/运维/DevOps/)
   * [NetWork](markdown/运维/Network/)
   * [Linux](markdown/运维/Linux/)
   * [Docker](markdown/运维/Docker/)
