@@ -1,5 +1,13 @@
 # IDEA工具使用技巧
 
+## 推荐插件
+
+1. `JavaDoc`，可以一键生成标准化的JavaDoc注释文档，非常方便。
+1. `Grep Console`。控制台输出日志时可配置日志级别的颜色。
+1. `Maven Helper`。用于分析jar包依赖，可以快速找到冲突的jar包。
+1. `Alibaba Java Coding Guidelines`。静态代码检查插件，可对整个项目或单个文件进行检查。
+1. `JRebel`。热加载神器，多的我就不讲了。
+
 ## 设置保护色
 
 保护眼睛的颜色：`#C7EDCC`
