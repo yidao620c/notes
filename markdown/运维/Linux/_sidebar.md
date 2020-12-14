@@ -1,5 +1,5 @@
 * Linux基础
-  * [简介](markdown/运维/Linux/)
+  * [简介](markdown/运维/Linux/_readme.md)
   * [Linux一些使用小技巧](markdown/运维/Linux/Linux一些使用小技巧.md)
   * [设置代理时候保护个人密码](markdown/运维/Linux/设置代理时候保护个人密码.md)
 * Shell脚本清单

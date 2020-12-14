@@ -1,5 +1,5 @@
 * 开发设计工具
-  * [简介](markdown/杂货铺/Tools/)
+  * [简介](markdown/杂货铺/Tools/_readme.md)
 * DevOps工具
   * [Git常用操作命令](markdown/杂货铺/Tools/Git常用操作命令.md)
   * [Win10安装Cmder命令行工具](markdown/杂货铺/Tools/Win10安装Cmder命令行工具.md)

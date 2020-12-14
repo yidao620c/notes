@@ -1,5 +1,5 @@
 * 介绍
-  * [简介](markdown/编程语言/Python/)
+  * [简介](markdown/编程语言/Python/_readme.md)
 * Python核心
   * [Python命名规约](markdown/编程语言/Python/Python命名规约.md)
   * [将Python编译成二进制](markdown/编程语言/Python/将Python编译成二进制.md)
