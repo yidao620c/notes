@@ -50,11 +50,11 @@ X.509 v3证书定义的扩展为用户或公钥以及在CA间的管理提供了�
 * 约束2：生成CA根证书前，请提前规划以下环境配置参数。
 
 ```bash
-export root_key_password=222222;   #CA根私钥口令
-export root_p12_password=333333;   #CA根证书库PKCS12口令
-export server_key_password=444444; #服务证书私钥口令
-export server_p12_password=555555; #服务证书库PKCS12口令
-export sign_key_password=666666;   #签名证书私钥口令
+export root_key_password=123456;   #CA根私钥口令
+export root_p12_password=123456;   #CA根证书库PKCS12口令
+export server_key_password=123456; #服务证书私钥口令
+export server_p12_password=123456; #服务证书库PKCS12口令
+export sign_key_password=123456;   #签名证书私钥口令
 ```
 
 2.初始化文件
@@ -76,7 +76,7 @@ touch crlnumber              #吊销序列号文件
 4.生成自签名X509 V3 CA根证书
 `req`是证书请求的子命令，`-x509`表示输出证书，`-days365` 为有效期，此后根据提示输入证书拥有者信息。
 ```bash
-openssl req -x509 -days 3650 -sha256 -key private/root.key -passin pass:${root_key_password} -out root.crt \
+openssl req -x509 -days 3650 -sha256 -extensions v3_ca -key private/root.key -passin pass:${root_key_password} -out root.crt \
 -subj "/C=CN/ST=SX/L=XA/O=xncoding/OU=GTS/CN=ca.xncoding.com/emailAddress=ca@xncoding.com"
 ```
 
@@ -112,6 +112,8 @@ openssl x509 -in cert.crt -inform der -outform pem -out cert.pem
 ``` bash
 # 往信任证书库添加证书
 keytool -import -noprompt -trustcacerts -alias caroot -file root.crt -keystore root.p12 -storetype PKCS12 -storepass ${root_p12_password}
+openssl pkcs12 -export -nokeys -out root.p12 -in root.crt -certfile root.crt -passout pass:${root_p12_password} -certpbe AES-256-CBC
+openssl pkcs12 -info -in root.p12 -nodes -passin pass:${root_p12_password}
 # 从PKCS12信任证书库中删除证书
 keytool -delete -alias xxx -keystore root.p12 -storepass ${root_p12_password}
 # 使用keytool工具查看PKCS12格式证书
@@ -297,3 +299,11 @@ openssl pkcs12 -nokeys -clcerts -in root.p12 -password pass:${root_p12_password}
 # 使用root.crt校验server.crt
 openssl verify -CAfile root.crt server.crt
 ```
+
+## 默认证书的加密算法安全问题
+
+默认的PKCS12和KeyStore算法都很旧了，需要升级到安全的算法。
+参考<https://bugs.openjdk.java.net/browse/JDK-8228481>。
+经测试，在OpenJDK 15版本上面修改配置后是可以的，也就是通过KeyTool工具来生成信任库即可。
+预计等下个补丁版发布，所有的版本都默认支持了。
+
