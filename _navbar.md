@@ -1,3 +1,4 @@
+* [信息安全](markdown/信息安全/_readme.md)
 * 编程开发
   * [Android](markdown/编程语言/Android/_readme.md)
   * [Java](markdown/编程语言/Java/_readme.md)
@@ -21,5 +22,4 @@
   * [第三方支付](markdown/杂货铺/Payment/_readme.md)
   * [开发设计工具](markdown/杂货铺/Tools/_readme.md)
 * [算法](markdown/算法/_readme.md)
-* [信息安全](markdown/信息安全/_readme.md)
 

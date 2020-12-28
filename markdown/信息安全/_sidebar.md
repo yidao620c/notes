@@ -4,6 +4,8 @@
 * 数字证书
   * [SSL/TLS CipherSuite 介绍](markdown/信息安全/Certificate/CipherSuite.md)
   * [OpenSSL自签名证书](markdown/信息安全/Certificate/OpenSSL自签名证书.md)
+  * [PKCS12弱加密算法分析](markdown/信息安全/Certificate/PKCS12弱加密算法分析.md)
+  * [一键生成证书脚本](markdown/信息安全/Certificate/一键生成证书脚本.md)
   * [Tomcat证书双向认证](markdown/信息安全/Certificate/Tomcat证书双向认证.md)
   * [Nginx证书双向认证](markdown/信息安全/Certificate/Nginx证书双向认证.md)
   * [Java解析X509证书文件](markdown/信息安全/Certificate/Java解析X509证书文件.md)
