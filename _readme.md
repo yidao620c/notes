@@ -2,9 +2,16 @@
 
 > Programming notes
 >
-> 总有有一天我会把整个宇宙都装进来
+> 总有有一天我会把整个宇宙都装进来。
 
-[:dog: 博客](https://www.xncoding.com) <<<===>>> [:cow: 公众号](https://mp.weixin.qq.com/s/we61y1DNKabf5pQK2QqCMw)
+## 📣 简介
+
+进入首页后就是信息安全技术笔记，其他技术需要点击各自菜单进入。
+
+## 🔖 愿景
+
+海纳百川，有容乃大，这里只留干货。自从有了这玩意越来越喜欢记录笔记，同时也把之前写的东西都整过来了。
+期待将来有一天这里应有尽有，想找的东西在这里都能搜到。
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/20201118_planet.jpg)
 
