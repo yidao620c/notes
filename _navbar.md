@@ -19,7 +19,7 @@
 * 杂货铺
   * [微信公众号](markdown/杂货铺/Weixin/_readme.md)
   * [第三方支付](markdown/杂货铺/Payment/_readme.md)
-  * [开发工具](markdown/杂货铺/Tools/_readme.md)
   * [架构设计](markdown/杂货铺/架构设计/_readme.md)
+  * [开发工具](markdown/杂货铺/Tools/_readme.md)
 * [算法](markdown/算法/_readme.md)
 

@@ -1,11 +1,8 @@
 * Java语言基础
   * [简介](markdown/编程语言/Java/_readme.md)
   * [JDK的两个版本解释](markdown/编程语言/Java/Core/JDK的两个版本解释.md)
-* Spring框架
+* Java开发技术
+  * [logback配置示例](markdown/编程语言/Java/logback配置示例.md)
+* SpringBoot框架
   * [SpringBoot2配置文件加载顺序](markdown/编程语言/Java/Spring/SpringBoot2配置文件加载顺序.md)
   * [SpringBoot2单元测试](markdown/编程语言/Java/Spring/SpringBoot2单元测试.md)
-* Java开发工具
-  * [logback配置示例](markdown/编程语言/Java/logback配置示例.md)
-  * [IDEA工具使用技巧](markdown/编程语言/Java/IDEA工具使用技巧.md)
-  * [Maven自动上传包和执行脚本](markdown/编程语言/Java/Maven自动上传包和执行脚本.md)
-  * [Maven使用常见问题记录](markdown/编程语言/Java/Maven使用常见问题记录.md)
