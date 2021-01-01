@@ -6,6 +6,8 @@
     * [WireShark基本使用](markdown/General/Tools/Common/WireShark基本使用.md)
     * [XPath入门笔记](markdown/General/Tools/Common/XPath入门笔记.md)
     * [Yaml入门笔记](markdown/General/Tools/Common/Yaml入门笔记.md)
+    * [使用GitBook编写项目文档](markdown/General/Tools/Common/使用GitBook编写项目文档.md)
+    * [使用hexo搭建github博客](markdown/General/Tools/Common/使用hexo搭建github博客.md)
     * [使用ReadtheDocs托管文档](markdown/General/Tools/Common/使用ReadtheDocs托管文档.md)
     * [使用Swagger生成RESTful文档](markdown/General/Tools/Common/使用Swagger生成RESTful文档.md)
     * [数据库文档生成工具screw](markdown/General/Tools/Common/数据库文档生成工具screw.md)
@@ -33,4 +35,5 @@
 * IDEA开发工具
     * [IDEA工具使用技巧](markdown/General/Tools/IDEA/IDEA工具使用技巧.md)
     * [IDEA集成JRebel热部署工具](markdown/General/Tools/IDEA/IDEA集成JRebel热部署工具.md)
+    * [使用PyCharm进行远程调试](markdown/General/Tools/IDEA/使用PyCharm进行远程调试.md)
 

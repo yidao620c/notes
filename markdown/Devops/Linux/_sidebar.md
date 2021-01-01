@@ -22,7 +22,7 @@
     * [使用VirtualBox6安装Centos7](markdown/Devops/Linux/Core/使用VirtualBox6安装Centos7.md)
     * [设置代理时候保护个人密码](markdown/Devops/Linux/Core/设置代理时候保护个人密码.md)
 * Shell脚本
-    * [使用expect实现远程登录](markdown/Devops/Linux/ShellScripts/使用expect实现远程登录.md)
-    * [SpringBoot应用启动脚本](markdown/Devops/Linux/ShellScripts/SpringBoot应用启动脚本.md)
-    * [私钥分片和管道口令读取](markdown/Devops/Linux/ShellScripts/私钥分片和管道口令读取.md)
+    * [使用expect实现远程登录](markdown/Devops/Linux/Scripts/使用expect实现远程登录.md)
+    * [SpringBoot应用启动脚本](markdown/Devops/Linux/Scripts/SpringBoot应用启动脚本.md)
+    * [私钥分片和管道口令读取](markdown/Devops/Linux/Scripts/私钥分片和管道口令读取.md)
 
