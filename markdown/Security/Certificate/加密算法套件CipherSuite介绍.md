@@ -1,8 +1,8 @@
-# SSL/TLS CipherSuite 介绍
+# 加密算法套件CipherSuite介绍
 
 ## CipherSuite的概念
 
-CipherSuite 这个名词目前没看到有好的中文翻译，个人觉得翻译成`加密算法套件`比较合适。 Cipher泛指是密码学的加密算法，例如 `aes`, `rsa`, `ecdh` 等。
+`CipherSuite`这个名词目前没看到有好的中文翻译，个人觉得翻译成`加密算法套件`比较合适。 Cipher泛指是密码学的加密算法，例如 `aes`, `rsa`, `ecdh` 等。
 tls是由各类基础算法作为原语组合而成，一个CipherSuite是4个算法的组合：
 
 * 1个key exchange(密钥交换)算法
