@@ -1,11 +1,11 @@
-# Docker容器安装Redis集群
+# 04-Docker安装Redis集群.
 
-Redis集群分两种模式，一种是Master-Slave模式，就是主从模式，一个master带多个slave，另外一种是cluster模式，由多组master-slave组成。
+Redis集群分两种模式，一种是Master-Slave模式，就是主从模式，一个master带多个slave，
+另外一种是cluster模式，由多组master-slave组成。
 
+## 主从模式
 
-## ==========主从模式==========
-
-准备一个目录，比如/root/redis-ms
+准备一个目录，比如`/root/redis-ms`
 
 ### 安装docker
 
@@ -13,7 +13,7 @@ Redis集群分两种模式，一种是Master-Slave模式，就是主从模式，
 
 ### 在docker库获取镜像：redis，ruby
 
-```
+```bash
 docker pull redis
 ```
 
@@ -42,13 +42,13 @@ appendfsync always
 ```
 
 启动主redis服务
-```
+```bash
  docker run --name redis_master -v $(pwd)/redis_master.conf:/data/redis_master.conf --restart=always -d redis redis-server /data/redis_master.conf
 ```
 
 ### 从redis服务
 
-配置文件redis_slave.conf
+配置文件`redis_slave.conf`
 ```
 daemonize no
 pidfile "/var/run/redis.pid"
@@ -70,14 +70,14 @@ appendfsync always
 slaveof 172.17.0.4 6379
 ```
 
-注意上面的IP地址`172.17.0.4`就是主redis服务容器地址，然后启动从redis服务：
+注意上面的IP地址172.17.0.4就是主redis服务容器地址，然后启动从redis服务：
 ```bash
 docker run --name redis_slave -v $(pwd)/redis_slave.conf:/data/redis_slave.conf --restart=always -d redis:latest redis-server /data/redis_slave.conf
 ```
 
 ### 哨兵服务
 
-配置文件`sentinel.conf`
+配置文件sentinel.conf
 ```
 daemonize no
 port 26379
@@ -112,9 +112,10 @@ OK
 redis_version:3.0.7
 redis_git_sha1:00000000
 redis_git_dirty:0
+...
 ```
 
-## ==========集群模式==========
+## 集群模式
 
 ### 准备环境
 
@@ -126,7 +127,7 @@ redis_git_dirty:0
 
 ### 在docker库获取镜像：redis，ruby
 
-```
+```bash
 docker pull redis
 docker pull ruby
 ```
@@ -137,7 +138,7 @@ docker pull ruby
 wget https://github.com/antirez/redis/archive/unstable.zip
 ```
 
-并解压到当前文件夹
+下载完成后解压到当前文件夹
 
 ### redis配置文件模板
 
@@ -169,7 +170,7 @@ RUN ls /redis/redis-unstable/src/redis-cli
 RUN redis-cli --version
 ```
 
-制作镜像：`docker build -t redis-cluster`
+制作镜像： `docker build -t redis-cluster .`
 
 ## 创建集群
 
@@ -181,6 +182,7 @@ docker network create redis-cluster-net
 ```
 
 接下来编写自动脚本：
+
 ```bash
 #!/bin/bash
 
@@ -232,11 +234,10 @@ docker exec -it redis-master-7000 /bin/bash
 ```
 
 连接redis：
-```
+```bash
 172.19.0.2:7000> set a aaa
 -> Redirected to slot [15495] located at 172.19.0.4:7002
 OK
 ```
 
 注意上面的`Redirected to slot`，表明分配到集群中的其他机器上了。
-
