@@ -1,15 +1,18 @@
 * 常见开发工具
     * [简介](markdown/General/Tools/_readme.md)
-    * [Markdown语法详解](markdown/General/Tools/Markdown语法详解.md)
-    * [IDEA工具使用技巧](markdown/General/Tools/IDEA工具使用技巧.md)
-    * [Win10安装Cmder命令行工具](markdown/General/Tools/Win10安装Cmder命令行工具.md)
-    * [WireShark基本使用](markdown/General/Tools/WireShark基本使用.md)
-    * [XPath入门笔记](markdown/General/Tools/XPath入门笔记.md)
-    * [Yaml入门笔记](markdown/General/Tools/Yaml入门笔记.md)
-    * [使用ReadtheDocs托管文档](markdown/General/Tools/使用ReadtheDocs托管文档.md)
+    * [Markdown语法详解](markdown/General/Tools/Common/Markdown语法详解.md)
+    * [Mkdocs配置和使用](markdown/General/Tools/Common/Mkdocs配置和使用.md)
+    * [Win10安装Cmder命令行工具](markdown/General/Tools/Common/Win10安装Cmder命令行工具.md)
+    * [WireShark基本使用](markdown/General/Tools/Common/WireShark基本使用.md)
+    * [XPath入门笔记](markdown/General/Tools/Common/XPath入门笔记.md)
+    * [Yaml入门笔记](markdown/General/Tools/Common/Yaml入门笔记.md)
+    * [使用ReadtheDocs托管文档](markdown/General/Tools/Common/使用ReadtheDocs托管文档.md)
+    * [数据库文档生成工具screw](markdown/General/Tools/Common/数据库文档生成工具screw.md)
 * Maven
-    * [Maven自动上传包和执行脚本](markdown/General/Tools/Maven/Maven自动上传包和执行脚本.md)
     * [Maven使用常见问题记录](markdown/General/Tools/Maven/Maven使用常见问题记录.md)
+    * [Maven私服nexus的安装和使用](markdown/General/Tools/Maven/Maven私服nexus的安装和使用.md)
+    * [Maven自动上传包和执行脚本](markdown/General/Tools/Maven/Maven自动上传包和执行脚本.md)
+    * [发布Maven构件到中央仓库](markdown/General/Tools/Maven/发布Maven构件到中央仓库.md)
 * Jenkins
     * [Jenkins教程01-安装配置](markdown/General/Tools/Jenkins/Jenkins教程01-安装配置.md)
     * [Jenkins教程02-管道详解](markdown/General/Tools/Jenkins/Jenkins教程02-管道详解.md)
@@ -26,4 +29,7 @@
     * [Gitignore文件示例](markdown/General/Tools/Git/Gitignore文件示例.md)
     * [Centos7安装Gitlab8.8](markdown/General/Tools/Git/Centos7安装Gitlab8.8.md)
     * [GitHub的一些好玩的技巧](markdown/General/Tools/Git/GitHub的一些好玩的技巧.md)
+* IDEA开发工具
+    * [IDEA工具使用技巧](markdown/General/Tools/IDEA/IDEA工具使用技巧.md)
+    * [IDEA集成JRebel热部署工具](markdown/General/Tools/IDEA/IDEA集成JRebel热部署工具.md)
 
