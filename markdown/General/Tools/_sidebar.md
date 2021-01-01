@@ -7,6 +7,7 @@
     * [XPath入门笔记](markdown/General/Tools/Common/XPath入门笔记.md)
     * [Yaml入门笔记](markdown/General/Tools/Common/Yaml入门笔记.md)
     * [使用ReadtheDocs托管文档](markdown/General/Tools/Common/使用ReadtheDocs托管文档.md)
+    * [使用Swagger生成RESTful文档](markdown/General/Tools/Common/使用Swagger生成RESTful文档.md)
     * [数据库文档生成工具screw](markdown/General/Tools/Common/数据库文档生成工具screw.md)
 * Maven
     * [Maven使用常见问题记录](markdown/General/Tools/Maven/Maven使用常见问题记录.md)
