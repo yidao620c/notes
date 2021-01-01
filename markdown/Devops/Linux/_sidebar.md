@@ -1,5 +1,5 @@
 * Linux基础
-    * [简介](markdown/Devops/Linux/Core/_readme.md)
+    * [简介](markdown/Devops/Linux/_readme.md)
     * [awk命令笔记](markdown/Devops/Linux/Core/awk命令笔记.md)
     * [sed命令笔记](markdown/Devops/Linux/Core/sed命令笔记.md)
     * [vim简易教程](markdown/Devops/Linux/Core/vim简易教程.md)
