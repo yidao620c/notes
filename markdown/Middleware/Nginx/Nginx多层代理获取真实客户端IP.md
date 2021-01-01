@@ -1,13 +1,11 @@
 # Nginx多层代理获取真实客户端IP
 
-一般的应用都是通过Nginx来做为反向代理，并且Nginx还可能是多层的。如果想在内部服务里面获取最原始的客户端IP地址。
-则需要做一些配置。
+一般的应用都是通过Nginx来做为反向代理，并且Nginx还可能是多层的。如果想在内部服务里面获取最原始的客户端IP地址。 则需要做一些配置。
 
 ## 最外层Nginx
 
 为了防止`X-Forwarded-For`头的伪造，可在最外层Nginx将`X-Forwarded-For`设置为真实IP `$remote_addr`。
-`$remote_addr`是获取的是直接TCP连接的客户端IP（类似于Java中的`request.getRemoteAddr()`），
-这个是无法伪造的，即使客户端伪造也会被覆盖掉，而不是追加。
+`$remote_addr`是获取的是直接TCP连接的客户端IP（类似于Java中的`request.getRemoteAddr()`）， 这个是无法伪造的，即使客户端伪造也会被覆盖掉，而不是追加。
 
 ```nginx
 upstream innerservice {
@@ -30,6 +28,7 @@ server {
 ```
 
 ## 后续Nginx配置
+
 ```nginx
 upstream innerservice {
     server 192.168.12.33:9001;
@@ -103,8 +102,7 @@ public class ClientContextFilter extends OncePerRequestFilter {
 }
 ```
 
-原理是在服务往后面传递的时候，定义一个自定义头，将真实IP放到这个header中。
-后台服务可取两个IP地址
+原理是在服务往后面传递的时候，定义一个自定义头，将真实IP放到这个header中。 后台服务可取两个IP地址
 
 * `request.getRemoteAddr()` - 获取调用方服务的内网IP地址
 * `loadRemoteUserIP` - 获取最源头的真实客户端IP地址

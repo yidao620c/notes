@@ -8,8 +8,7 @@ mvn clean && mvn compile -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http
 
 ## Maven传递依赖无法引入解决办法
 
-今天一个传递依赖问题搞了我半天，终于搞明白原因了。一个jar包A依赖了httpclient，然后另一个jar包B引入A，
-在IDEA里面只能看到依赖A，不管咋样都看不到依赖httpclient。
+今天一个传递依赖问题搞了我半天，终于搞明白原因了。一个jar包A依赖了httpclient，然后另一个jar包B引入A， 在IDEA里面只能看到依赖A，不管咋样都看不到依赖httpclient。
 
 我在IDEA的项目B里面，打包后在控制台发现一个告警：
 
@@ -48,8 +47,7 @@ mvn -X dependency:tree>tree.txt
 [ERROR] 'dependencies.dependency.version' for org.springframework.boot:spring-boot-autoconfigure:jar is missing. @ 
 ```
 
-原来是A包中引入的另外的`spring-boot-autoconfigure`没加版本号，这个我以为能继承父pom的版本号，
-发现这里不生效。具体原因我再分析。
+原来是A包中引入的另外的`spring-boot-autoconfigure`没加版本号，这个我以为能继承父pom的版本号， 发现这里不生效。具体原因我再分析。
 
 ### 解决方案
 

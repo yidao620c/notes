@@ -3,48 +3,51 @@
 ## 引入maven依赖
 
 引入powermock是为了解决静态方法mock的问题。
+
 ```xml
+
 <dependencies>
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>sprint-boot-starter-test</artifactId>
-    <scope>test</scope>
-</dependency>
-<dependency>
-    <groupId>org.powermock</groupId>
-    <artifactId>powermock-module-junit4</artifactId>
-    <scope>test</scope>
-</dependency>
-<dependency>
-    <groupId>org.powermock</groupId>
-    <artifactId>powermock-api-mockito2</artifactId>
-    <version>2.0.2</version>
-    <scope>test</scope>
-</dependency>
-<dependency>
-    <groupId>org.mockito</groupId>
-    <artifactId>mockito-all</artifactId>
-    <version>2.0.2-beta</version>
-    <scope>test</scope>
-</dependency>
-<dependency>
-    <groupId>org.mockito</groupId>
-    <artifactId>mockito-core</artifactId>
-    <version>2.28.2</version>
-    <scope>test</scope>
-</dependency>
-<dependency>
-    <groupId>org.assertj</groupId>
-    <artifactId>assertj-core</artifactId>
-    <version>3.11.1</version>
-    <scope>test</scope>
-</dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>sprint-boot-starter-test</artifactId>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.powermock</groupId>
+        <artifactId>powermock-module-junit4</artifactId>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.powermock</groupId>
+        <artifactId>powermock-api-mockito2</artifactId>
+        <version>2.0.2</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-all</artifactId>
+        <version>2.0.2-beta</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>2.28.2</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>3.11.1</version>
+        <scope>test</scope>
+    </dependency>
 </dependencies>
 ```
 
 ## 构建单元测试目录
 
 标准的maven单元测试目录一样，在`resources`目录里面添加`application.yml`内容如下：
+
 ```yaml
 spring:
   profiles:
@@ -66,6 +69,7 @@ logging:
 ## 定义Application入口类
 
 ```java
+
 @ActiveProfiles("test")
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, MultipartAutoConfiguration.class})
 public class Application4Test extends SpringBootServletInitializer {
@@ -84,9 +88,10 @@ public class Application4Test extends SpringBootServletInitializer {
 ## 抽象测试父类
 
 ```java
+
 @RunWith(PowerMockRunner.class)
 @PowerMockRunnerDelegate(SpringRunner.class)
-@PowerMockIgnore({"javax.management.*","javax.net.*", "javax.net.ssl.*"})
+@PowerMockIgnore({"javax.management.*", "javax.net.*", "javax.net.ssl.*"})
 @SpringBootTest(classes = Application4Test.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = {ApplicationInitializer4Test.class})
 @ActiveProfiles("test")
@@ -124,9 +129,9 @@ public class ApplicationInitializer4Test implements ApplicationContextInitialize
             e.printStackTrace();
         }
         TestPropertySourceUtils.addInlinedPropertiesToEnvironment(
-            applicationContext, "server.ssl.keyStore=" + clientCertPath);
+                applicationContext, "server.ssl.keyStore=" + clientCertPath);
         TestPropertySourceUtils.addInlinedPropertiesToEnvironment(
-            applicationContext, "server.ssl.trustStore=" + rootCertPath);
+                applicationContext, "server.ssl.trustStore=" + rootCertPath);
     }
 }
 ```
@@ -134,6 +139,7 @@ public class ApplicationInitializer4Test implements ApplicationContextInitialize
 ## 实际单元测试用例
 
 ```java
+
 @PrepareForTest({SecurityContextHolder.class, ClientContextHolder.class})
 public class ApiOperationLogServiceTest extends AbstractSpringTest {
 
@@ -159,7 +165,7 @@ public class ApiOperationLogServiceTest extends AbstractSpringTest {
         // 注意这里一定要先获取到URL，不能在mock中再去调用mock方法。因为嵌套mock会报错。
         String serverUrl = properties.getAuditLogUrl();
         doReturn(response).when(restTemplate).exchange(eq(serverUrl), eq(HttpMethod.POST),
-            isA(HttpEntity.class), eq(ResultVo.class));
+                isA(HttpEntity.class), eq(ResultVo.class));
         operationLogService.save(new OperationLog());
     }
 
@@ -169,7 +175,7 @@ public class ApiOperationLogServiceTest extends AbstractSpringTest {
         PowerMockito.mockStatic(SecurityContextHolder.class);
         SecurityContextImpl securityContext = new SecurityContextImpl();
         securityContext.setAuthentication(
-            new UsernamePasswordAuthenticationToken("xiongneng", "123456"));
+                new UsernamePasswordAuthenticationToken("xiongneng", "123456"));
         PowerMockito.when(SecurityContextHolder.getContext()).thenReturn(securityContext);
         assertEquals(operationLogService.loadOperatorId(), "xiongneng");
     }
@@ -231,11 +237,13 @@ spy对象和mock对象的两点区别：
 2、mock的使用方式不同
 
 mock对象的使用方式如下，注意spy对象这样使用会直接调用该方法，所以无法这样使用。比如：
+
 ``` java
 Mockito.when(obj.domethod(parm1, param2)).thenReturn(result);
 ```
 
 spy对象的使用方式，要先执行do等方法，mock对象也可以这样使用，比如：
+
 ``` java
 Mockito.doReturn(info).when(obj).domethod(param1, param2);
 ```
@@ -251,20 +259,22 @@ Mockito.doReturn(info).when(obj).domethod(param1, param2);
 对void方法的模拟有两种方式，一种是通过抛出异常，一种是通过Answer来指定void的执行过程。
 
 抛出期望的异常：
+
 ```java
-doThrow(RuntimeException.class).when(daoMock).updateEmail(any(Customer.class), any(String.class));
+doThrow(RuntimeException.class).when(daoMock).updateEmail(any(Customer.class),any(String.class));
 ```
 
 指定void的执行过程：
+
 ```java
-doAnswer((Answer<Void>) invocation -> {
-    Object[] args = invocation.getArguments();
-    System.out.println("restTemplate.exchange called with arguments: " + Arrays.toString(args));
-    return null;
-}).when(restTemplate).exchange(anyString(), eq(HttpMethod.POST),
-    isA(HttpEntity.class), eq(ResultVo.class));
+doAnswer((Answer<Void>)invocation->{
+        Object[]args=invocation.getArguments();
+        System.out.println("restTemplate.exchange called with arguments: "+Arrays.toString(args));
+        return null;
+        }).when(restTemplate).exchange(anyString(),eq(HttpMethod.POST),
+        isA(HttpEntity.class),eq(ResultVo.class));
 
 // 执行真实方法
-doAnswer(Answers.CALLS_REAL_METHODS.get()).when(mock).voidMethod(any(SomeParamClass.class));
+        doAnswer(Answers.CALLS_REAL_METHODS.get()).when(mock).voidMethod(any(SomeParamClass.class));
 ```
 

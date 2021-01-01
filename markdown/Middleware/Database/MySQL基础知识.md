@@ -7,26 +7,31 @@
 在CentOS 7.2里面通过yum来安装MySQL 5.7，同时配置好root密码以及允许其他ip访问。
 
 从 MySQL 官网选取合适的 MySQL 版本，获取下载地址。然后使用 `wget` 下载：
+
 ```bash
 wget http://repo.mysql.com/mysql57-community-release-el7-8.noarch.rpm
 ```
 
 安装 yum Repository
+
 ```bash
 yum -y install mysql57-community-release-el7-8.noarch.rpm
 ```
 
 搜索 mysql server
+
 ```bash
 yum search mysql-com
 ```
 
 安装
+
 ```bash
 yum -y install mysql-community-server.x86_64
 ```
 
 启动、停止、查看状态、开机启动等
+
 ```bash
 systemctl start mysqld.service
 systemctl stop mysqld.service
@@ -36,8 +41,8 @@ systemctl enable mysqld.service
 
 登陆数据库
 
-MySQL5.7.6 之后会在启动 mysql 进程的时候生成一个用户密码，首次登陆需要这个密码才行。
-密码保存在 mysql 进程的日志里，即`/var/log/mysqld.log`
+MySQL5.7.6 之后会在启动 mysql 进程的时候生成一个用户密码，首次登陆需要这个密码才行。 密码保存在 mysql 进程的日志里，即`/var/log/mysqld.log`
+
 ```bash
 cat /var/log/mysqld.log | grep 'password'
 # 登录
@@ -45,42 +50,54 @@ mysql -uroot -p
 ```
 
 修改root密码，先登录进去后：
+
 ```
 mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'new_password';
 ```
 
 最后，安装完了可以删除 MySQL 的 Repository ，这样可以减少 yum 检查更新的时间，使用下面的命令：
+
 ```bash
 yum -y remove mysql57-community-release-el7-8.noarch
 ```
 
 修改权限，让其他的机器也能访问：
+
 ```sql
-mysql> GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY 'mysql';
-mysql> flush privileges;
+mysql
+> GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY 'mysql';
+mysql
+> flush privileges;
 ```
+
 如果还不能远程访问，就需要关闭防火墙。
 
 ## 常见数据库操作
 
 创建新的数据库并制定UTF-8编码
+
 ```sql
-drop database fastloan3;
-create database fastloan3 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+drop
+database fastloan3;
+create
+database fastloan3 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 ```
 
 通过sql脚本文件执行sql：
+
 ```bash
 mysql -uroot -p... fastloan3 < t_invoice.sql
 ```
 
 导出数据库
+
 ```bash
 mysqldump -u... -p... mydb > mydb_tables.sql
 mysqldump -u... -p... mydb t1 t2 t3 > mydb_tables.sqlhe
 ```
 
 查看表空间占用大小
+
 ```sql
 mysql> use information_schema;
 mysql> SELECT TABLE_NAME,DATA_LENGTH+INDEX_LENGTH,TABLE_ROWS
@@ -88,6 +105,7 @@ FROM TABLES WHERE TABLE_SCHEMA='数据库名' //AND TABLE_NAME='表名'
 ```
 
 查看详细表结构，包括注释
+
 ```sql
 show full columns from <table_name>
 SELECT COLUMN_NAME, COLUMN_TYPE, EXTRA, COLUMN_COMMENT
@@ -96,11 +114,10 @@ WHERE table_name = 'metrics' AND table_schema = 'fastloan3';
 ```
 
 ## 关于表连接
-SQL的Join语法有很多inner的，有outer的，有left的，有时候对于Select出来的结果集是什么样子有点不是很清楚。
-这里我通过实际例子来演示它们的用法。
 
-假设我们有两张表。TableA是左边的表。TableB是右边的表。其各有5条记录，
-其中有4条记录name是相同的，如下所示：让我们看看不同JOIN的不同
+SQL的Join语法有很多inner的，有outer的，有left的，有时候对于Select出来的结果集是什么样子有点不是很清楚。 这里我通过实际例子来演示它们的用法。
+
+假设我们有两张表。TableA是左边的表。TableB是右边的表。其各有5条记录， 其中有4条记录name是相同的，如下所示：让我们看看不同JOIN的不同
 
 **A表**
 
@@ -111,7 +128,6 @@ id  |name
 3   |WaWa
 4   |SaSa
 5   |YaYa
-
 
 **B表**
 
@@ -140,15 +156,14 @@ INNER JOIN TableB ON TableA.name = TableB.name
 
 id  |name    |id1  |name1
 ----|--------|-----|--------
-2   |HeiHei  |1	   |HeiHei
-3   |WaWa    |2	   |WaWa
-4   |SaSa    |3	   |SaSa
-5   |YaYa    |4	   |YaYa
+2   |HeiHei  |1       |HeiHei
+3   |WaWa    |2       |WaWa
+4   |SaSa    |3       |SaSa
+5   |YaYa    |4       |YaYa
 
 ### LEFT [OUTER] JOIN
 
-请注意这里的`OUTER`是可选的，`LEFT JOIN` 和 `LEFT OUTER JOIN`是一样的。
-左连接（`LEFT OUTER JOIN`）会输出左表中的所有结果，如果右表中有相应项，则会输出，否则为NULL。
+请注意这里的`OUTER`是可选的，`LEFT JOIN` 和 `LEFT OUTER JOIN`是一样的。 左连接（`LEFT OUTER JOIN`）会输出左表中的所有结果，如果右表中有相应项，则会输出，否则为NULL。
 
 ```sql
 SELECT
@@ -162,10 +177,10 @@ LEFT OUTER JOIN TableB ON TableA.name = TableB.name
 
 id  |name    |id1  |name1
 ----|--------|-----|--------
-2   |HeiHei  |1	   |HeiHei
-3   |WaWa    |2	   |WaWa
-4   |SaSa    |3	   |SaSa
-5   |YaYa    |4	   |YaYa
+2   |HeiHei  |1       |HeiHei
+3   |WaWa    |2       |WaWa
+4   |SaSa    |3       |SaSa
+5   |YaYa    |4       |YaYa
 1   |HaHa    |NULL |NULL
 
 ### RIGHT [OUTER] JOIN
@@ -190,11 +205,10 @@ id   |name    |id1  |name1
 5    |YaYa    |4    |YaYa
 NULL |NULL    |5    |ZaZa
 
-
 ### UNION 与 UNION ALL
 
-`UNION`操作符用于合并两个或多个 `SELECT` 语句的结果集。请注意，`UNION` 内部的 `SELECT` 语句必须拥有相同数量的列。
-列也必须拥有相似的数据类型。同时，每条`SELECT`语句中的列的顺序必须相同。`UNION`只选取不同的记录，而`UNION ALL`会列出所有记录。
+`UNION`操作符用于合并两个或多个 `SELECT` 语句的结果集。请注意，`UNION` 内部的 `SELECT` 语句必须拥有相同数量的列。 列也必须拥有相似的数据类型。同时，每条`SELECT`
+语句中的列的顺序必须相同。`UNION`只选取不同的记录，而`UNION ALL`会列出所有记录。
 
 ```sql
 SELECT name FROM TableA
@@ -262,14 +276,15 @@ O_Id    |OrderDate       |OrderPrice      |Customer
 6       |2008/07/21      |100             |Carter
 
 现在，我们希望查找订单总金额少于 2000 的客户:
+
 ```sql
 SELECT Customer,SUM(OrderPrice) FROM Orders
 GROUP BY Customer
 HAVING SUM(OrderPrice)<2000
 ```
 
-现在我们希望查找客户 "Bush" 或 "Adams" 拥有超过 1500 的订单总金额。
-我们在 SQL 语句中增加了一个普通的 WHERE 子句：
+现在我们希望查找客户 "Bush" 或 "Adams" 拥有超过 1500 的订单总金额。 我们在 SQL 语句中增加了一个普通的 WHERE 子句：
+
 ```sql
 SELECT Customer,SUM(OrderPrice) FROM Orders
 WHERE Customer='Bush' OR Customer='Adams'
@@ -284,8 +299,8 @@ Customer  |SUM(OrderPrice)
 Bush      |2000
 Adams     |2000
 
-
 现在我要求"Bush" 或 "Adams" 拥有超过 1500 的订单平均金额：
+
 ```sql
 SELECT Customer,SUM(OrderPrice) FROM Orders
 WHERE Customer='Bush' OR Customer='Adams'
@@ -302,6 +317,7 @@ Adams     |2000
 Bush被淘汰了，因为他的平均订单金额（(1000+700+300)/3）<1500
 
 ## 其他有用函数
+
 `MID(str,pos,len)`提取子串，pos从1开始。
 
 ```sql

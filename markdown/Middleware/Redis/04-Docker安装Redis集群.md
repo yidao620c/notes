@@ -1,7 +1,6 @@
 # 04-Docker安装Redis集群.
 
-Redis集群分两种模式，一种是Master-Slave模式，就是主从模式，一个master带多个slave，
-另外一种是cluster模式，由多组master-slave组成。
+Redis集群分两种模式，一种是Master-Slave模式，就是主从模式，一个master带多个slave， 另外一种是cluster模式，由多组master-slave组成。
 
 ## 主从模式
 
@@ -42,6 +41,7 @@ appendfsync always
 ```
 
 启动主redis服务
+
 ```bash
  docker run --name redis_master -v $(pwd)/redis_master.conf:/data/redis_master.conf --restart=always -d redis redis-server /data/redis_master.conf
 ```
@@ -49,6 +49,7 @@ appendfsync always
 ### 从redis服务
 
 配置文件`redis_slave.conf`
+
 ```
 daemonize no
 pidfile "/var/run/redis.pid"
@@ -71,6 +72,7 @@ slaveof 172.17.0.4 6379
 ```
 
 注意上面的IP地址172.17.0.4就是主redis服务容器地址，然后启动从redis服务：
+
 ```bash
 docker run --name redis_slave -v $(pwd)/redis_slave.conf:/data/redis_slave.conf --restart=always -d redis:latest redis-server /data/redis_slave.conf
 ```
@@ -78,6 +80,7 @@ docker run --name redis_slave -v $(pwd)/redis_slave.conf:/data/redis_slave.conf 
 ### 哨兵服务
 
 配置文件sentinel.conf
+
 ```
 daemonize no
 port 26379
@@ -94,6 +97,7 @@ sentinel current-epoch 0
 ```
 
 启动哨兵服务：
+
 ```bash
 docker run --name sentinel -v $(pwd)/sentinel.conf:/data/sentinel.conf --restart=always -d redis redis-sentinel /data/sentinel.conf
 ```
@@ -229,11 +233,13 @@ docker run -it --rm --net redis-cluster-net redis-cluster redis-cli --cluster cr
 ## 验证
 
 进入容器：
+
 ```bash
 docker exec -it redis-master-7000 /bin/bash
 ```
 
 连接redis：
+
 ```bash
 172.19.0.2:7000> set a aaa
 -> Redirected to slot [15495] located at 172.19.0.4:7002

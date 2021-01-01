@@ -7,13 +7,16 @@ Jenkins放在Windows7服务器上面，通过war包启动，任务中执行pytho
 ## 第一步：新增2个Jenkins环境变量
 
 系统管理->系统设置
+
 ```bash
 LANG=en_US.UTF-8
 PYTHONIOENCODING=UTF8
 ```
 
 ## 第二步：新增jenkins启动参数
+
 启动命令如下：
+
 ```bash
 java -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8 -jar jenkins.war
 ```

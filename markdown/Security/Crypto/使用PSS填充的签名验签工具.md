@@ -14,11 +14,13 @@ openssl rsa -in sign.key -pubout -out sign.pub
 ## 使用openssl命令行签名和验签
 
 1）通过SHA256生成摘要
+
 ```bash
 openssl dgst -sha256 file.txt
 ```
 
 2）私钥签名，首先将你的文件通过摘要算法比如SHA256生成一个摘要，并对这个摘要进行私钥签名，输出签名文件。
+
 ```bash
 # 对于OpenSSL算法库，签名时应该先调用RSA_padding_add_PKCS1_PSS进行PSS填充，
 # 再对填充结果调用RSA_private_encrypt并指定RSA_NO_PADDING填充方式进行签名
@@ -29,6 +31,7 @@ rm -f sign.sha256
 ```
 
 3）公钥验证
+
 ```bash
 openssl base64 -d -in sign.txt -out sign.sha256
 openssl dgst -verify sign.pub -sha256 -sigopt rsa_padding_mode:pss -signature sign.sha256 file.txt
@@ -36,6 +39,7 @@ rm -f sign.txt sign.sha256
 ```
 
 4）证书验证。首先将证书中的公钥提取出来，后面就跟公钥验证步骤一致了
+
 ```bash
 openssl x509 -pubkey -noout -in sign.crt > sign.pub
 ```
@@ -45,6 +49,7 @@ openssl x509 -pubkey -noout -in sign.crt > sign.pub
 ### 引入BC依赖
 
 ```xml
+
 <dependency>
     <groupId>org.bouncycastle</groupId>
     <artifactId>bcprov-jdk15on</artifactId>
@@ -75,6 +80,7 @@ import java.util.Base64;
 import javax.crypto.EncryptedPrivateKeyInfo;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -142,7 +148,7 @@ public class RSASignature {
             Security.addProvider(new BouncyCastleProvider());
             java.security.Signature signature = java.security.Signature.getInstance(SIGN_ALGORITHMS_PSS);
             signature.setParameter(new PSSParameterSpec(MGF1ParameterSpec.SHA256.getDigestAlgorithm(), "MGF1",
-                MGF1ParameterSpec.SHA256, 32, 1));
+                    MGF1ParameterSpec.SHA256, 32, 1));
             signature.initSign(priKey);
             signature.update(Files.readAllBytes(file.toPath()));
             byte[] signed = signature.sign();
@@ -176,7 +182,7 @@ public class RSASignature {
             Security.addProvider(new BouncyCastleProvider());
             java.security.Signature signature = java.security.Signature.getInstance(SIGN_ALGORITHMS_PSS);
             signature.setParameter(new PSSParameterSpec(MGF1ParameterSpec.SHA256.getDigestAlgorithm(), "MGF1",
-                MGF1ParameterSpec.SHA256, 32, 1));
+                    MGF1ParameterSpec.SHA256, 32, 1));
             signature.initVerify(pubKey);
             signature.update(Files.readAllBytes(originFile.toPath()));
             String signStr = new String(Files.readAllBytes(Paths.get(signFile)), StandardCharsets.UTF_8);

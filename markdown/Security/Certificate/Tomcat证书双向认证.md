@@ -1,6 +1,7 @@
 # Tomcat证书双向认证
 
 Tomcat8的配置
+
 ``` xml
 <Connector port="9443" protocol="org.apache.coyote.http11.Http11NioProtocol" maxThreads="150" SSLEnabled="true">
     <UpgradeProtocol className="org.apache.coyote.http2.Http2Protocol" />
@@ -19,6 +20,7 @@ Tomcat8的配置
 ```
 
 或者是下面的配置：
+
 ``` xml
 <Connector port="8443" protocol="org.apache.coyote.http11.Http11NioProtocol" SSLEnabled ="true" 
         sslProtocol ="TLS" maxThreads="150"

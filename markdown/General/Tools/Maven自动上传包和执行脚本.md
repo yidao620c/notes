@@ -2,22 +2,23 @@
 
 本地开发联调的时候需要将代码快速更新至开发环境验证效果，无需走冗长的流水线发布流程，直接通过maven插件快速部署。
 
-通过引入maven插件`maven-antrun-plugin`，可实现本地编译打包、scp复制到服务器、ssh远程执行脚本。
-实现复制jar包到容器中，并最终重启容器的效果。
+通过引入maven插件`maven-antrun-plugin`，可实现本地编译打包、scp复制到服务器、ssh远程执行脚本。 实现复制jar包到容器中，并最终重启容器的效果。
 
 ## 环境配置
+
 第一步：在数据节点打开paas用户的sudo权限，通过visudo命令：
+
 ```
 paas ALL=(root) NOPASSWD: ALL
 ```
 
-第二步，复制`pom.xml`为`pom_dev.xml`，并在`.gitignore`文件中添加`pom_dev.xml`，将其排除在版本控制管理，
-只在本地有用。然后在`pom_dev.xml`中引入`maven_antrun-plugin`插件，根据自己的环境配置修改里面的主机IP、命令脚本名。
-每个服务有一个自己的脚本，放在固定的目录，脚本名称就是`${构建目标名称}.sh`。
+第二步，复制`pom.xml`为`pom_dev.xml`，并在`.gitignore`文件中添加`pom_dev.xml`，将其排除在版本控制管理， 只在本地有用。然后在`pom_dev.xml`
+中引入`maven_antrun-plugin`插件，根据自己的环境配置修改里面的主机IP、命令脚本名。 每个服务有一个自己的脚本，放在固定的目录，脚本名称就是`${构建目标名称}.sh`。
 
 下面的配置演示1个数据节点配置，如果是3节点，则可以复制多个`<execution>`节点，在每个节点中替换一下主机IP即可。
 
 ```xml
+
 <plugin>
     <inherited>false</inherited>
     <groupId>org.apache.maven.plugin</groupId>
@@ -32,16 +33,16 @@ paas ALL=(root) NOPASSWD: ALL
             </goals>
             <configuration>
                 <target name="scp-ssh" description="copy to server">
-                    <echo message="Remember to fill empty fields..." />
+                    <echo message="Remember to fill empty fields..."/>
                     <!-- file to be transferred-->
                     <scp trust="true" failonerror="true" verbose="off" sftp="true"
-                        file="${project.build.directory}/${project.build.finalName}.jar"
-                        todir="paas:Image0@Lalla123@10.10.10.10:/tmp/scripts/" />
+                         file="${project.build.directory}/${project.build.finalName}.jar"
+                         todir="paas:Image0@Lalla123@10.10.10.10:/tmp/scripts/"/>
                     <sshexec trust="true" failonerror="true"
-                        host="10.10.10.10" username="paas" password="Image0@Lalla123"
-                        command="/tmp/scripts/${project.build.finalName}.sh" timeout="120000" />
+                             host="10.10.10.10" username="paas" password="Image0@Lalla123"
+                             command="/tmp/scripts/${project.build.finalName}.sh" timeout="120000"/>
                     <taskdef name="scp" classname="org.apache.tools.ant.taskdefs.optional.ssh.Scp">
-                        <classpath refid="maven.plugin.classpath" />
+                        <classpath refid="maven.plugin.classpath"/>
                     </taskdef>
                 </target>
             </configuration>
@@ -62,14 +63,14 @@ paas ALL=(root) NOPASSWD: ALL
 </plugin>
 ```
 
-第三步：编写脚本`/tmp/scripts/${project.build.finalName}.sh`，按照实际的部署逻辑编写，可在脚本中使用sudo命令。
-参考后面的脚本示例。
+第三步：编写脚本`/tmp/scripts/${project.build.finalName}.sh`，按照实际的部署逻辑编写，可在脚本中使用sudo命令。 参考后面的脚本示例。
 
 第四步：关闭容器的监控健康检查，这样容器替换包的时候不会自动重启。
 
 ## 一键部署
 
 上面环境准备好后，后面只需要在项目根目录执行下面的命令即可快速部署到环境中，一般在1分钟内。
+
 ```bash
 mvn clean && mvn package -DskipTests=true -f pom_dev.xml
 ```

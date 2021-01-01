@@ -4,11 +4,9 @@ MySQL的高可用方案一般有如下几种：
 
 mysql自带的主从、keepalived+双主、MHA、MMM、Heartbeat+DRBD、PXC、Galera Cluster
 
-我在前面一篇博客讲解过mysql自带的主从复制，不过更加常用的是keepalived+双主，MHA和PXC。
-对于小公司，一般推荐使用keepalived+双主，简单。
+我在前面一篇博客讲解过mysql自带的主从复制，不过更加常用的是keepalived+双主，MHA和PXC。 对于小公司，一般推荐使用keepalived+双主，简单。
 
-当主从复制正在进行中时，如果想查看从库两个线程运行状态，
-可以通过执行在从库里执行 `show slave status\G` 语句，以下的字段可以给你想要的信息：
+当主从复制正在进行中时，如果想查看从库两个线程运行状态， 可以通过执行在从库里执行 `show slave status\G` 语句，以下的字段可以给你想要的信息：
 
 ```
 Master_Log_File       — 上一个从主库拷贝过来的binlog文件
@@ -33,15 +31,12 @@ Exec_Master_Log_Pos   — 当前binlog文件正在被执行的语句的位置
 
 ## 双主高可用原理
 
-在主主复制结构中，两台的任何一台上面的数据库存发生了改变都会同步到另一台服务器上，
-这个改变是基于sql语句的改变，如果删除系统数据库源文件或删除后新创建同名MYSQL表实现同步则无效。
+在主主复制结构中，两台的任何一台上面的数据库存发生了改变都会同步到另一台服务器上， 这个改变是基于sql语句的改变，如果删除系统数据库源文件或删除后新创建同名MYSQL表实现同步则无效。
 这样两台服务器互为主从，并且都能向外提供服务，这就比使用主从复制具有更好的性能。
 
-虽然理论上，双主只要数据不冲突就可以工作的很好，但实际情况中还是很容发生数据冲突的，比如在同步完成之前，
-双方都修改同一条记录。因此在实际中，最好不要让两边同时修改，即逻辑上仍按照主从的方式工作。
+虽然理论上，双主只要数据不冲突就可以工作的很好，但实际情况中还是很容发生数据冲突的，比如在同步完成之前， 双方都修改同一条记录。因此在实际中，最好不要让两边同时修改，即逻辑上仍按照主从的方式工作。
 
-所以可以借助keepalived这样的软件实现自动主从切换，工作时候仍然按照主从方式复制，
-并且只允许一台主节点写数据，这样就不会产生冲突了，一旦主库出现问题可以自动切换。
+所以可以借助keepalived这样的软件实现自动主从切换，工作时候仍然按照主从方式复制， 并且只允许一台主节点写数据，这样就不会产生冲突了，一旦主库出现问题可以自动切换。
 
 ## 部署环境
 
@@ -63,12 +58,14 @@ node003是腾讯云主机，作为mysql的客户端来测试集群，docker网�
 
 解决 CentOS7 容器 `Failed to get D-Bus connection: Operation not permitted`
 
-首先要先在后台启动一个 CentOS7 容器（注意不要少参数）： 
+首先要先在后台启动一个 CentOS7 容器（注意不要少参数）：
+
 ````bash
 docker run -d -e "container=docker" --privileged=true -v /sys/fs/cgroup:/sys/fs/cgroup --name node001 centos7.2-mysql /usr/sbin/init
 ````
 
-然后再进入这个容器即可： 
+然后再进入这个容器即可：
+
 ```bash
 docker exec -it node001 /bin/bash
 ```
@@ -145,6 +142,7 @@ mysql> show master status;
 ```
 
 如果创建的用户输错了，就把用户drop掉：
+
 ```
 use mysql
 mysql> select user,host from user;
@@ -152,6 +150,7 @@ mysql> drop user 'repl'@'172.17.0.3';
 ```
 
 master2中创建：
+
 ```
 mysql> CREATE USER 'repl'@'172.17.0.2' IDENTIFIED BY '_vsMysql0';
 mysql> GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'repl'@'172.17.0.2' IDENTIFIED BY PASSWORD '*225F5795D77E27308BB5158C81B21A1023DEACDB';
@@ -170,6 +169,7 @@ mysql> show master status;
 因是从头搭建MySQL主从复制集群，所以不需要获取全局读锁来得到二进制日志文件的位置，直接根据`show master status`的输出来确认。
 
 master1上执行：
+
 ```
 mysql> CHANGE MASTER TO
     -> MASTER_HOST='172.17.0.3',
@@ -180,6 +180,7 @@ mysql> CHANGE MASTER TO
 ```
 
 master2上执行：
+
 ```
 mysql> CHANGE MASTER TO
     -> MASTER_HOST='172.17.0.2',
@@ -192,11 +193,13 @@ mysql> CHANGE MASTER TO
 ### 执行start slave语句
 
 分别在两个节点上执行：
+
 ```
 mysql> start slave;
 ```
 
 如果出现下列错误：
+
 ```
 ERROR 1872 (HY000): Slave failed to initialize relay log info structure from the repository
 ```
@@ -215,6 +218,7 @@ show slave status\G
 ```
 
 成功标准：
+
 ```
 Slave_IO_Running: Yes
 Slave_SQL_Running: Yes
@@ -334,8 +338,7 @@ fi
 ```
 
 通过具体的查询语句来判断数据库服务的可用性，如果查询失败，则判断mysqld进程本身的状态，如果不正常，则直接停止当前节点的keepalived，
-将VIP转移到另外一个节点，如果正常，则等待15s，再次执行查询语句，还是失败，则将当前的master节点设置为read_only，
-并kill掉当前的客户端连接，然后停止当前的keepalived。
+将VIP转移到另外一个节点，如果正常，则等待15s，再次执行查询语句，还是失败，则将当前的master节点设置为read_only， 并kill掉当前的客户端连接，然后停止当前的keepalived。
 
 ### master2的配置
 
@@ -426,8 +429,7 @@ fi
 ```
 
 整个脚本的逻辑是让从的Exec_Master_Log_Pos尽可能的追上Read_Master_Log_Pos，它给了10s的限制，如果还是没有追上，
-则直接将master2设置为主（通过解除read_only属性），其实这里面还是有待商榷的，譬如10s的限制是否合理，
-还是一定需要`Exec_Master_Log_Pos=Read_Master_Log_Pos`才切换。
+则直接将master2设置为主（通过解除read_only属性），其实这里面还是有待商榷的，譬如10s的限制是否合理， 还是一定需要`Exec_Master_Log_Pos=Read_Master_Log_Pos`才切换。
 
 ## 恢复原主
 
@@ -533,8 +535,7 @@ master2
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/mysql106.png)
 
-通过查看上面三个，很明显就知道VIP现在在master1上面，并且master1上面的数据库是主库可写，
-master2是从库只读。
+通过查看上面三个，很明显就知道VIP现在在master1上面，并且master1上面的数据库是主库可写， master2是从库只读。
 
 --------------------------
 
@@ -643,6 +644,7 @@ ssh-keygen -t rsa
 ```
 
 然后再master2上面执行：
+
 ```
 ssh-copy-id 172.17.0.2
 ```
@@ -658,12 +660,14 @@ KEEPALIVED_OPTIONS="-D -d -S 0"
 ```
 
 修改`/etc/rsyslog.conf`：
+
 ```
 # keepalived -S 0 
 local0.*                                                /var/log/keepalived.log
 ```
 
 重启syslog：
+
 ```
 systemctl restart rsyslog
 systemctl restart keepalived
@@ -680,38 +684,47 @@ IPVS: Can't initialize ipvs: Protocol not available
 解决办法：
 
 首先你必须得先安装ipvsadm：
+
 ```
 yum install -y ipvsadm
 ```
 
 要是你已经安装过了,这句就直接忽略掉吧,之后在执行一下命令：
+
 ```
 ipvsadm
 ```
 
 还是报错：
+
 ```
 Can't initialize ipvs: Protocol not available
 Are you sure that IP Virtual Server is built in the kernel or as module?
 ```
 
 原因是ip_vs模块系统默认没有自动加载，可以通过
+
 ```
 lsmod | grep ip_vs
 ```
+
 查看一下，如果没有任何输出则表示ip_vs模块并没有被内核加载，需要手动加载：
+
 ```
 modprobe ip_vs
 modprobe ip_vs_wrr
 ```
+
 如果要让系统开机加载此模块的话得讲刚才那两句话写到`/etc/rc.local`文件中，这样开机就能自动加载了。
 
 这样试过仍然还是不行，再想办法。
 
 执行
+
 ```
 modinfo ip_vs
 ```
+
 发现没有这个ip_vs模块可以加载。
 
 1. 首先必须要保证宿主机上面安装`yum install -y ipvsadm && ipvsadm`
@@ -722,9 +735,8 @@ modinfo ip_vs
 ## 改进方案
 
 在Keepalived中有两种模式，分别是master->backup模式和backup->backup模式，在master->backup模式下，一旦主库宕掉，
-虚拟IP会自动漂移到从库，当主库修复后，keepalived启动后，还会把虚拟IP抢过来，即使你设置nopreempt（不抢占）的方式抢占IP的动作也会发生。
-在backup->backup模式下，当主库宕掉后虚拟IP会自动漂移到从库上，当原主恢复之后重启keepalived服务，并不会抢占新主的虚拟IP，
-即使是优先级高于从库的优先级别，也不会抢占IP。
+虚拟IP会自动漂移到从库，当主库修复后，keepalived启动后，还会把虚拟IP抢过来，即使你设置nopreempt（不抢占）的方式抢占IP的动作也会发生。 在backup->
+backup模式下，当主库宕掉后虚拟IP会自动漂移到从库上，当原主恢复之后重启keepalived服务，并不会抢占新主的虚拟IP， 即使是优先级高于从库的优先级别，也不会抢占IP。
 
 为了减少IP的漂移次数，生产中我们通常是把修复好的主库当做新主库的备库，本篇的方案还是通过手动执行`reset_master_mysql.sh`将master1切换回主库。
 更优方案是master1修复好之后，只需要启动上面的keepalived软件。master2作为新的主库，而master1现在变成了备库。

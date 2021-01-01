@@ -3,15 +3,18 @@
 MySQL服务端开启SSL保证连接通道的安全性，同时可支持开启证书双向认证，进一步提升安全。
 
 ## 服务端配置
+
 这里通过openssl命令来生成自签名证书。
 
 第1步，生成CA证书：
+
 ```bash
 openssl genrsa 2048 > ca-key.pem
 openssl req -new -x509 -nodes -days 3650 -key ca-key.pem >ca-cert.pem
 ```
 
 第2步，通过CA证书签发服务证书：
+
 ```bash
 openssl req -newkey rsa:2048 -days 3650 -nodes -keyout server-key.pem > server-req.pem
 openssl x509 -req -in server-req.pem -days 3650 -CA ca-cert.pem -CAkey ca-key.pem \
@@ -20,6 +23,7 @@ openssl rsa -in server-key.pem -out server-key.pem
 ```
 
 第3步，通过CA证书签发客户端证书：
+
 ```bash
 openssl req -newkey rsa:2048 -days 3650 -nodes -keyout client-key.pem > client-req.pem
 openssl x509 -req -in client-req.pem -days 3650 -CA ca-cert.pem -CAkey ca-key.pem \
@@ -28,6 +32,7 @@ openssl rsa -in client-key.pem -out client-key.pem
 ```
 
 第4步，修改MySQL服务配置`/etc/my.cnf`，添加或更新如下内容：
+
 ```ini
 [mysqld]
 ssl-ca=ca-cert.pem
@@ -49,19 +54,19 @@ ssl-key=client-key.pem
 
 ```java
 // SSL Mode
-properties.put("sslMode", SSLModeType.VERIFY_CA.name());
+properties.put("sslMode",SSLModeType.VERIFY_CA.name());
 
 // Setting the Username, Password
-properties.put("user", USER);
-properties.put("password", PASSWORD);
+        properties.put("user",USER);
+        properties.put("password",PASSWORD);
 
 // Setting the truststore
-properties.put("trustCertificateKeyStoreUrl", "file:path_to_truststore_file");
-properties.put("trustCertificateKeyStorePassword", "mypassword");
+        properties.put("trustCertificateKeyStoreUrl","file:path_to_truststore_file");
+        properties.put("trustCertificateKeyStorePassword","mypassword");
 
 // Setting the keystore
-properties.put("clientCertificateKeyStoreUrl", "file:path_to_keystore_file");
-properties.put("clientCertificateKeyStorePassword", "mypassword");
+        properties.put("clientCertificateKeyStoreUrl","file:path_to_keystore_file");
+        properties.put("clientCertificateKeyStorePassword","mypassword");
 ```
 
 ## 证书校验模式

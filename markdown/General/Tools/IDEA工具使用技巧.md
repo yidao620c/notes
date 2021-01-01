@@ -13,9 +13,8 @@
 保护眼睛的颜色：`#C7EDCC`
 
 代码中禁用`import *`设置。
-`File > Settings > Editor > Code Style > Java > Imports > 
-"Class count to use import with '*'" and "Names count to use static import with '*'"`，
-设置成9999就行了。
+`File > Settings > Editor > Code Style > Java > Imports >
+"Class count to use import with '*'" and "Names count to use static import with '*'"`， 设置成9999就行了。
 
 IDEA黑色主题：OneDark，下载后自己再修改修改一下颜色，搞成最舒服的就行了。
 
@@ -81,11 +80,13 @@ $field.name = $paramName;
 参考：[IDEA-165800 Can’t download dependency's source code](https://youtrack.jetbrains.com/issue/IDEA-165800)
 
 使用如下命令行下载：
+
 ```
 mvn dependency:resolve -Dclassifier=sources
 ```
 
 如果只想下载指定的包，使用（多个使用逗号分隔）：
+
 ```
 mvn dependency:sources -DincludeArtifactIds=commons-io,:mybatis
 ```

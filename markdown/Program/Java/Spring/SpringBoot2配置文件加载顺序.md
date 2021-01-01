@@ -1,12 +1,10 @@
 # springboot配置文件加载顺序
 
-Spring Boot 所提供的配置优先级顺序比较复杂。如果Spring Boot在优先级更高的位置找到了配置，
-那么它就会无视优先级低的配置。按照优先级从高到低的顺序，具体的列表如下所示：
+Spring Boot 所提供的配置优先级顺序比较复杂。如果Spring Boot在优先级更高的位置找到了配置， 那么它就会无视优先级低的配置。按照优先级从高到低的顺序，具体的列表如下所示：
 
 1. 命令行参数。
 
-`SpringApplication`类默认会把以`--`开头的命令行参数转化成应用中可以使用的配置参数，
-如 `--name=Alex` 会设置配置参数 `name` 的值为 `Alex`。如果不需要这个功能，
+`SpringApplication`类默认会把以`--`开头的命令行参数转化成应用中可以使用的配置参数， 如 `--name=Alex` 会设置配置参数 `name` 的值为 `Alex`。如果不需要这个功能，
 可以通过 `SpringApplication.setAddCommandLineProperties(false)` 禁用解析命令行参数。
 
 2. 通过 `System.getProperties()` 获取的 Java 系统参数。
@@ -36,8 +34,7 @@ Spring Boot 所提供的配置优先级顺序比较复杂。如果Spring Boot在
 可以使用`spring.profiles.active`来指定profile，spring boot会读取
 `application-{profile}.properties`中的配置项覆盖`application.properties`中相同的配置项。
 
-8. 在应用配置 Java 类（包含`@Configuration`注解的 Java 类）中通过`@PropertySource`注解声明的属性文件。
-当`@PropertySource`中配置了多个配置文件时，后面的优先级高于前面的。
+8. 在应用配置 Java 类（包含`@Configuration`注解的 Java 类）中通过`@PropertySource`注解声明的属性文件。 当`@PropertySource`中配置了多个配置文件时，后面的优先级高于前面的。
 
 9. 通过`SpringApplication.setDefaultProperties`声明的默认属性。
 

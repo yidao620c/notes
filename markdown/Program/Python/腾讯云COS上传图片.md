@@ -1,18 +1,19 @@
 # 腾讯云COS上传图片
 
-写博客或者笔记的时候，会经常要将图片上传至腾讯云对象存储COS上面，需要用QQ登录腾讯云再手动上传，稍显麻烦。
-看了下腾讯云开放API，对接很简单。
+写博客或者笔记的时候，会经常要将图片上传至腾讯云对象存储COS上面，需要用QQ登录腾讯云再手动上传，稍显麻烦。 看了下腾讯云开放API，对接很简单。
 
 首先创建一个子账号，然后在`访问管理-访问密钥-API密钥管理`里面创建一对新密钥SecretId/SecretKey。复制保存下来。
 
 COS有很多语言实现的SDK，Python版本的地址：<https://cloud.tencent.com/document/product/436/12269>
 
 首先pip安装：
+
 ```bash
 pip install -U cos-python-sdk-v5
 ```
 
 然后就可以直接上代码了：
+
 ```python
 # -*- encoding: utf-8 -*-
 """
@@ -75,6 +76,7 @@ for image in files:
 <https://github.com/tencentyun/cos-python-sdk-v5/blob/master/qcloud_cos/demo.py>
 
 最后，如果在windows上面开发，写个bat脚本，双击即可运行：
+
 ```batch
 @echo off
 REM 声明采用UTF-8编码

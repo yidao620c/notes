@@ -1,6 +1,7 @@
 # Java实现证书双向认证
 
 ## HttpClientProperties类
+
 ``` java
 @Component
 @ConfigurationProperties(prefix = "com.xncoding.https.httpclient")
@@ -186,6 +187,7 @@ public class X509Util {
 ```
 
 ## AbstractUserInfoInterceptor
+
 ``` java
 public abstract class AbstractUserInfoInterceptor implements HttpRequestInterceptor {
 
@@ -211,6 +213,7 @@ public abstract class AbstractUserInfoInterceptor implements HttpRequestIntercep
 ```
 
 ## AbstractClientIPInterceptor
+
 ``` java
 public abstract class AbstractClientIPInterceptor implements HttpRequestInterceptor {
 
@@ -425,6 +428,7 @@ com:
 ```
 
 然后在Service中直接注入`RestTemplate`类即可。
+
 ```java
 @Autowired
 private RestTemplate restTemplate;

@@ -20,8 +20,9 @@ git remote set-url origin new_remote_url
 ```
 
 ## 版本回退
-版本号回退有两种情况，一种是`git reset`（回退，不保留提交记录），
-一种是`git revert`（反做，保留提交记录）。先使用`git log`查看版本提交记录历史，确认要回退的提交ID号。
+
+版本号回退有两种情况，一种是`git reset`（回退，不保留提交记录）， 一种是`git revert`（反做，保留提交记录）。先使用`git log`查看版本提交记录历史，确认要回退的提交ID号。
+
 ```bash
 # 本地回退
 git reset --hard 提交ID
@@ -34,8 +35,8 @@ git push origin master
 ```
 
 ## 暂存当前编辑内容
-有时候本地正在编辑内容，但是又不想提交。这时候又要切换到其他分支去做事情。
-这时候可以将本地修改暂存起来，后面切换回来再恢复。
+
+有时候本地正在编辑内容，但是又不想提交。这时候又要切换到其他分支去做事情。 这时候可以将本地修改暂存起来，后面切换回来再恢复。
 
 ```bash
 # 把所有未提交的修改保存起来
@@ -62,18 +63,22 @@ git rebase -i HEAD~3
 ```
 
 ## 创建内容为空分支
+
 有时候可以从头创建一个新分支，里面啥东西都没有。
+
 ```bash
 git checkout --orphan branch
 git reset --hard
 ```
 
 ## Windows下Git账号管理
+
 ```bash
 git config --global credential.helper manager
 ```
 
 其中`~/.gitconfig`配置如下
+
 ```
 [user]
     name = xiongneng
@@ -86,6 +91,5 @@ git config --global credential.helper manager
     sslVerify = false
 ```
 
-第一次的时候回提示用户输入口令，成功后会存储到Windows凭据管理器中，以后就不需要输入口令了。
-后面更新git口令后，需要在`控制面板\用户账号\凭据管理器`下面去修改即可。
+第一次的时候回提示用户输入口令，成功后会存储到Windows凭据管理器中，以后就不需要输入口令了。 后面更新git口令后，需要在`控制面板\用户账号\凭据管理器`下面去修改即可。
 
