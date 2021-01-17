@@ -5,6 +5,7 @@
     * [HTTPS协议详解](markdown/Security/Certificate/HTTPS协议详解.md)
     * [加密算法套件CipherSuite介绍](markdown/Security/Certificate/加密算法套件CipherSuite介绍.md)
     * [OpenSSL自签名证书](markdown/Security/Certificate/OpenSSL自签名证书.md)
+    * [操作X509证书的命令合集](markdown/Security/Certificate/操作X509证书的命令合集.md)
     * [PKCS12弱加密算法分析](markdown/Security/Certificate/PKCS12弱加密算法分析.md)
     * [一键生成证书脚本](markdown/Security/Certificate/一键生成证书脚本.md)
     * [Tomcat证书双向认证](markdown/Security/Certificate/Tomcat证书双向认证.md)
