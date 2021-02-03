@@ -34,6 +34,7 @@
     * [GitHub的一些好玩的技巧](markdown/General/Tools/Git/GitHub的一些好玩的技巧.md)
 * IDEA开发工具
     * [IDEA工具使用技巧](markdown/General/Tools/IDEA/IDEA工具使用技巧.md)
+    * [IDEA中多模块项目分组技巧](markdown/General/Tools/IDEA/IDEA中多模块项目分组技巧.md)
     * [IDEA集成JRebel热部署工具](markdown/General/Tools/IDEA/IDEA集成JRebel热部署工具.md)
     * [使用PyCharm进行远程调试](markdown/General/Tools/IDEA/使用PyCharm进行远程调试.md)
 
