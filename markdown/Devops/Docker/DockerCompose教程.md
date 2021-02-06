@@ -15,14 +15,16 @@ Compose 使用的三个步骤：
 1. 最后，执行 `docker-compose up` 命令来启动并运行整个应用程序。
 
 一些docker-compose的指令
-    
-    docker-compose build: 執行yml裡面有設定過的build
-    docker-compose up [-d]: 依據docker-compose.yml启动容器
-    docker-compose down [-d]: 依據docker-compose.yml停止容器
-    docker-compose start [容器名稱，沒有名稱則是啟動所有yml設定的容器]
-    docker-compose stop [容器名稱，沒有名稱則是停止所有yml設定的容器]
-    docker-compose rm -v: 移除所有yml設定且停止的容器，參數-v是移除data volumne
-    docker-compose ps: 列出在yml裡面被設定的容器
+
+    docker-compose build: 执行yml里面有设定过的build
+    docker-compose up [-d]: 创建并启动容器，添加`-d`表示后台启动。
+    docker-compose down: 关闭并移除容器
+    docker-compose down --volumes: 关闭并移除容器，同时删除容器的数据卷
+    docker-compose start [容器名]: 启动容器，沒有容器名则表示启动所有yml定义的容器]
+    docker-compose stop [容器名]: 停止容器，沒有容器名则表示停止所有yml定义的容器]
+    docker-compose rm -v: 移除所有yml设定且停止的容器，参数-v是移除data volumne
+    docker-compose ps: 列出在yml里面定义的容器列表
+    docker-compose logs [-f]: 查看日志
 
 ## Compose 安装
 
@@ -577,3 +579,4 @@ services:
       - "/localhost/postgres.sock:/var/run/postgres/postgres.sock"
       - "/localhost/data:/var/lib/postgresql/data"
 ```
+

@@ -13,7 +13,7 @@
     * [Docker教程11-容器网络macvlan](markdown/Devops/Docker/Docker教程11-容器网络macvlan.md)
 
 * Docker进阶技术
-    * [DockerCompose教程](markdown/Devops/Docker/DockerCompose教程.md)
+    * [Docker Compose教程](markdown/Devops/Docker/DockerCompose教程.md)
 
 * Docker安装软件
     * [Docker安装MySQL8](markdown/Devops/Docker/Docker安装MySQL8.md)
