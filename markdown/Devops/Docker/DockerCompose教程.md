@@ -42,6 +42,11 @@ curl -L "https://github.com/docker/compose/releases/download/1.28.2/docker-compo
 chmod +x /usr/local/bin/docker-compose
 ```
 
+创建软链：
+```bash
+ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+```
+
 bash自动补全
 ```bash
 curl -L https://raw.githubusercontent.com/docker/compose/1.28.2/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
