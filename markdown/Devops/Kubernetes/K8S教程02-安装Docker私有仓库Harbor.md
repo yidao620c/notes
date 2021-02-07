@@ -118,7 +118,7 @@ Creating harbor-jobservice ... done
 首先指定镜像仓库地址
 ```json
 {
-    "registry-mirrors": ["https://30y4mr57.mirror.aliyuncs.com", "https://xnharbor.com"],
+    "registry-mirrors": ["https://30y4mr57.mirror.aliyuncs.com", "https://xnharbor.com"]
 }
 ```
 拉取一个hello-world镜像，再推到私有仓库中。
