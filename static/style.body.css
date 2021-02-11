@@ -98,7 +98,7 @@ body {
 .markdown-section blockquote {
     color: rgba(0, 0, 0, .5);
     border: 1px solid #f0f0f0;
-    border-left: 15px solid #42c0b6;
+    border-left: 5px solid #42c0b6;
     border-radius: 5px;
     background-color: #f0f0f0;
     margin: 10px 30px 10px 10px;
@@ -108,8 +108,13 @@ body {
 .markdown-section blockquote:hover {
     color: #34495e;
     border: 1px solid #42c0b6;
-    border-left: 15px solid #42c0b6;
+    border-left: 5px solid #42c0b6;
     border-radius: 5px;
+}
+
+.markdown-section blockquote p {
+    font-weight: 520;
+    margin-left: 0;
 }
 
 .markdown-section ul {
