@@ -3,6 +3,7 @@
     * [CISSP认证](markdown/Security/Common/CISSP认证.md)
 * 数字证书
     * [HTTPS协议详解](markdown/Security/Certificate/HTTPS协议详解.md)
+    * [SSL证书格式普及](markdown/Security/Certificate/SSL证书格式普及.md)
     * [加密算法套件CipherSuite介绍](markdown/Security/Certificate/加密算法套件CipherSuite介绍.md)
     * [OpenSSL自签名证书](markdown/Security/Certificate/OpenSSL自签名证书.md)
     * [操作X509证书的命令合集](markdown/Security/Certificate/操作X509证书的命令合集.md)
@@ -12,6 +13,7 @@
     * [Nginx证书双向认证](markdown/Security/Certificate/Nginx证书双向认证.md)
     * [Java解析X509证书文件](markdown/Security/Certificate/Java解析X509证书文件.md)
     * [Java实现证书双向认证](markdown/Security/Certificate/Java实现证书双向认证.md)
+    * [TrustManager加载默认的JRE信任证书](markdown/Security/Certificate/TrustManager加载默认的JRE信任证书.md)
 * 加解密
     * [RSA加解密](markdown/Security/Crypto/RSA加解密.md)
     * [Java加解密算法](markdown/Security/Crypto/Java加解密算法.md)

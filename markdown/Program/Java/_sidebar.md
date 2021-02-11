@@ -43,5 +43,6 @@
     * [SpringBoot系列-集成Swagger2](markdown/Program/Java/SpringBoot/SpringBoot系列-集成Swagger2.md)
     * [SpringBoot系列-集成Thymeleaf](markdown/Program/Java/SpringBoot/SpringBoot系列-集成Thymeleaf.md)
     * [SpringBoot系列-集成WebSocket实时通信](markdown/Program/Java/SpringBoot/SpringBoot系列-集成WebSocket实时通信.md)
+    * [SpringBoot配置文件加载优先级](markdown/Program/Java/SpringBoot/SpringBoot配置文件加载优先级.md)
 * SpringCloud框架
     * [下一代SpringCloud技术栈md](markdown/Program/Java/SpringCloud/下一代SpringCloud技术栈.md)

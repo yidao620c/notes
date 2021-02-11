@@ -7,3 +7,4 @@
     * [Nginx多层代理获取真实客户端IP](markdown/Middleware/Nginx/Nginx多层代理获取真实客户端IP.md)
     * [Nginx重新编译添加模块](markdown/Middleware/Nginx/Nginx重新编译添加模块.md)
     * [Nginx反向代理WebSocket](markdown/Middleware/Nginx/Nginx反向代理WebSocket.md)
+    * [Nginx打印请求头和响应头](markdown/Middleware/Nginx/Nginx打印请求头和响应头.md)
