@@ -15,8 +15,8 @@
     <!--<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar-folder.min.css" />-->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.css"/>
     <link rel="stylesheet" href="static/style.min.css">
-    <style>
-    </style>
+    <link rel="stylesheet" href="static/style.search.css">
+    <link rel="stylesheet" href="static/style.body.css">
 </head>
 <body>
 <!-- 定义加载时候的动作 -->
@@ -35,7 +35,27 @@
         // 设置别名
         alias: {
             // '/.*/_sidebar.md': '/_sidebar.md',
-            '/_sidebar.md': '/markdown/Security/_sidebar.md',
+            '/markdown/Security/Cas/_sidebar.md': '/markdown/Security/_sidebar.md',
+            '/markdown/Security/Certificate/_sidebar.md': '/markdown/Security/_sidebar.md',
+            '/markdown/Security/Common/_sidebar.md': '/markdown/Security/_sidebar.md',
+            '/markdown/Security/Crypto/_sidebar.md': '/markdown/Security/_sidebar.md',
+            '/markdown/Security/OAuth2/_sidebar.md': '/markdown/Security/_sidebar.md',
+            '/markdown/Security/Web/_sidebar.md': '/markdown/Security/_sidebar.md',
+            '/markdown/Program/Java/Core/_sidebar.md': '/markdown/Program/Java/_sidebar.md',
+            '/markdown/Program/Java/Spring/_sidebar.md': '/markdown/Program/Java/_sidebar.md',
+            '/markdown/Program/Java/SpringBoot/_sidebar.md': '/markdown/Program/Java/_sidebar.md',
+            '/markdown/Program/Java/SpringCloud/_sidebar.md': '/markdown/Program/Java/_sidebar.md',
+            '/markdown/Program/Python/Basic/_sidebar.md': '/markdown/Program/Python/_sidebar.md',
+            '/markdown/Program/Python/Core/_sidebar.md': '/markdown/Program/Python/_sidebar.md',
+            '/markdown/Program/Python/Django/_sidebar.md': '/markdown/Program/Python/_sidebar.md',
+            '/markdown/Program/Python/Scrapy/_sidebar.md': '/markdown/Program/Python/_sidebar.md',
+            '/markdown/Program/Python/Scripts/_sidebar.md': '/markdown/Program/Python/_sidebar.md',
+            '/markdown/Program/Python/Web/_sidebar.md': '/markdown/Program/Python/_sidebar.md',
+            '/markdown/General/Tools/Common/_sidebar.md': '/markdown/General/Tools/_sidebar.md',
+            '/markdown/General/Tools/Git/_sidebar.md': '/markdown/General/Tools/_sidebar.md',
+            '/markdown/General/Tools/IDEA/_sidebar.md': '/markdown/General/Tools/_sidebar.md',
+            '/markdown/General/Tools/Jenkins/_sidebar.md': '/markdown/General/Tools/_sidebar.md',
+            '/markdown/General/Tools/Maven/_sidebar.md': '/markdown/General/Tools/_sidebar.md',
             '/homepage/_sidebar.md': '/_sidebar.md',
             '/.*/_navbar.md': '/_navbar.md',
         },
@@ -64,6 +84,12 @@
         'flexible-alerts': {
             style: 'flat'
         },
+        pagination: {
+            previousText: '上一章节',
+            nextText: '下一章节',
+            crossChapter: true,
+            crossChapterText: true,
+        },
         footer: {
             copy: '<span>XiongNeng &copy; 2020. </span>',
             auth: 'All rights reserved',
@@ -83,11 +109,12 @@
 <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
 <!-- 侧边栏折叠 -->
 <script src="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
+<!-- 分页插件 -->
+<script src="static/docsify-pagination.min.js"></script>
 <!-- 面包屑提示 -->
 <script src="static/docsify-plugin-flexible-alerts.min.js"></script>
 <!-- 添加版权信息 -->
 <script src="static/docsify-footer-enh.min.js"></script>
-
 <!-- 代码高亮插件-->
 <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-batch.min.js"></script>

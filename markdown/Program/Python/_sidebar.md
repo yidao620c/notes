@@ -40,7 +40,7 @@
     * [Django1.9开发博客03-部署](markdown/Program/Python/Django/Django1.9开发博客03-部署.md)
     * [Django1.9开发博客04-三部曲](markdown/Program/Python/Django/Django1.9开发博客04-三部曲.md)
     * [Django1.9开发博客05-页面美化](markdown/Program/Python/Django/Django1.9开发博客05-页面美化.md)
-    * [Django1.9开发博客06-模板继承](markdown/Program/Python/DjangoDjango1.9开发博客06-模板继承.md)
+    * [Django1.9开发博客06-模板继承](markdown/Program/Python/Django/Django1.9开发博客06-模板继承.md)
     * [Django1.9开发博客07-实现功能](markdown/Program/Python/Django/Django1.9开发博客07-实现功能.md)
     * [Django1.9开发博客08-继续完善](markdown/Program/Python/Django/Django1.9开发博客08-继续完善.md)
     * [Django1.9开发博客09-用户认证](markdown/Program/Python/Django/Django1.9开发博客09-用户认证.md)
