@@ -56,6 +56,8 @@
             '/markdown/General/Tools/IDEA/_sidebar.md': '/markdown/General/Tools/_sidebar.md',
             '/markdown/General/Tools/Jenkins/_sidebar.md': '/markdown/General/Tools/_sidebar.md',
             '/markdown/General/Tools/Maven/_sidebar.md': '/markdown/General/Tools/_sidebar.md',
+            '/markdown/Devops/Linux/Core/_sidebar.md': '/markdown/Devops/Linux/_sidebar.md',
+            '/markdown/Devops/Linux/Scripts/_sidebar.md': '/markdown/Devops/Linux/_sidebar.md',
             '/homepage/_sidebar.md': '/_sidebar.md',
             '/.*/_navbar.md': '/_navbar.md',
         },
@@ -90,6 +92,13 @@
             crossChapter: true,
             crossChapterText: true,
         },
+        scrollToTop: {
+            auto: true,
+            text: 'Top',
+            right: 15,
+            bottom: 15,
+            offset: 500
+        },
         footer: {
             copy: '<span>XiongNeng &copy; 2020. </span>',
             auth: 'All rights reserved',
@@ -115,6 +124,8 @@
 <script src="static/docsify-plugin-flexible-alerts.min.js"></script>
 <!-- 添加版权信息 -->
 <script src="static/docsify-footer-enh.min.js"></script>
+<!-- 跳转至Top插件 -->
+<script src="static/docsify-scroll-to-top.min.js"></script>
 <!-- 代码高亮插件-->
 <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-batch.min.js"></script>
