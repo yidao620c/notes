@@ -1,5 +1,6 @@
+算法导论
+* [算法简介](markdown/Algorithm/_readme.md)
 * 基础算法
-    * [简介](markdown/Algorithm/_readme.md)
     * [利用递归算法并行化解决谜题框架](markdown/Algorithm/利用递归算法并行化解决谜题框架.md)
     * [回溯法解决八皇后问题](markdown/Algorithm/回溯法解决八皇后问题.md)
     * [归并排序中对小数组采用插入排序](markdown/Algorithm/归并排序中对小数组采用插入排序.md)

@@ -1,5 +1,5 @@
-* 介绍
-    * [简介](markdown/Program/Python/_readme.md)
+Python编程技术
+* [Python简介](markdown/Program/Python/_readme.md)
 * Python基础
     * [Python命名规约](markdown/Program/Python/Basic/Python命名规约.md)
     * [Vagrant创建虚拟化开发环境](markdown/Program/Python/Basic/Vagrant创建虚拟化开发环境.md)

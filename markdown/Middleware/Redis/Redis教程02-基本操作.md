@@ -1,4 +1,4 @@
-# 02-Redis基本操作
+# Redis教程02-基本操作
 
 strings类型及操作
 
