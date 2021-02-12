@@ -7,6 +7,10 @@ body {
     background-color: #f5f6f7;
 }
 
+.app-nav {
+    margin: 25px 105px 0 0;
+}
+
 .cover-main p a:hover {
     background-color: #42b983;
     color: #ffffff !important;

@@ -1,6 +1,5 @@
 数据库技术
-* 介绍
-    * [简介](markdown/Middleware/Database/_readme.md)
+* [简介](markdown/Middleware/Database/_readme.md)
 * MySQL
     * [MySQL基础知识](markdown/Middleware/Database/MySQL基础知识.md)
     * [MySQL证书校验模式](markdown/Middleware/Database/MySQL证书校验模式.md)
