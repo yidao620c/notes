@@ -17,9 +17,8 @@
   * [Docker](markdown/Devops/Docker/_readme.md)
   * [Kubernetes](markdown/Devops/Kubernetes/_readme.md)
 * 杂货铺
-  * [微信开发](markdown/General/Weixin/_readme.md)
-  * [第三方支付](markdown/General/Payment/_readme.md)
-  * [架构设计](markdown/General/Architecture/_readme.md)
   * [开发工具](markdown/General/Tools/_readme.md)
+  * [架构设计](markdown/General/Architecture/_readme.md)
+  * [其他技术](markdown/General/Other/_readme.md)
 * [算法](markdown/Algorithm/_readme.md)
 
