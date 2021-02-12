@@ -76,3 +76,36 @@ nginx里面的配置项是 `cipher_list`
 > 如果cipher list 中的某些cipher已经存在了，就忽略该cipher。
 
 5. 另外，`@STRENGTH`可以用在任何点，用来把当前`cipher list`按照加密算法key长度排序。
+
+## 检测服务端支持的密钥套件脚本
+可通过openssl命令，写一个通用脚本来检测服务端支持的所有SSL/TLS密钥套件。
+使用方式`./test_ciphers 192.168.1.20:443`
+```bash
+#!/usr/bin/env bash
+
+# OpenSSL requires the port number.
+SERVER=$1
+DELAY=1
+ciphers=$(openssl ciphers 'ALL:eNULL' | sed -e 's/:/ /g')
+
+echo Obtaining cipher list from $(openssl version).
+
+for cipher in ${ciphers[@]}
+do
+echo -n Testing $cipher...
+result=$(echo -n | openssl s_client -cipher "$cipher" -connect $SERVER 2>&1)
+if [[ "$result" =~ ":error:" ]] ; then
+  error=$(echo -n $result | cut -d':' -f6)
+  echo NO \($error\)
+else
+  if [[ "$result" =~ "Cipher is ${cipher}" || "$result" =~ "Cipher    :" ]] ; then
+    echo YES
+  else
+    echo UNKNOWN RESPONSE
+    echo $result
+  fi
+fi
+sleep $DELAY
+done
+```
+

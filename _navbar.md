@@ -1,8 +1,8 @@
 * [信息安全](markdown/Security/_readme.md)
 * 编程开发
-  * [Android](markdown/Program/Android/_readme.md)
   * [Java](markdown/Program/Java/_readme.md)
   * [Python](markdown/Program/Python/_readme.md)
+  * [Android](markdown/Program/Android/_readme.md)
   * [Web前端](markdown/Program/Frontend/_readme.md)
 * 中间件
   * [Database](markdown/Middleware/Database/_readme.md)

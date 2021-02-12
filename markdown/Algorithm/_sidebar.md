@@ -1,4 +1,4 @@
-算法导论
+算法笔记
 * [算法简介](markdown/Algorithm/_readme.md)
 * 基础算法
     * [利用递归算法并行化解决谜题框架](markdown/Algorithm/利用递归算法并行化解决谜题框架.md)

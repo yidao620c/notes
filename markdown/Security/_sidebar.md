@@ -1,7 +1,11 @@
 信息安全技术
 * [简介](markdown/Security/_readme.md)
-* 信息安全基础
-    * [CISSP认证](markdown/Security/Common/CISSP认证.md)
+* Web安全
+    * [CSRF攻击与防范](markdown/Security/Web/CSRF攻击与防范.md)
+    * [JWT介绍和安全防范](markdown/Security/Web/JWT介绍和安全防范.md)
+    * [SQL注入攻击与防范](markdown/Security/Web/SQL注入攻击与防范.md)
+    * [XSS攻击与防范](markdown/Security/Web/XSS攻击与防范.md)
+    * [聊聊Web会话管理](markdown/Security/Web/聊聊Web会话管理.md)
 * 数字证书
     * [HTTPS协议详解](markdown/Security/Certificate/HTTPS协议详解.md)
     * [SSL证书格式普及](markdown/Security/Certificate/SSL证书格式普及.md)
@@ -30,11 +34,8 @@
 * OAuth2教程
     * [OAuth2.0简介](markdown/Security/OAuth2/OAuth2.0简介.md)
     * [GitHub账号登录留言](markdown/Security/OAuth2/GitHub账号登录留言.md)
-* WEB安全
-    * [CSRF攻击与防范](markdown/Security/Web/CSRF攻击与防范.md)
-    * [JWT介绍和安全防范](markdown/Security/Web/JWT介绍和安全防范.md)
-    * [SQL注入攻击与防范](markdown/Security/Web/SQL注入攻击与防范.md)
-    * [XSS攻击与防范](markdown/Security/Web/XSS攻击与防范.md)
-    * [聊聊Web会话管理](markdown/Security/Web/聊聊Web会话管理.md)
+* 其他类
+    * [CISSP认证](markdown/Security/Other/CISSP认证.md)
+
 
 
