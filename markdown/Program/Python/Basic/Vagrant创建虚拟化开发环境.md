@@ -9,7 +9,7 @@ Vagrant可以非常容易的配置一个统一的可复制、可移植的分布�
 只需要一个Vagrantfile，别人就能基于它创建统一的环境，不管你的工作机器是Linux、Mac OS 还是Windows系统，
 最后创建的虚拟机环境都是一样的。官网：<https://www.vagrantup.com/> 
 
-### 安装
+## 安装
 
 直接去[下载页面](https://www.vagrantup.com/downloads.html)下载对应版本，
 或者通过yum、apt安装最新的随你便。总是安装过程太简单不解释了，我的是Ubuntu16.04 LTS 64-bit版本，选择使用apt安装的。
@@ -18,7 +18,7 @@ sudo apt-get install virtualbox
 sudo apt-get install vagrant
 ```
 
-### 初始化
+## 初始化
 这里我们使用Virtualbox这个默认的provider来演示，先安装Virtualbox和Vagrant后。
 
 ```bash
@@ -28,7 +28,6 @@ $ vagrant up
 这条命令会自动去下载一个box并将它加进来，然后基于这个box创建并启动虚拟机。
 这样你就在virtualbox里面安装好了一个Ubuntu 12.04 LTS 64-bit的系统。通过`vagrant ssh`可登陆进去看看。
 
-### 初始化工程
 创建任何vagrant工程的第一步就是创建一个[Vagrantfile](https://www.vagrantup.com/docs/vagrantfile/)。
 这个文件有两个作用：
 
@@ -44,7 +43,7 @@ $ vagrant init
 ```
 一般都会将这个Vagrantfile放入版本控制系统，这样其他人都能拿到这个文件，基于它来创建相同的环境。
 
-### Boxes
+## Boxes
 并不需要每次都从来开始构建一个系统，Vagrant可使用一个基础镜像来快速克隆一个虚拟机，这个基础镜像就叫"box"。
 在生成初始化Vagrantfile后第一步就是指定Box。
 
@@ -66,7 +65,7 @@ Vagrant.configure("2") do |config|
 end
 ```
 
-### 启动并访问
+## 启动并访问
 通过如下命令启动vagrant环境：
 
 ```bash
@@ -95,12 +94,12 @@ $ vagrant destroy
 $ vagrant box remove
 ```
 
-### 同步文件夹
+## 同步文件夹
 Vagrant可以自动帮你同步宿主机和虚拟机的文件夹。
 宿主机的文件夹是你的项目根目录，也就是Vagrantfile文件所在目录；
 虚拟机的同步目录默认是/vagrant目录。这样你就能在自己宿主机上使用喜欢的编辑器或开发工具进行开发了，不需要考虑同步问题。
 
-### Provision
+## Provision
 先解释下名词。在Vagrant里面有两个重要概念，一个是Provision，一个是Provider
 
 * Provision：远程配置和安装工具，通过它来通过ssh来完成远程虚拟机的各个软件安装和配置，比如shell、Ansible、Chef
@@ -140,7 +139,7 @@ $ vagrant ssh
 vagrant@precise64:~$ wget -qO- 127.0.0.1
 ```
 
-### 网络
+## 网络
 上面的服务只能在本机访问，外面访问不了。这里我们再设置下端口转发即可让外面的机器也能访问这个web服务。
 编辑Vagrantfile：
 
@@ -156,17 +155,17 @@ end
 
 Vagrant还能配置更多的网络，允许你访问客户机静态的IP，或者将客户机桥接到一个已经存在的网络上。详情见[networking](https://www.vagrantup.com/docs/networking/)
 
-### 结束方式
+## 结束方式
 如果你暂时不用这个虚拟机了，有三种处理方式。
 
 1. 挂起命令`vagrant suspend`，会保存当前运行状态，不过需要更多磁盘空间
 2. 关机命令`vagrant halt`，相对于正常的虚拟机关机
 3. 销毁命令`vagrant destroy`，清掉所有的虚拟机资源和磁盘空间
 
-### 重新构建
+## 重新构建
 任何时候只需运行`$ vagrant up`命令即可重新构建你的环境
 
-### FAQ
+## FAQ
 ubuntu16.04里面，ssh连接超时的解决方案：
 ```bash
 vboxmanage modifyvm winstore_node001 --cableconnected1 on
@@ -177,7 +176,7 @@ vboxmanage modifyvm winstore_node001 --cableconnected1 on
 vb.customize ['modifyvm', :id, "--cableconnected1" ,"on"]
 ```
 
-### 接下来
+## 接下来
 恭喜你已经入门Vagrant，还有很多好玩的主题呢：
 
 * [虚拟机的配置](https://www.vagrantup.com/docs/virtualbox/)
