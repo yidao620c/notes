@@ -17,7 +17,7 @@ body {
     font-size: 20px;
     font-weight: 400;
 }
-
+/*搜索栏默认样式*/
 .sidebar .search .input-wrap input {
     border: 1px solid #c6ccd2;
     border-radius: 3px;
@@ -53,17 +53,16 @@ body {
 
 
 .markdown-section h1:before {
-    /*content: "銆� ";*/
+    content: "『 ";
 }
 
 .markdown-section h1:after {
-    /*content: " 銆�";*/
+    content: " 』";
 }
 
 .markdown-section h1 span {
     font-size: 30px;
 }
-
 
 .markdown-section h2 {
     border-bottom: 1px solid #f0f0f0;
@@ -73,7 +72,7 @@ body {
 }
 
 .markdown-section h2:before {
-    /*content: "搂 ";*/
+    content: "§ ";
     color: #0366d6;
     line-height: 100%;
     font-size: 1.2em;
@@ -87,7 +86,7 @@ body {
 }
 
 .markdown-section h3:before {
-    /*content: "鉃� ";*/
+    content: "➤ ";
     line-height: 100%;
     font-size: 0.8em;
 }
@@ -99,6 +98,7 @@ body {
     padding: 3px 0 5px 0;
 }
 
+/*文章引用内容样式设置*/
 .markdown-section blockquote {
     color: rgba(0, 0, 0, .5);
     border: 1px solid #f0f0f0;
@@ -141,7 +141,7 @@ body {
     color: #f04b3d;
 }
 
-
+/*图片默认圆角+阴影效果*/
 img {
     display: block;
     border-radius: 3px;
@@ -161,6 +161,7 @@ pre {
     border-radius: 5px;
 }
 
+/*侧边栏设置*/
 .sidebar {
     display: block;
     background-color: #f4fffc;
@@ -214,6 +215,7 @@ pre {
     margin: 0.5em 0 1em 0;
 }
 
+/*底部版权声明内容样式*/
 .blog_footer {
     position: fixed;
     left: 0;
