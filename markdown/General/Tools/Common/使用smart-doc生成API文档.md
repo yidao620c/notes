@@ -65,15 +65,16 @@ smart-doc官方目前已经开发完成Maven插件 和Gradle插件，你可以�
 </plugin>
 ```
 
-在项目中添加创建一个smart-doc.json配置文件，插件读取这个配置来生成项目的文档， 这个配置内容实际上就是以前采用单元测试编写的ApiConfig转成json后的结果，因此关于配置项说明可以参考原来单元测试的配置。
-最小配置如下：
+在项目中添加创建一个smart-doc.json配置文件，插件读取这个配置来生成项目的文档， 这个配置内容实际上就是以前采用单元测试编写的ApiConfig转成json后的结果，因此关于配置项说明可以参考原来单元测试的配置。 最小配置如下：
+
 ```json
 {
-   "outPath": "D://md2"
+  "outPath": "D://md2"
 }
 ```
 
 仅仅需要上面一行配置就能启动smart-doc-maven-plugin插件，根据自己项目情况更多详细的配置参考下面。 详细配置说明
+
 ```
 {
   "serverUrl": "http://127.0.0.1", //服务器地址,非必须。导出postman建议设置成http://{{server}}方便直接在postman直接设置环境变量
@@ -167,6 +168,7 @@ smart-doc官方目前已经开发完成Maven插件 和Gradle插件，你可以�
 上面的JSON配置实例中只有"outPath"是必填项。
 
 添加好插件和配置文件后可以直接运行Maven命令生成文档。
+
 ```
 //生成html
 mvn -Dfile.encoding=UTF-8 smart-doc:html
@@ -192,26 +194,16 @@ mvn -Dfile.encoding=UTF-8 smart-doc:rpc-adoc
 
 注意：尤其在window系统下，如果实际使用Maven命令行执行文档生成，可能会出现乱码，因此需要在执行时指定`-Dfile.encoding=UTF-8`。
 
-## Markdown转Word/PDF
-
-目前有很多好用的md编辑器，基本都实现了所见即所得功能，比如简书，Atom、MarkdownPad、Typora等等。小编在这里强烈推荐Typora。
-
-OK了，关于markdown的使用总结就差不多了。你大概花一天时间就能熟悉，然后就可以开始你的神奇之旅了。 还等什么赶紧开搞啊！~~
-
 ## Markdown转换为Word
-经常有需要将Markdown转换成Word、PDF、HTML等其他格式。这里使用Typora+pandoc就可以实现这一切。
 
-首先，下载typora，一路安装即可。网址为: <https://typora.io/>
+经常有需要将Markdown转换成Word、PDF、HTML等其他格式。这里使用pandoc轻松搞定这一切。
 
-然后再下载最新版本的pandoc，一路安装即可，网址为（注意，Windows选择pandoc-**-windows.msi这个版本即可）：
-<https://github.com/jgm/pandoc/tags>
+首先下载pandoc，地址为<https://pandoc.org/installing.html>
+，windows版本下载msi安装文件直接安装即可。然后将pandoc可执行文件设置到PATH中去，如果选择的是.msi这个版本会自动配置环境变量。
 
-将pandoc可执行文件设置到PATH中去，一般来说，如果选择的是.msi这个版本会自动配置环境变量。
+然后执行：
 
-重启typora。
-
-好了，万事俱备只欠东风了。接下来按照我图中的步骤来1、2步骤来将markdown文本转成word文本就可以了。
-
-1. 左下角有一个关闭源代码，这样可以展现你的markdown的具体格式是什么样。
-2. 文件——导出——word(.docx)——保存，即可。也可以选择PDF等其他格式。
+```bash
+pandoc -s source.md -o target.docx
+```
 

@@ -270,14 +270,12 @@ $$
 
 目前有很多好用的md编辑器，基本都实现了所见即所得功能，比如简书，Atom、MarkdownPad、Typora等等。小编在这里强烈推荐Typora。
 
-OK了，关于markdown的使用总结就差不多了。你大概花一天时间就能熟悉，然后就可以开始你的神奇之旅了。 还等什么赶紧开搞啊！~~
-
 ## Markdown转换为Word
 经常有需要将Markdown转换成Word、PDF、HTML等其他格式。这里使用Typora+pandoc就可以实现这一切。
 
 首先，下载typora，一路安装即可。网址为: <https://typora.io/>
 
-然后再下载最新版本的pandoc，一路安装即可，网址为（注意，Windows选择pandoc-**-windows.msi这个版本即可）：
+然后再下载最新版本的pandoc，一路安装即可，网址为（Windows选择pandoc-**-windows.msi这个版本即可）：
 <https://github.com/jgm/pandoc/tags>
 
 将pandoc可执行文件设置到PATH中去，一般来说，如果选择的是.msi这个版本会自动配置环境变量。
