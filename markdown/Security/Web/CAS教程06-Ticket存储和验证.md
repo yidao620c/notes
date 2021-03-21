@@ -60,6 +60,7 @@ String getTicketGrantingTicket(String Server, String username, String password);
 返回：验证通过则返回TGT的值，否则抛出异常；
 
 示例：
+
 ```java
 String tgt = casService.getTicketGrantingTicket("https://cas.hisign.com.cn:8443/cas", "casuser", "Mellon");
 ```
@@ -77,6 +78,7 @@ String getServiceTicket(String Server, String ticketGrantingTicket, String servi
 返回：验证通过则返回ST的值，否则抛出异常；
 
 示例：
+
 ```java
 String st = casService.getTicketGrantingTicket("https://cas.hisign.com.cn:8443/cas", "TGT-2-6eT-cas01.example.org", "https://app.xx.com:8443/app1");
 ```
@@ -94,6 +96,7 @@ String verifySeviceTicket(String server, String serviceTicket, String service);
 返回：ST有效返回登录用户名，无效返回null，若出错抛出异常；
 
 示例：
+
 ```java
 boolean String = casService.verifyServiceTicket("https://cas.hisign.com.cn:8443/cas", "ST-2-5kE-cas01.example.org", "https://app.xx.com:8443/app1");
 ```
@@ -120,6 +123,7 @@ boolean bool = casService.deleteTicketGrantingTicket("https://cas.hisign.com.cn:
 ### Restful接口测试
 
 添加maven依赖：
+
 ```xml
 <dependency>
     <groupId>org.apache.httpcomponents</groupId>

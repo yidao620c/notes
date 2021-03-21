@@ -6,12 +6,15 @@
 MySQL的驱动有多种实现，比如纯python实现的pymysql和mysql-connector，或者mysql-python也就是MySQLdb。
 
 这里我通过mysql-connector来介绍使用方法：
+
 ```bash
 pip install mysql-connector
 ```
+
 <!-- more -->
 
 我们演示如何连接到MySQL服务器的test数据库：
+
 ```
 # 导入MySQL驱动:
 >>> import mysql.connector
@@ -39,12 +42,11 @@ True
 >>> conn.close()
 ```
 
-由于Python的DB-API定义都是通用的，所以，操作MySQL的数据库代码和SQLite类似。
-执行INSERT等操作后要调用commit()提交事务，MySQL的SQL占位符是%s。
+由于Python的DB-API定义都是通用的，所以，操作MySQL的数据库代码和SQLite类似。 执行INSERT等操作后要调用commit()提交事务，MySQL的SQL占位符是%s。
 
 ## 使用SQLAlchemy
-为了更加方便的操作数据库，我们通常会用到ORM框架，在python里面最著名的就是SQLAlchemy了，
-关于这个我写了一篇专门的文章，叫"SQLAlchemy入门"，可以去看看，这里我就不多说了。
+
+为了更加方便的操作数据库，我们通常会用到ORM框架，在python里面最著名的就是SQLAlchemy了， 关于这个我写了一篇专门的文章，叫"SQLAlchemy入门"，可以去看看，这里我就不多说了。
 
 
 

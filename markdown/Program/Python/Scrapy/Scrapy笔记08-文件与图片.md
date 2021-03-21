@@ -17,22 +17,29 @@ Images Pipeline为处理图片提供了额外的功能：
 管道同时会在内部保存一个被调度下载的URL列表，然后将包含相同媒体的相应关联到这个队列上来，从而防止了多个item共享这个媒体时重复下载。
 
 ## 使用Files Pipeline
+
 一般我们会按照下面的步骤来使用文件管道：
 
 1. 在某个Spider中，你爬取一个item后，将相应的文件URL放入`file_urls`字段中
 1. item被返回之后就会转交给item pipeline
-1. 当这个item到达`FilesPipeline`时，在`file_urls`字段中的URL列表会通过标准的Scrapy调度器和下载器来调度下载，并且优先级很高，在抓取其他页面前就被处理。而这个`item`会一直在这个pipeline中被锁定，直到所有的文件下载完成。
-1. 当文件被下载完之后，结果会被赋值给另一个`files`字段。这个字段包含一个关于下载文件新的字典列表，比如下载路径，源地址，文件校验码。`files`里面的顺序和`file_url`顺序是一致的。要是某个写文件下载出错就不会出现在这个`files`中了。
+1. 当这个item到达`FilesPipeline`时，在`file_urls`字段中的URL列表会通过标准的Scrapy调度器和下载器来调度下载，并且优先级很高，在抓取其他页面前就被处理。而这个`item`
+   会一直在这个pipeline中被锁定，直到所有的文件下载完成。
+1. 当文件被下载完之后，结果会被赋值给另一个`files`字段。这个字段包含一个关于下载文件新的字典列表，比如下载路径，源地址，文件校验码。`files`里面的顺序和`file_url`
+   顺序是一致的。要是某个写文件下载出错就不会出现在这个`files`中了。
 
 ## 使用Images Pipeline
+
 `ImagesPipeline`跟`FilesPipeline`的使用差不多，不过使用的字段名不一样，`image_urls`保存图片URL地址，`images`保存下载后的图片信息。
 
 使用`ImagesPipeline`的好处是你可以通过配置来提供额外的功能，比如生成文件缩略图，通过图片大小过滤需要下载的图片等。
 
-`ImagesPipeline`使用[Pillow](https://github.com/python-pillow/Pillow)来生成缩略图以及转换成标准的JPEG/RGB格式。因此你需要安装这个包，我们建议你使用Pillow而不是PIL。
+`ImagesPipeline`
+使用[Pillow](https://github.com/python-pillow/Pillow)来生成缩略图以及转换成标准的JPEG/RGB格式。因此你需要安装这个包，我们建议你使用Pillow而不是PIL。
 
 ## 使用例子
+
 要使用媒体管道，请先在配置文件中打开它
+
 ```python
 # 同时使用图片和文件管道
 ITEM_PIPELINES = {
@@ -56,6 +63,7 @@ IMAGES_MIN_WIDTH = 110
 ```
 
 一个使用了缩略图的下载例子会生成如下图片：
+
 ```
 <IMAGES_STORE>/full/63bbfea82b8880ed33cdb762aa11fab722a90a24.jpg
 <IMAGES_STORE>/thumbs/small/63bbfea82b8880ed33cdb762aa11fab722a90a24.jpg
@@ -75,6 +83,7 @@ class MyItem(scrapy.Item):
 ```
 
 ## 自定义媒体管道
+
 如果你还需要更加复杂的功能，想自定义下载媒体逻辑，请参考[扩展媒体管道](http://doc.scrapy.org/en/1.0/topics/media-pipeline.html#topics-media-pipeline-override)
 
 不管是扩展`FilesPipeline`还是`ImagesPipeline`,都只需重写下面两个方法
@@ -83,6 +92,7 @@ class MyItem(scrapy.Item):
 * `item_completed(self, results, item, info)`,当上门的Request下载完成后回调这个方法，然后填充`files`或`images`字段
 
 下面是一个扩展`ImagesPipeline`的例子，我只取path信息，并将它赋给`image_paths`字段，而不是默认的`images`
+
 ```python
 import scrapy
 from scrapy.pipelines.images import ImagesPipeline

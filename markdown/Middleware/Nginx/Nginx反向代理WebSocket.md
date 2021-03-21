@@ -3,8 +3,7 @@
 WebSocket协议相比较于HTTP协议成功握手后可以多次进行通讯，直到连接被关闭。但是WebSocket中的握手和HTTP中的握手兼容，
 它使用HTTP中的Upgrade协议头将连接从HTTP升级到WebSocket。这使得WebSocket程序可以更容易的使用现已存在的基础设施。
 
-WebSocket工作在HTTP的80和443端口并使用前缀ws://或者wss://进行协议标注，在建立连接时使用HTTP/1.1的101状态码进行协议切换，
-当前标准不支持两个客户端之间不借助HTTP直接建立Websocket连接。
+WebSocket工作在HTTP的80和443端口并使用前缀ws://或者wss://进行协议标注，在建立连接时使用HTTP/1.1的101状态码进行协议切换， 当前标准不支持两个客户端之间不借助HTTP直接建立Websocket连接。
 
 更多Websocket的介绍可参考我写的 [聊一聊WebSocket](https://www.xncoding.com/2017/05/03/web/websocket.html) 一文。
 
@@ -12,8 +11,7 @@ WebSocket工作在HTTP的80和443端口并使用前缀ws://或者wss://进行协
 
 ## 原理
 
-一般我们开发的WebSocket服务程序使用ws协议，明文的。但是怎样让它安全的通过互联网传输呢？这时候可以通过nginx在客户端和服务端直接做一个转发了，
-客户端通过wss访问，然后nginx和服务端通过ws协议通信。如下图所示：
+一般我们开发的WebSocket服务程序使用ws协议，明文的。但是怎样让它安全的通过互联网传输呢？这时候可以通过nginx在客户端和服务端直接做一个转发了， 客户端通过wss访问，然后nginx和服务端通过ws协议通信。如下图所示：
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/nginx-websocket01.png)
 
@@ -79,11 +77,9 @@ Upgrade: websocket
 Connection: upgrade
 ```
 
-告诉客户端已成功切换协议，升级为Websocket协议。握手成功之后，服务器端和客户端便角色对等，就像普通的Socket一样，能够双向通信。
-不再进行HTTP的交互，而是开始WebSocket的数据帧协议实现数据交换。
+告诉客户端已成功切换协议，升级为Websocket协议。握手成功之后，服务器端和客户端便角色对等，就像普通的Socket一样，能够双向通信。 不再进行HTTP的交互，而是开始WebSocket的数据帧协议实现数据交换。
 
-这里使用map指令可以将变量组合成为新的变量，会根据客户端传来的连接中是否带有Upgrade头来决定是否给源站传递Connection头，
-这样做的方法比直接全部传递upgrade更加优雅。
+这里使用map指令可以将变量组合成为新的变量，会根据客户端传来的连接中是否带有Upgrade头来决定是否给源站传递Connection头， 这样做的方法比直接全部传递upgrade更加优雅。
 
 默认情况下，连接将会在无数据传输60秒后关闭，`proxy_read_timeout`参数可以延长这个时间。源站通过定期发送ping帧以保持连接并确认连接是否还在使用。
 
@@ -91,7 +87,7 @@ Connection: upgrade
 
 **proxy_read_timeout**
 
-> 语法 proxy_read_timeout time 
+> 语法 proxy_read_timeout time
 > 默认值 60s
 > 上下文 http server location
 > 说明 该指令设置与代理服务器的读超时时间。它决定了nginx会等待多长时间来获得请求的响应。
@@ -99,7 +95,7 @@ Connection: upgrade
 
 **proxy_send_timeout**
 
-> 语法 proxy_send_timeout time 
+> 语法 proxy_send_timeout time
 > 默认值 60s
 > 上下文 http server location
 > 说明 这个指定设置了发送请求给upstream服务器的超时时间。超时设置不是为了整个发送期间，而是在两次write操作期间。

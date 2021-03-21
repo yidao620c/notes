@@ -1,6 +1,7 @@
 # Nginx打印请求头和响应头
 
 编辑nginx.conf配置文件。
+
 ```nginx
 http {
     log_format log_req_resp '$remote_addr - $remote_user [$time_local] ' '"$request" 
@@ -43,6 +44,7 @@ http {
 **注意：自定义响应头通过使用http_开头即可。**
 
 反向代理增加请求头
+
 ```nginx
 location /some/path/ {
     proxy_set_header Host $host;

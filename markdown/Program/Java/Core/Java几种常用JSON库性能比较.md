@@ -1,13 +1,10 @@
 # Java几种常用JSON库性能比较
 
-上一篇介绍了Java性能测试框架JMH的使用方法，本篇通过JMH来测试一下Java中几种常见的JSON解析库的性能。
-每次都在网上看到别人说什么某某库性能是如何如何的好，碾压其他的库。但是百闻不如一见，只有自己亲手测试过的才是最值得相信的。
+上一篇介绍了Java性能测试框架JMH的使用方法，本篇通过JMH来测试一下Java中几种常见的JSON解析库的性能。 每次都在网上看到别人说什么某某库性能是如何如何的好，碾压其他的库。但是百闻不如一见，只有自己亲手测试过的才是最值得相信的。
 
-JSON不管是在Web开发还是服务器开发中是相当常见的数据传输格式，一般情况我们对于JSON解析构造的性能并不需要过于关心，
-除非是在性能要求比较高的系统。
+JSON不管是在Web开发还是服务器开发中是相当常见的数据传输格式，一般情况我们对于JSON解析构造的性能并不需要过于关心， 除非是在性能要求比较高的系统。
 
-目前对于Java开源的JSON类库有很多种，下面我们取4个常用的JSON库进行性能测试对比，
-同时根据测试结果分析如果根据实际应用场景选择最合适的JSON库。
+目前对于Java开源的JSON类库有很多种，下面我们取4个常用的JSON库进行性能测试对比， 同时根据测试结果分析如果根据实际应用场景选择最合适的JSON库。
 
 这4个JSON类库分别为：Gson，FastJson，Jackson，Json-lib。
 
@@ -28,8 +25,7 @@ JSON不管是在Web开发还是服务器开发中是相当常见的数据传输�
 项目地址：<https://github.com/google/gson>
 
 Gson是目前功能最全的Json解析神器，Gson当初是为因应Google公司内部需求而由Google自行研发而来，但自从在2008年五月公开发布第一版后已被许多公司或用户应用。
-Gson的应用主要为toJson与fromJson两个转换函数，无依赖，不需要例外额外的jar，能够直接跑在JDK上。
-在使用这种对象转换之前，需先创建好对象的类型以及其成员才能成功的将JSON字符串成功转换成相对应的对象。
+Gson的应用主要为toJson与fromJson两个转换函数，无依赖，不需要例外额外的jar，能够直接跑在JDK上。 在使用这种对象转换之前，需先创建好对象的类型以及其成员才能成功的将JSON字符串成功转换成相对应的对象。
 类里面只要有get和set方法，Gson完全可以实现复杂类型的json到bean或bean到json的转换，是JSON解析的神器。
 
 ### FastJson
@@ -37,15 +33,14 @@ Gson的应用主要为toJson与fromJson两个转换函数，无依赖，不需�
 项目地址：<https://github.com/alibaba/fastjson>
 
 Fastjson是一个Java语言编写的高性能的JSON处理器,由阿里巴巴公司开发。无依赖，不需要例外额外的jar，能够直接跑在JDK上。
-FastJson在复杂类型的Bean转换Json上会出现一些问题，可能会出现引用的类型，导致Json转换出错，需要制定引用。
-FastJson采用独创的算法，将parse的速度提升到极致，超过所有json库。
+FastJson在复杂类型的Bean转换Json上会出现一些问题，可能会出现引用的类型，导致Json转换出错，需要制定引用。 FastJson采用独创的算法，将parse的速度提升到极致，超过所有json库。
 
 ### Jackson
 
 项目地址：<https://github.com/FasterXML/jackson>
 
-Jackson是当前用的比较广泛的，用来序列化和反序列化json的Java开源框架。Jackson社区相对比较活跃，更新速度也比较快，
-从Github中的统计来看，Jackson是最流行的json解析器之一，Spring MVC的默认json解析器便是Jackson。
+Jackson是当前用的比较广泛的，用来序列化和反序列化json的Java开源框架。Jackson社区相对比较活跃，更新速度也比较快， 从Github中的统计来看，Jackson是最流行的json解析器之一，Spring
+MVC的默认json解析器便是Jackson。
 
 Jackson优点很多：
 
@@ -56,9 +51,11 @@ Jackson优点很多：
 
 目前最新版本是2.9.4，Jackson 的核心模块由三部分组成：
 
-1. jackson-core 核心包，提供基于"流模式"解析的相关 API，它包括 JsonPaser 和 JsonGenerator。Jackson 内部实现正是通过高性能的流模式 API 的 JsonGenerator 和 JsonParser 来生成和解析 json。
+1. jackson-core 核心包，提供基于"流模式"解析的相关 API，它包括 JsonPaser 和 JsonGenerator。Jackson 内部实现正是通过高性能的流模式 API 的 JsonGenerator 和
+   JsonParser 来生成和解析 json。
 1. jackson-annotations 注解包，提供标准注解功能；
-1. jackson-databind 数据绑定包，提供基于"对象绑定" 解析的相关 API（ ObjectMapper ）和"树模型" 解析的相关 API（JsonNode）；基于"对象绑定" 解析的 API 和"树模型"解析的 API 依赖基于"流模式"解析的 API。
+1. jackson-databind 数据绑定包，提供基于"对象绑定" 解析的相关 API（ ObjectMapper ）和"树模型" 解析的相关 API（JsonNode）；基于"对象绑定" 解析的 API 和"树模型"解析的 API
+   依赖基于"流模式"解析的 API。
 
 为什么Jackson的介绍这么长啊？因为它也是本人的最爱。
 
@@ -238,7 +235,6 @@ public class FullName {
     }
 }
 ```
-
 
 ### JSON序列化性能基准测试
 

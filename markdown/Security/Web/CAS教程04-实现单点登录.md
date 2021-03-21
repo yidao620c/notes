@@ -1,7 +1,6 @@
 # CAS教程04-实现单点登录
 
-通过前面几篇的介绍，熟悉了CAS Server的运行和调试，这一篇演示一个实际的单点登录例子。
-统一使用 SpringBoot+Meven 构建。
+通过前面几篇的介绍，熟悉了CAS Server的运行和调试，这一篇演示一个实际的单点登录例子。 统一使用 SpringBoot+Meven 构建。
 
 | 项目                        | 地址                              | 说明 |
 |--------------------------- |----------------------------------|------------------|
@@ -39,8 +38,7 @@
 }
 ```
 
-默认cas支持https，不支持http客户端站点来登录，所以需要手动进行配置兼容。
-如果不做此操作就会出现如下图：未认证授权的服务，所以还是乖乖的听话，跟着我的飙车轨道，别跑丢了。
+默认cas支持https，不支持http客户端站点来登录，所以需要手动进行配置兼容。 如果不做此操作就会出现如下图：未认证授权的服务，所以还是乖乖的听话，跟着我的飙车轨道，别跑丢了。
 
 体json文件中代表什么含义，后续篇会详细讲解到。
 
@@ -49,6 +47,7 @@
 application.properties文件中，增加配置项cas.serviceRegistry.initFromJson=true表示开启了json注册服务。
 
 另外为了Demo尽可能的简单方便理解，我这里启用静态账号密码方式认证（非JDBC和Rest）
+
 ```properties
 ##
 # CAS Authentication Credentials
@@ -228,6 +227,7 @@ public class CasClientConfig {
 ```
 
 URL拦截匹配规则类：
+
 ```java
 public class SimpleUrlPatternMatcherStrategy implements UrlPatternMatcherStrategy {
 
@@ -316,9 +316,8 @@ public class CasConfig {
 1. cas.logout.followServiceRedirects=true 是否允许客户端Logout后重定向到service参数指定的资源
 2. tgt.maxTimeToLiveInSeconds=28800 指定Session的最大有效时间,即从生成到指定时间后就将超时,默认28800s,即8小时
 3. tgt.timeToKillInSeconds=7200 指定用户操作的超时时间,即用户在多久不操作后就超时,默认7200s,即2小时。
-还要注意客户端web.xml配置的超时时间，即只有客户端配置超时时间不大于tgt.timeToKillInSeconds时才能看见服务端设置的效果
-4. st.timeToKillInSeconds=10 指定service ticket的有效时间,默认10s，
-这也是debug追踪CAS应用认证过程中经常会失败的原因,因为追踪的时候service ticket已经过了10秒有效期了
+   还要注意客户端web.xml配置的超时时间，即只有客户端配置超时时间不大于tgt.timeToKillInSeconds时才能看见服务端设置的效果
+4. st.timeToKillInSeconds=10 指定service ticket的有效时间,默认10s， 这也是debug追踪CAS应用认证过程中经常会失败的原因,因为追踪的时候service ticket已经过了10秒有效期了
 5. slo.callbacks.disabled=false 是否禁用单点登出
 
 

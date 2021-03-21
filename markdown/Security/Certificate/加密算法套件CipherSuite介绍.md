@@ -78,8 +78,9 @@ nginx里面的配置项是 `cipher_list`
 5. 另外，`@STRENGTH`可以用在任何点，用来把当前`cipher list`按照加密算法key长度排序。
 
 ## 检测服务端支持的密钥套件脚本
-可通过openssl命令，写一个通用脚本来检测服务端支持的所有SSL/TLS密钥套件。
-使用方式`./test_ciphers 192.168.1.20:443`
+
+可通过openssl命令，写一个通用脚本来检测服务端支持的所有SSL/TLS密钥套件。 使用方式`./test_ciphers 192.168.1.20:443`
+
 ```bash
 #!/usr/bin/env bash
 

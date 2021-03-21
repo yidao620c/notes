@@ -3,14 +3,17 @@
 有很多时候我们需要从多个网站爬取所需要的数据，比如我们想爬取多个网站的新闻，将其存储到数据库同一个表中。我们是不是要对每个网站都得去定义一个Spider类呢？
 其实不需要，我们可以通过维护一个规则配置表或者一个规则配置文件来动态增加或修改爬取规则，然后程序代码不需要更改就能实现多个网站爬取。
 
-要这样做，我们就不能再使用前面的`scrapy crawl test`这种命令了，我们需要使用编程的方式运行Scrapy spider，参考[官方文档](http://doc.scrapy.org/en/1.0/topics/practices.html#run-scrapy-from-a-script)
+要这样做，我们就不能再使用前面的`scrapy crawl test`这种命令了，我们需要使用编程的方式运行Scrapy
+spider，参考[官方文档](http://doc.scrapy.org/en/1.0/topics/practices.html#run-scrapy-from-a-script)
 
 ### 脚本运行Scrapy
+
 可以利用scrapy提供的[核心API](http://doc.scrapy.org/en/1.0/topics/api.html#topics-api)通过编程方式启动scrapy，代替传统的`scrapy crawl`启动方式。
 
 Scrapy构建于Twisted异步网络框架基础之上，因此你需要在Twisted reactor里面运行。
 
 首先你可以使用`scrapy.crawler.CrawlerProcess`这个类来运行你的spider，这个类会为你启动一个Twisted reactor，并能配置你的日志和shutdown处理器。所有的scrapy命令都使用这个类。
+
 ```python run.py
 import scrapy
 from scrapy.crawler import CrawlerProcess
@@ -22,12 +25,15 @@ process.crawl(MySpider)
 process.start() # the script will block here until the crawling is finished
 
 ```
+
 然后你就可以直接执行这个脚本
+
 ```bash
 python run.py
 ```
 
 另外一个功能更强大的类是`scrapy.crawler.CrawlerRunner`，推荐你使用这个
+
 ```python run.py
 from twisted.internet import reactor
 import scrapy
@@ -47,7 +53,9 @@ reactor.run() # the script will block here until the crawling is finished
 ```
 
 ### 同一进程运行多个spider
+
 默认情况当你每次执行`scrapy crawl`命令时会创建一个新的进程。但我们可以使用核心API在同一个进程中同时运行多个spider
+
 ```python
 import scrapy
 from twisted.internet import reactor
@@ -73,10 +81,11 @@ reactor.run() # the script will block here until all crawling jobs are finished
 ```
 
 ### 定义规则表
-好了言归正传，有了前面的脚本启动基础，就可以开始我们的动态配置爬虫了。
-我们的需求是这样的，从两个不同的网站爬取我们所需要的新闻文章，然后存储到article表中。
+
+好了言归正传，有了前面的脚本启动基础，就可以开始我们的动态配置爬虫了。 我们的需求是这样的，从两个不同的网站爬取我们所需要的新闻文章，然后存储到article表中。
 
 首先我们需要定义规则表和文章表，通过动态的创建蜘蛛类，我们以后就只需要维护规则表即可了。这里我使用SQLAlchemy框架来映射数据库。
+
 ```python models.py
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
@@ -135,7 +144,9 @@ class Article(Base):
 ```
 
 ### 定义文章Item
+
 这个很简单了，没什么需要说明的
+
 ```python items.py
 import scrapy
 
@@ -149,7 +160,9 @@ class Article(scrapy.Item):
 ```
 
 ### 定义ArticleSpider
+
 接下来我们将定义爬取文章的蜘蛛，这个spider会使用一个Rule实例来初始化，然后根据Rule实例中的xpath规则来获取相应的数据。
+
 ```python
 from coolscrapy.utils import parse_text
 from scrapy.spiders import CrawlSpider, Rule
@@ -196,10 +209,13 @@ class ArticleSpider(CrawlSpider):
 
         return article
 ```
+
 要注意的是start_urls，rules等都初始化成了对象的属性，都由传入的rule对象初始化，parse_item方法中的抽取规则也都有rule对象提供。
 
 ### 编写pipeline存储到数据库中
+
 我们还是使用SQLAlchemy来将文章Item数据存储到数据库中
+
 ```python pipelines.py
 @contextmanager
 def session_scope(Session):
@@ -241,7 +257,9 @@ class ArticleDataBasePipeline(object):
 ```
 
 ### 修改run.py启动脚本
+
 我们将上面的run.py稍作修改即可定制我们的文章爬虫启动脚本
+
 ```python run.py
 import logging
 from spiders.article_spider import ArticleSpider

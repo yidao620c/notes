@@ -1,41 +1,42 @@
 # 使用Swagger生成RESTful文档
 
-REST API都是要对外提供服务的，那么文档是必须的。Swagger是一个简单但功能强大的API表达工具。
-它具有地球上最大的API工具生态系统，数以千计的开发人员，使用几乎所有的现代编程语言，
+REST API都是要对外提供服务的，那么文档是必须的。Swagger是一个简单但功能强大的API表达工具。 它具有地球上最大的API工具生态系统，数以千计的开发人员，使用几乎所有的现代编程语言，
 都在支持和使用Swagger。使用Swagger生成API，我们可以得到交互式文档，自动生成代码的SDK以及API的发现特性等。
 
 2.X版本已经发布，Swagger变得更加强大。值得感激的是，Swagger的源码100%开源在[github](https://github.com/swagger-api)。
 
-使用Swagger不纯粹是为了生成一个漂亮的API文档，也不纯粹是为了自动生成多种语言的代码框架，
-重要的是，通过遵循它的标准，可以使REST API分组清晰、定义标准。
+使用Swagger不纯粹是为了生成一个漂亮的API文档，也不纯粹是为了自动生成多种语言的代码框架， 重要的是，通过遵循它的标准，可以使REST API分组清晰、定义标准。
 
 通过Swagger生成API 文档有两种方式：
 
 1. 通过代码注解来生成。好处：随时保持接口和文档的同步。坏处：代码入侵
 2. 使用`Swagger Editor` 编写API文档的Yaml/Json定义。
 
-虽然第一种方式最方便，不用编写swagger配置文件，但是对代码污染太严重了。所以在项目里面我选择第二种方式，
-另外我也不实用Swagger UI来展示API文档，页面太花哨了。
+虽然第一种方式最方便，不用编写swagger配置文件，但是对代码污染太严重了。所以在项目里面我选择第二种方式， 另外我也不实用Swagger UI来展示API文档，页面太花哨了。
 这里我选择swagger2markup将其转换为AsciiDoc或MarkDown格式。
 
 ## Swagger Editor使用
+
 Swagger Editor是个用Angular开发的WEB小程序，它可以让你用YAML来定义你的接口规范，并实时验证和现实成接口文档。
 
-此外，它还可以通过接口文档帮你生成不同框架的服务端和客户端，方便你mock和契约测试。
-最后导出JSON格式的API规范，通过Swagger UI对外发布。
+此外，它还可以通过接口文档帮你生成不同框架的服务端和客户端，方便你mock和契约测试。 最后导出JSON格式的API规范，通过Swagger UI对外发布。
 
 先clone项目：
+
 ```bash
 git clone https://github.com/swagger-api/swagger-editor.git
 ```
+
 如果在本地，解压后直接打开里面的index.html即可。
 
 如果在服务器上面，可先安装http-server：
+
 ```bash
 npm install -g http-server
 ```
 
 启动该项目，默认为8080端口，可自定义端口号：
+
 ```bash
 http-server –p 2017 swagger-editor
 ```
@@ -50,12 +51,13 @@ http-server –p 2017 swagger-editor
 
 GitHub主页：https://github.com/Swagger2Markup/swagger2markup
 
-swagger2markup用来将我们手写的或自动生成的swagger.yaml或swagger.json转换成漂亮的 AsciiDoc 或 Markdown格式文件。
-然后再通过`asciidoctor-maven-plugin`将其转换为漂亮的HTML格式文档方便查看。
+swagger2markup用来将我们手写的或自动生成的swagger.yaml或swagger.json转换成漂亮的 AsciiDoc 或 Markdown格式文件。 然后再通过`asciidoctor-maven-plugin`
+将其转换为漂亮的HTML格式文档方便查看。
 
 将swagger.yaml转换成AsciiDoc的方法：http://swagger2markup.github.io/swagger2markup/1.3.1/
 
 先添加maven依赖：
+
 ```xml
 <dependency>
     <groupId>io.github.swagger2markup</groupId>
@@ -70,6 +72,7 @@ swagger2markup用来将我们手写的或自动生成的swagger.yaml或swagger.j
 ```
 
 转换本地的yaml文件方法：
+
 ```java
 import io.github.swagger2markup.GroupBy;
 import io.github.swagger2markup.Language;
@@ -103,6 +106,7 @@ public static void main(String[] args) throws Exception {
 将 AsciiDoc 转换成HTML/XML文件方法
 
 添加maven插件：
+
 ```xml
 <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -157,6 +161,7 @@ public static void main(String[] args) throws Exception {
 ```
 
 然后执行：
+
 ```bash
 mvn clean && mvn compile
 ```
@@ -176,6 +181,7 @@ mvn clean && mvn compile
 window上面直接去下载安装包：<https://rubyinstaller.org/downloads/>
 
 更改国内源，参考 <https://gems.ruby-china.org/> ：
+
 ```bash
 gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
 gem sources -l
@@ -197,22 +203,21 @@ asciidoctor-pdf-cjk-kai_gen_gothic-install
 
 字体文件都在这里：<https://github.com/chloerei/asciidoctor-pdf-cjk-kai_gen_gothic/releases>
 
-CN 主题需要的是 RobotoMono 开头和 KaiGenGothicCN 开头的字体文件，
-尝试用其他工具手工下载到 gem 安装目录的 data/fonts 文件夹内。
+CN 主题需要的是 RobotoMono 开头和 KaiGenGothicCN 开头的字体文件， 尝试用其他工具手工下载到 gem 安装目录的 data/fonts 文件夹内。
 
 查看gem安装目录命令：
+
 ```bash
 gem environment
 ```
 
 在返回结果里面找到这句：
+
 ```
 INSTALLATION DIRECTORY: E:/Ruby24-x64/lib/ruby/gems/2.4.0
 ```
 
-然后在这个目录下面进入目录 `gems/asciidoctor-pdf-cjk-kai_gen_gothic-0.1.1/data/fonts`，
-将下载的字体都放进去。
-
+然后在这个目录下面进入目录 `gems/asciidoctor-pdf-cjk-kai_gen_gothic-0.1.1/data/fonts`， 将下载的字体都放进去。
 
 ### 使用方法
 

@@ -1,18 +1,16 @@
 # JVM性能分析工具jstack介绍
 
-JDK本身提供了很多方便的JVM性能调优监控工具，除了集成式的VisualVM和jConsole外，
-还有jps、jstack、jmap、jhat、jstat、hprof等小巧的工具，每一种工具都有其自身的特点，
-用户可以根据你需要检测的应用或者程序片段的状况，适当的选择相应的工具进行检测，
-先通过一个表格形式简要介绍下这几个命令的作用和使用方法。本文重点介绍jstack的使用方法。
+JDK本身提供了很多方便的JVM性能调优监控工具，除了集成式的VisualVM和jConsole外， 还有jps、jstack、jmap、jhat、jstat、hprof等小巧的工具，每一种工具都有其自身的特点，
+用户可以根据你需要检测的应用或者程序片段的状况，适当的选择相应的工具进行检测， 先通过一个表格形式简要介绍下这几个命令的作用和使用方法。本文重点介绍jstack的使用方法。
 
-命令	     | 作用
+命令         | 作用
 ---------|---------------------------------------
-jps	     | 基础工具
-jstack	 | 查看某个Java进程内的线程堆栈信息
-jmap	 | jmap导出堆内存，然后使用jhat来进行分析
-jhat	 | jmap导出堆内存，然后使用jhat来进行分析
-jstat	 | JVM统计监测工具
-hprof	 | hprof能够展现CPU使用率，统计堆内存使用情况
+jps         | 基础工具
+jstack     | 查看某个Java进程内的线程堆栈信息
+jmap     | jmap导出堆内存，然后使用jhat来进行分析
+jhat     | jmap导出堆内存，然后使用jhat来进行分析
+jstat     | JVM统计监测工具
+hprof     | hprof能够展现CPU使用率，统计堆内存使用情况
 
 ## jps使用
 
@@ -44,8 +42,7 @@ hprof	 | hprof能够展现CPU使用率，统计堆内存使用情况
 
 ## top使用
 
-除了常用的打印所有进程使用资源外，还可以对单独的进程，打印线程资源排行榜，按T键可对TIME倒序排列，
-也就是CPU运行时间。TIME列就是各个Java线程耗费的CPU时间，我们线程pid为67163的线程作为后续线程研究对象
+除了常用的打印所有进程使用资源外，还可以对单独的进程，打印线程资源排行榜，按T键可对TIME倒序排列， 也就是CPU运行时间。TIME列就是各个Java线程耗费的CPU时间，我们线程pid为67163的线程作为后续线程研究对象
 
 ```bash
 [root@CZT-FS1 board-api]# top -Hp 67136
@@ -84,8 +81,8 @@ jstack [option] pid
 
 参数如下：
 
-1. -l	long listings，会打印出额外的锁信息，在发生死锁时可以用jstack -l pid来观察锁持有情况
-2. -m	mixed mode，不仅会输出Java堆栈信息，还会输出C/C++堆栈信息（比如Native方法）
+1. -l long listings，会打印出额外的锁信息，在发生死锁时可以用jstack -l pid来观察锁持有情况
+2. -m mixed mode，不仅会输出Java堆栈信息，还会输出C/C++堆栈信息（比如Native方法）
 
 ```bash
 [root@CZT-FS1 board-api]# jstack -l 67136 | more

@@ -5,8 +5,7 @@
 **cherry-pick**我直接把它翻译成'摘樱桃'可以不？
 
 `git cherry-pick`可以选择某一个分支中的一个或几个commit(s)来进行操作。假设我们有个稳定版本的分支master，
-另外还有个开发版本的分支dev，我们不能直接把两个分支合并，这样会导致稳定版本混乱，但是又想增加一个dev中的功能到master中，
-这里就可以使用cherry-pick了，其实也就是对已经存在的commit 进行再次提交。
+另外还有个开发版本的分支dev，我们不能直接把两个分支合并，这样会导致稳定版本混乱，但是又想增加一个dev中的功能到master中， 这里就可以使用cherry-pick了，其实也就是对已经存在的commit 进行再次提交。
 
 简单用法：
 
@@ -63,6 +62,7 @@ git cherry-pick 16ae2df9
 ```
 
 如果出现冲突：
+
 ```
 $ git cherry-pick a25a08...16ae2df9
 error: a cherry-pick or revert is already in progress

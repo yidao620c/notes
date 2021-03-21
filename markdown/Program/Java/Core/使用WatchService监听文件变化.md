@@ -1,10 +1,8 @@
 # 使用WatchService监听文件变化
 
-在Java 7发布的新的IO框架中，除了大家都熟知的 `FileVisitor` 接口外，还有个 `WatchService` 接口经常被人忽视掉。
-这个类可以让你实时的监控操作系统中文件的变化，包括创建、更新和删除事件。
+在Java 7发布的新的IO框架中，除了大家都熟知的 `FileVisitor` 接口外，还有个 `WatchService` 接口经常被人忽视掉。 这个类可以让你实时的监控操作系统中文件的变化，包括创建、更新和删除事件。
 
-`WatchService` 用来观察被注册了的对象的变化和事件。它和`Watchable`两个接口的配合使用，
-WatchService类似于在观察者模式中的观察者，Watchable类似域观察者模式中的被观察者。
+`WatchService` 用来观察被注册了的对象的变化和事件。它和`Watchable`两个接口的配合使用， WatchService类似于在观察者模式中的观察者，Watchable类似域观察者模式中的被观察者。
 
 而Java 7中的`java.nio.file.Path`类就实现了Watchable接口，这样的话，和Path类一起可实现观察者模式。
 
@@ -33,10 +31,10 @@ WatchKey watchKey = path.register(
 
 `StandardWatchEventKinds` 有如下四种类型：
 
-1. ENTRY_CREATE  创建事件，可是新建一个文件或重命名文件
-1. ENTRY_MODIFY  修改事件，文件内容被修改，有些系统上面文件属性被修改也会触发
-1. ENTRY_DELETE  删除事件，文件被删除或被重命名
-1. OVERFLOW      如果丢失或放弃事件时被触发，我们一般不会关注这个类型
+1. ENTRY_CREATE 创建事件，可是新建一个文件或重命名文件
+1. ENTRY_MODIFY 修改事件，文件内容被修改，有些系统上面文件属性被修改也会触发
+1. ENTRY_DELETE 删除事件，文件被删除或被重命名
+1. OVERFLOW 如果丢失或放弃事件时被触发，我们一般不会关注这个类型
 
 ## WatchKey
 
@@ -68,8 +66,7 @@ while ((key = watchService.take()) != null) {
 }
 ```
 
-解释一下运行过程，take()方法会一直阻塞直到返回一个WatchKey实例，然后进入循环内部，
-pollEvents()方法会返回当前Key上面所有事件列表，我们一个个去处理这些事件。
+解释一下运行过程，take()方法会一直阻塞直到返回一个WatchKey实例，然后进入循环内部， pollEvents()方法会返回当前Key上面所有事件列表，我们一个个去处理这些事件。
 
 所有事件处理完成后，必须调用reset方法，让这个key重新进入监听队列。
 

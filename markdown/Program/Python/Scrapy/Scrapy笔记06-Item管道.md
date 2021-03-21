@@ -1,7 +1,6 @@
 # Scrapy笔记06-Item管道
 
-当一个item被蜘蛛爬取到之后会被发送给Item Pipeline，然后多个组件按照顺序处理这个item。
-每个Item Pipeline组件其实就是一个实现了一个简单方法的Python类。他们接受一个item并在上面执行逻辑，
+当一个item被蜘蛛爬取到之后会被发送给Item Pipeline，然后多个组件按照顺序处理这个item。 每个Item Pipeline组件其实就是一个实现了一个简单方法的Python类。他们接受一个item并在上面执行逻辑，
 还能决定这个item到底是否还要继续往下传输，如果不要了就直接丢弃。
 
 使用Item Pipeline的常用场景：
@@ -12,6 +11,7 @@
 * 将抓取的数据存储到数据库中
 
 ## 编写自己的Pipeline
+
 定义一个Python类，然后实现方法`process_item(self, item, spider)`即可，返回一个字典或Item，或者抛出`DropItem`异常丢弃这个Item。
 
 或者还可以实现下面几个方法：
@@ -23,7 +23,9 @@
 ## Item Pipeline示例
 
 ### 价格验证
+
 我们通过一个价格验证例子来看看怎样使用
+
 ```python
 from scrapy.exceptions import DropItem
 
@@ -41,7 +43,9 @@ class PricePipeline(object):
 ```
 
 ### 将item写入json文件
+
 下面的这个Pipeline将所有的item写入到一个单独的json文件，一行一个item
+
 ```python
 import json
 
@@ -57,8 +61,10 @@ class JsonWriterPipeline(object):
 ```
 
 ### 将item存储到MongoDB中
+
 这个例子使用[pymongo](http://api.mongodb.org/python/current/)来演示怎样讲item保存到MongoDB中。
 MongoDB的地址和数据库名在配置中指定，这个例子主要是向你展示怎样使用`from_crawler()`方法，以及如何清理资源。
+
 ```python
 import pymongo
 
@@ -90,7 +96,9 @@ class MongoPipeline(object):
 ```
 
 ### 重复过滤器
+
 假设我们的item里面的id字典是唯一的，但是我们的蜘蛛返回了多个相同id的item
+
 ```python
 from scrapy.exceptions import DropItem
 
@@ -110,6 +118,7 @@ class DuplicatesPipeline(object):
 ## 激活一个Item Pipeline组件
 
 你必须在配置文件中将你需要激活的Pipline组件添加到`ITEM_PIPELINES`中
+
 ```python
 ITEM_PIPELINES = {
     'myproject.pipelines.PricePipeline': 300,
@@ -122,6 +131,7 @@ ITEM_PIPELINES = {
 ## Feed exports
 
 这里顺便提下Feed exports，一般有的爬虫直接将爬取结果序列化到文件中，并保存到某个存储介质中。只需要在settings里面设置几个即可：
+
 ```
 * FEED_FORMAT= json # json|jsonlines|csv|xml|pickle|marshal
 * FEED_URI= file:///tmp/export.csv|ftp://user:pass@ftp.example.com/path/to/export.csv|s3://aws_key:aws_secret@mybucket/path/to/export.csv|stdout:
@@ -129,13 +139,14 @@ ITEM_PIPELINES = {
 ```
 
 ## 请求和响应
-Scrapy使用`Request`和`Response`对象来爬取网站。`Request`对象被蜘蛛生成，然后被传递给下载器，
-之后下载器处理这个`Request`后返回`Response`对象，然后返回给生成`Request`的这个蜘蛛。
+
+Scrapy使用`Request`和`Response`对象来爬取网站。`Request`对象被蜘蛛生成，然后被传递给下载器， 之后下载器处理这个`Request`后返回`Response`对象，然后返回给生成`Request`的这个蜘蛛。
 
 ### 给回调函数传递额外的参数
 
 `Request`对象生成的时候会通过关键字参数`callback`指定回调函数，`Response`对象被当做第一个参数传入，
 有时候我们想传递额外的参数，比如我们构建某个Item的时候，需要两步，第一步是链接属性，第二步是详情属性，可以指定`Request.meta`
+
 ```python
 def parse_page1(self, response):
     item = MyItem()
@@ -153,9 +164,11 @@ def parse_page2(self, response):
 ```
 
 ### Request子类
+
 Scrapy为各种不同的场景内置了很多Request子类，你还可以继承它自定义自己的请求类。
 
 `FormRequest`这个专门为form表单设计，模拟表单提交的示例
+
 ```python
 return [FormRequest(url="http://www.example.com/post/action",
                     formdata={'name': 'John Doe', 'age': '27'},
@@ -163,6 +176,7 @@ return [FormRequest(url="http://www.example.com/post/action",
 ```
 
 我们再来一个例子模拟用户登录，使用了`FormRequest.from_response()`
+
 ```python
 import scrapy
 
@@ -187,10 +201,10 @@ class LoginSpider(scrapy.Spider):
 ```
 
 ### Response子类
-一个`scrapy.http.Response`对象代表了一个HTTP相应，通常是被下载器下载后得到，并交给Spider做进一步的处理。
-Response也有很多默认的子类，用于表示各种不同的响应类型。
+
+一个`scrapy.http.Response`对象代表了一个HTTP相应，通常是被下载器下载后得到，并交给Spider做进一步的处理。 Response也有很多默认的子类，用于表示各种不同的响应类型。
 
 * TextResponse 在基本`Response`类基础之上增加了编码功能，专门用于二进制数据比如图片、声音或其他媒体文件
 * HtmlResponse 此类是`TextResponse`的子类，通过查询HTML的`meta http-equiv `属性实现了编码自动发现
-* XmlResponse  此类是`TextResponse`的子类，通过查询XML声明实现编码自动发现
+* XmlResponse 此类是`TextResponse`的子类，通过查询XML声明实现编码自动发现
 

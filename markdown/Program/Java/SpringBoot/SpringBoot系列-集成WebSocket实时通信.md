@@ -1,9 +1,7 @@
 # SpringBoot系列-集成WebSocket实时通信
 
-WebSocket是 HTML5 开始提供的一种浏览器与服务器间进行全双工通讯的网络技术。
-WebSocket 通信协议于2011年被IETF定为标准RFC 6455，WebSocketAPI 被W3C定为标准。
-在WebSocket API 中，浏览器和服务器只需要要做一个握手的动作，然后，浏览器和服务器之间就形成了一条快速通道。
-两者之间就直接可以数据互相传送。
+WebSocket是 HTML5 开始提供的一种浏览器与服务器间进行全双工通讯的网络技术。 WebSocket 通信协议于2011年被IETF定为标准RFC 6455，WebSocketAPI 被W3C定为标准。 在WebSocket
+API 中，浏览器和服务器只需要要做一个握手的动作，然后，浏览器和服务器之间就形成了一条快速通道。 两者之间就直接可以数据互相传送。
 
 注意特点：
 
@@ -15,14 +13,12 @@ WebSocket 通信协议于2011年被IETF定为标准RFC 6455，WebSocketAPI 被W3
 * 没有同源限制，客户端可以与任意服务器通信。
 * 协议标识符是ws（如果加密，则为wss），服务器网址就是 URL。
 
-有多种方式实现WebSocket协议，比如SpringBoot官方推荐的基于STOMP实现，实现起来非常简单，还有通过Socket.IO来实现。
-这里我讲一下基于STOMP的实现方案。
+有多种方式实现WebSocket协议，比如SpringBoot官方推荐的基于STOMP实现，实现起来非常简单，还有通过Socket.IO来实现。 这里我讲一下基于STOMP的实现方案。
 
 ## 概述
 
 STOMP：即`Simple Text Orientated Messaging Protocol`，它是一个简单的文本消息传输协议，属于 WebSocket 的子协议，
-提供了一个可互操作的连接格式，允许STOMP客户端与任意STOMP消息代理（Broker）进行交互。STOMP协议由于设计简单，
-易于开发客户端，因此在多种语言和多种平台上得到广泛地应用。
+提供了一个可互操作的连接格式，允许STOMP客户端与任意STOMP消息代理（Broker）进行交互。STOMP协议由于设计简单， 易于开发客户端，因此在多种语言和多种平台上得到广泛地应用。
 
 ## 引入依赖
 
@@ -133,8 +129,7 @@ public class WsController {
 }
 ```
 
-say方法上添加的@MessageMapping注解和我们之前使用的@RequestMapping类似。@SendTo注解表示当服务器有消息需要推送的时候，
-会对订阅了@SendTo中路径的浏览器发送消息。
+say方法上添加的@MessageMapping注解和我们之前使用的@RequestMapping类似。@SendTo注解表示当服务器有消息需要推送的时候， 会对订阅了@SendTo中路径的浏览器发送消息。
 
 除此之外，我还定义了一个定时推送消息方法，这个方法每隔1秒会主动给订阅了主题`/topic/callback`的客户端推送消息。
 
@@ -238,11 +233,9 @@ say方法上添加的@MessageMapping注解和我们之前使用的@RequestMappin
 
 每隔一秒页面都会刷新显示当前时间。同时控制台也会打印定时推送过来的消息。
 
-
 ## Android客户端
 
-对于想要使用Android客户端进行WebSocket通信的，
-可参考 [StompProtocolAndroid](https://github.com/NaikSoftware/StompProtocolAndroid)
+对于想要使用Android客户端进行WebSocket通信的， 可参考 [StompProtocolAndroid](https://github.com/NaikSoftware/StompProtocolAndroid)
 
 ## GitHub源码
 

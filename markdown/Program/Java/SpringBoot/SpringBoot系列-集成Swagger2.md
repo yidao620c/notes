@@ -1,7 +1,6 @@
 # SpringBoot系列-集成Swagger2
 
-Swagger是一个简单但功能强大的API表达工具。它具有地球上最大的API工具生态系统，数以千计的开发人员，
-使用几乎所有的现代编程语言，都在支持和使用Swagger。使用Swagger生成API，我们可以得到交互式文档，
+Swagger是一个简单但功能强大的API表达工具。它具有地球上最大的API工具生态系统，数以千计的开发人员， 使用几乎所有的现代编程语言，都在支持和使用Swagger。使用Swagger生成API，我们可以得到交互式文档，
 自动生成代码的SDK以及API的发现特性等。
 
 Swagger2可以利用注解快速、自动地生成接口文档页面，方便调用方查阅！
@@ -16,8 +15,7 @@ Swagger2可以利用注解快速、自动地生成接口文档页面，方便调
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/sb-swagger02.png)
 
-我们可以看到该接口的请求方式,返回数据信息和需要传递的参数.而且以上数据是自动生成的,即使代码有一些修改,
-Swagger文档也会自动同步修改.非常的方便。
+我们可以看到该接口的请求方式,返回数据信息和需要传递的参数.而且以上数据是自动生成的,即使代码有一些修改, Swagger文档也会自动同步修改.非常的方便。
 
 ## 构建RESTful API
 
@@ -112,8 +110,7 @@ maven依赖：
 ## 创建Swagger2的Java配置类
 
 通过`@Configuration`注解，表明它是一个配置类，`@EnableSwagger2` 注解开启swagger2。
-`apiInfo()` 方法配置一些基本的信息。`createRestApi()` 方法指定扫描的包会生成文档，
-默认是显示所有接口,可以用`@ApiIgnore`注解标识该接口不显示。
+`apiInfo()` 方法配置一些基本的信息。`createRestApi()` 方法指定扫描的包会生成文档， 默认是显示所有接口,可以用`@ApiIgnore`注解标识该接口不显示。
 
 ```java
 @Configuration

@@ -2,8 +2,7 @@
 
 上一篇讲解了基于STOMP协议实现的WebSocket方案，本篇我讲一下Socket.IO的实现方案。
 
-Socket.IO 主要使用WebSocket协议。但是如果需要的话，Socket.io可以回退到几种其它方法，
-例如Adobe Flash Sockets、JSONP拉取、或是传统的AJAX拉取，并且提供完全相同的接口。
+Socket.IO 主要使用WebSocket协议。但是如果需要的话，Socket.io可以回退到几种其它方法， 例如Adobe Flash Sockets、JSONP拉取、或是传统的AJAX拉取，并且提供完全相同的接口。
 尽管它可以被用作WebSocket的包装库，它还是提供了许多其它功能，比如广播至多个套接字，存储与不同客户有关的数据，和异步IO操作。
 
 更多请参考 Socket.IO 官网：<https://socket.io/>
@@ -197,12 +196,10 @@ public class SocketClient {
 
 ## 关于心跳机制
 
-根据 [Socket.IO文档](https://github.com/socketio/engine.io#methods-1) 解释，
-客户端会定期发送心跳包，并触发一个ping事件和一个pong事件，如下：
+根据 [Socket.IO文档](https://github.com/socketio/engine.io#methods-1) 解释， 客户端会定期发送心跳包，并触发一个ping事件和一个pong事件，如下：
 
 - `ping` Fired when a ping packet is written out to the server.
-- `pong` Fired when a pong is received from the server.
-    Parameters:
+- `pong` Fired when a pong is received from the server. Parameters:
     - `Number` number of ms elapsed since `ping` packet (i.e.: latency)
 
 这里最重要的两个服务器参数如下：
@@ -210,13 +207,12 @@ public class SocketClient {
 1. pingTimeout (Number): how many ms without a pong packet to consider the connection closed (60000)
 1. pingInterval (Number): how many ms before sending a new ping packet (25000).
 
-也就是说握手协议的时候，客户端从服务器拿到这两个参数，一个是ping消息的发送间隔时间，一个是从服务器返回pong消息的超时时间，
-客户端会在超时后断开连接。心跳包发送方向是客户端向服务器端发送，以维持在线状态。
+也就是说握手协议的时候，客户端从服务器拿到这两个参数，一个是ping消息的发送间隔时间，一个是从服务器返回pong消息的超时时间， 客户端会在超时后断开连接。心跳包发送方向是客户端向服务器端发送，以维持在线状态。
 
 ## 关于断线和超时
 
-关闭浏览器、直接关闭客户端程序、kill进程、主动执行disconnect方法都会导致立刻产生断线事件。
-而客户端把网络断开，服务器端在 `pingTimeout` ms后产生断线事件、客户端在 `pingTimeout` ms后也产生断线事件。
+关闭浏览器、直接关闭客户端程序、kill进程、主动执行disconnect方法都会导致立刻产生断线事件。 而客户端把网络断开，服务器端在 `pingTimeout` ms后产生断线事件、客户端在 `pingTimeout`
+ms后也产生断线事件。
 
 实际上，超时后会产生一个断线事件，叫"disconnect"。客户端和服务器端都可以对这个事件作出应答，释放连接。
 
@@ -232,8 +228,7 @@ public class SocketClient {
 });
 ```
 
-连上服务器后，断开网络。超过了心跳超时时间后，产生断线事件。如果客户端不主动断开连接的话，会自动重连，
-这时候发现连接不上，又产生连接错误事件，然后重试2次，都失败后自动断开连接了。
+连上服务器后，断开网络。超过了心跳超时时间后，产生断线事件。如果客户端不主动断开连接的话，会自动重连， 这时候发现连接不上，又产生连接错误事件，然后重试2次，都失败后自动断开连接了。
 
 下面是客户端日志：
 
@@ -350,8 +345,7 @@ public class NettySocketConfig {
 }
 ```
 
-注意，我在`AuthorizationListener`里面通过调用service做了用户名和密码的认证。通过注解方式可以注入service，
-执行相应的连接授权动作。
+注意，我在`AuthorizationListener`里面通过调用service做了用户名和密码的认证。通过注解方式可以注入service， 执行相应的连接授权动作。
 
 后面还有个`SpringAnnotationScanner`的定义不能忘记。
 
@@ -525,8 +519,7 @@ public class ServerRunner implements CommandLineRunner {
 
 ## nginx反向代理
 
-要实现通过域名并走标准80或443端口的话，最好使用nginx做反向代理，跟正常的http反向代理基本一致，
-不过websocket需要增加一个upgrade的配置。
+要实现通过域名并走标准80或443端口的话，最好使用nginx做反向代理，跟正常的http反向代理基本一致， 不过websocket需要增加一个upgrade的配置。
 
 下面我以一个实际使用例子来说明如何配置nginx的https访问websocket，并且开启301自动http跳转https。
 

@@ -1,20 +1,20 @@
 # Django1.9开发博客09-用户认证
 
-你应该注意到了一点，当你去新建、修改和删除文章的时候并不需要登录，
-这样的话任何浏览网站的用户都能随时修改和删除我的文章。这个可不是我想要的！
+你应该注意到了一点，当你去新建、修改和删除文章的时候并不需要登录， 这样的话任何浏览网站的用户都能随时修改和删除我的文章。这个可不是我想要的！
 
 ## 编辑和删除的认证
-我们需要保护post_new, post_edit和post_publish这三个视图，只有登录用户才有权去执行。
-django为我们提供了很好的帮助类，其实就是利用了python中的decorators技术。
+
+我们需要保护post_new, post_edit和post_publish这三个视图，只有登录用户才有权去执行。 django为我们提供了很好的帮助类，其实就是利用了python中的decorators技术。
 django中认证的装饰器位于模块django.contrib.auth.decorators中，名称叫login_required。
 
 编辑blog/views.py文件，在import部分添加如下的导入语句：
+
 ```python
 from django.contrib.auth.decorators import login_required
 ```
 
-然后在post_new, post_edit和post_publish这三个函数上添加@login_required，
-类似下面
+然后在post_new, post_edit和post_publish这三个函数上添加@login_required， 类似下面
+
 ```python
 @login_required
 def post_new(request):
@@ -23,21 +23,22 @@ def post_new(request):
 
 好的，现在你再去访问下`http://localhost:8000/post/new/`，看看有啥变化。
 
-注：如果你仍然能正常进入新建页面，那可能是你之前在admin界面登陆过。
-那么你需要先退出，访问`http://localhost:8000/admin/logout/`可以退出，然后你再看下效果。
+注：如果你仍然能正常进入新建页面，那可能是你之前在admin界面登陆过。 那么你需要先退出，访问`http://localhost:8000/admin/logout/`可以退出，然后你再看下效果。
 
-我刚刚添加的@login_required装饰器检测到你尚未登陆的时候会重定向到login页面，
-但是我现在还没有定义login的模板页面，所以这时候会是404错误页面。
+我刚刚添加的@login_required装饰器检测到你尚未登陆的时候会重定向到login页面， 但是我现在还没有定义login的模板页面，所以这时候会是404错误页面。
 
 ## 用户登录
+
 django在用户认证方面做得很好了，我们只需要去使用它就行。
 
 在mysite/urls.py文件中，添加下面一行
+
 ```python
 url(r'^accounts/login/$', 'django.contrib.auth.views.login')
 ```
 
 现在这个文件内容如下：
+
 ```python
 from django.conf.urls import patterns, include, url
 
@@ -51,8 +52,8 @@ urlpatterns = patterns('',
 )
 ```
 
-然后我们再定义一个登陆页面，创建目录mysite/templates/registration，
-并在里面新建模板文件login.html，内容如下：
+然后我们再定义一个登陆页面，创建目录mysite/templates/registration， 并在里面新建模板文件login.html，内容如下：
+
 ```html
 @% extends "mysite/base.html" %@
 
@@ -81,20 +82,22 @@ urlpatterns = patterns('',
 @% endblock %@
 ```
 
-你可以看到我们仍然使用到了模板继承。这个时候可以定义一个`mysite/templates/mysite/base.html`，
-把`blog/templates/blog/base.html`的内容复制给它即可。
+你可以看到我们仍然使用到了模板继承。这个时候可以定义一个`mysite/templates/mysite/base.html`， 把`blog/templates/blog/base.html`的内容复制给它即可。
 
 不过我们需要在`mysite/settings.py`中再添加一个urls配置：
+
 ```python
 LOGIN_REDIRECT_URL = '/'
 ```
+
 这样的话当用户直接访问login页面后登录成功会重定向到文章列表页面去。
 
 ## 改进显示
-现在的确只有登录用户才能修改和删除文章，但是未登录用户却能看到这些按钮，
-这个是很不好的体验。现在如果是未登录用户的话就把这些按钮给隐藏掉。
+
+现在的确只有登录用户才能修改和删除文章，但是未登录用户却能看到这些按钮， 这个是很不好的体验。现在如果是未登录用户的话就把这些按钮给隐藏掉。
 
 因此我们修改`mysite/templates/mysite/base.html`如下：
+
 ```html
 <body>
     <div class="page-header">
@@ -118,6 +121,7 @@ LOGIN_REDIRECT_URL = '/'
 ```
 
 然后修改blog/templates/blog/post_detail.html如下：
+
 ```html
 @% extends 'blog/base.html' %@
 
@@ -139,11 +143,13 @@ LOGIN_REDIRECT_URL = '/'
     <p>@@ post.text|linebreaks @@</p>
 @% endblock %@
 ```
+
 ## 用户注销
 
 当用户登录后显示欢迎语句，Hello ，然后后面跟一个logout链接。还是依靠django帮我们处理logout动作。
 
 修改mysite/templates/mysite/base.html文件如下：
+
 ```html
 <div class="page-header">
     @% if user.is_authenticated %@
@@ -156,11 +162,13 @@ LOGIN_REDIRECT_URL = '/'
     <h1><a href="@% url 'blog.views.post_list' %@">Django Girls</a></h1>
 </div>
 ```
+
 很显然这时候logout肯定会报错。我们还得做些事情。
 
 对于这方面的详细文档请参考：<https://docs.djangoproject.com/en/1.9/topics/auth/default/>
 
 打开mysite/urls.py文件，添加一个logout配置：
+
 ```python
 from django.conf.urls import patterns, include, url
 
@@ -176,6 +184,7 @@ urlpatterns = patterns('',
 ```
 
 如果访问网站时出现模板找不到错误，那么你就在`mysite/settings.py`中添加如下配置：
+
 ```python
 # TEMPLATE_DIRS
 TEMPLATE_DIRS = (

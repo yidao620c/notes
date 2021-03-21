@@ -2,8 +2,7 @@
 
 JMH，即Java Microbenchmark Harness，这是专门用于进行代码的微基准测试的一套工具API。
 
-JMH 由 OpenJDK/Oracle 里面那群开发了 Java 编译器的大牛们所开发 。何谓 Micro Benchmark 呢？
-简单地说就是在 method 层面上的 benchmark，精度可以精确到微秒级。
+JMH 由 OpenJDK/Oracle 里面那群开发了 Java 编译器的大牛们所开发 。何谓 Micro Benchmark 呢？ 简单地说就是在 method 层面上的 benchmark，精度可以精确到微秒级。
 
 Java的基准测试需要注意的几个点：
 
@@ -19,8 +18,8 @@ Java的基准测试需要注意的几个点：
 1. 一个函数有两种不同实现（例如JSON序列化/反序列化有Jackson和Gson实现），不知道哪种实现性能更好
 
 尽管 JMH 是一个相当不错的 Micro Benchmark Framework，但很无奈的是网上能够找到的文档比较少，而官方也没有提供比较详细的文档，对使用造成了一定的障碍。
-但是有个好消息是官方的 [Code Sample](http://hg.openjdk.java.net/code-tools/jmh/file/tip/jmh-samples/src/main/java/org/openjdk/jmh/samples/) 写得非常浅显易懂，
-推荐在需要详细了解 JMH 的用法时可以通读一遍——本文则会介绍 JMH 最典型的用法和部分常用选项。
+但是有个好消息是官方的 [Code Sample](http://hg.openjdk.java.net/code-tools/jmh/file/tip/jmh-samples/src/main/java/org/openjdk/jmh/samples/)
+写得非常浅显易懂， 推荐在需要详细了解 JMH 的用法时可以通读一遍——本文则会介绍 JMH 最典型的用法和部分常用选项。
 
 ## 第一个例子
 
@@ -90,11 +89,9 @@ public class StringBuilderBenchmark {
 
 这个代码里面有好多注解，你第一次见可能不知道什么意思。先不用管，我待会一一介绍。
 
-我们来运行这个测试，运行JMH基准测试有多种方式，一个是生成jar文件执行，
-一个是直接写main函数或写单元测试执行。
+我们来运行这个测试，运行JMH基准测试有多种方式，一个是生成jar文件执行， 一个是直接写main函数或写单元测试执行。
 
-一般对于大型的测试，需要测试时间比较久，线程比较多的话，就需要去写好了丢到linux程序里执行，
-不然本机执行很久时间什么都干不了了。
+一般对于大型的测试，需要测试时间比较久，线程比较多的话，就需要去写好了丢到linux程序里执行， 不然本机执行很久时间什么都干不了了。
 
 ```bash
 mvn clean package
@@ -103,8 +100,7 @@ java -jar target/benchmarks.jar
 
 先编译打包之后，然后执行就可以了。当然在执行的时候可以输入-h参数来看帮助。
 
-另外如果对于一些小的测试，比如我写的上面这个小例子，在IDE里面就可以完成了，丢到linux上去太麻烦。
-这时候可以在里面添加一个main函数如下：
+另外如果对于一些小的测试，比如我写的上面这个小例子，在IDE里面就可以完成了，丢到linux上去太麻烦。 这时候可以在里面添加一个main函数如下：
 
 ```java
 public static void main(String[] args) throws RunnerException {
@@ -233,8 +229,7 @@ StringBuilderBenchmark.testStringBuilderAdd  thrpt   20  25687.875 ± 1167.955  
 
 仔细看，三大部分，第一部分是字符串用加号连接执行的结果，第二部分是StringBuilder执行的结果，第三部分就是两个的简单结果比较。这里注意我们forks传的2，所以每个测试有两个fork结果。
 
-前两部分是一样的，简单说下。首先会写出每部分的一些参数设置，然后是预热迭代执行（Warmup Iteration），
-然后是正常的迭代执行（Iteration），最后是结果（Result）。这些看看就好，我们最关注的就是第三部分，
+前两部分是一样的，简单说下。首先会写出每部分的一些参数设置，然后是预热迭代执行（Warmup Iteration）， 然后是正常的迭代执行（Iteration），最后是结果（Result）。这些看看就好，我们最关注的就是第三部分，
 其实也就是最终的结论。千万别看歪了，他输出的也确实很不爽，error那列其实没有内容，score的结果是xxx ± xxx，单位是每毫秒多少个操作。可以看到，StringBuilder的速度还确实是要比String进行文字叠加的效率好太多。
 
 ## 注解介绍
@@ -253,8 +248,7 @@ StringBuilderBenchmark.testStringBuilderAdd  thrpt   20  25687.875 ± 1167.955  
 
 ### @Warmup
 
-上面我们提到了，进行基准测试前需要进行预热。一般我们前几次进行程序测试的时候都会比较慢，
-所以要让程序进行几轮预热，保证测试的准确性。其中的参数iterations也就非常好理解了，就是预热轮数。
+上面我们提到了，进行基准测试前需要进行预热。一般我们前几次进行程序测试的时候都会比较慢， 所以要让程序进行几轮预热，保证测试的准确性。其中的参数iterations也就非常好理解了，就是预热轮数。
 
 为什么需要预热？因为 JVM 的 JIT 机制的存在，如果某个函数被调用多次之后，JVM 会尝试将其编译成为机器码从而提高执行速度。所以为了让 benchmark 的结果更加接近真实情况就需要进行预热。
 
@@ -300,14 +294,15 @@ StringBuilderBenchmark.testStringBuilderAdd  thrpt   20  25687.875 ± 1167.955  
 
 当使用@Setup参数的时候，必须在类上加这个参数，不然会提示无法运行。
 
-State 用于声明某个类是一个"状态"，然后接受一个 Scope 参数用来表示该状态的共享范围。
-因为很多 benchmark 会需要一些表示状态的类，JMH 允许你把这些类以依赖注入的方式注入到 benchmark 函数里。Scope 主要分为三种。
+State 用于声明某个类是一个"状态"，然后接受一个 Scope 参数用来表示该状态的共享范围。 因为很多 benchmark 会需要一些表示状态的类，JMH 允许你把这些类以依赖注入的方式注入到 benchmark 函数里。Scope
+主要分为三种。
 
 1. Thread: 该状态为每个线程独享。
 1. Group: 该状态为同一个组里面所有线程共享。
 1. Benchmark: 该状态在所有线程间共享。
 
-关于State的用法，官方的 code sample 里有比较好的[例子](http://hg.openjdk.java.net/code-tools/jmh/file/cb9aa824b55a/jmh-samples/src/main/java/org/openjdk/jmh/samples/JMHSample_03_States.java)。
+关于State的用法，官方的 code sample
+里有比较好的[例子](http://hg.openjdk.java.net/code-tools/jmh/file/cb9aa824b55a/jmh-samples/src/main/java/org/openjdk/jmh/samples/JMHSample_03_States.java)。
 
 ## 第二个例子
 
@@ -403,8 +398,7 @@ public class SecondBenchmark {
 }
 ```
 
-我在自己的笔记本电脑上跑下来的结果，总数在10000时并行算法不如串行算法，
-总数达到100000时并行算法开始和串行算法接近，总数达到1000000时并行算法所耗时间约是串行算法的一半左右。
+我在自己的笔记本电脑上跑下来的结果，总数在10000时并行算法不如串行算法， 总数达到100000时并行算法开始和串行算法接近，总数达到1000000时并行算法所耗时间约是串行算法的一半左右。
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/jmh01.png)
 

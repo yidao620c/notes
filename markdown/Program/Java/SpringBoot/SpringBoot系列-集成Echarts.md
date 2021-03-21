@@ -5,8 +5,7 @@ Echarts是百度一款开源可视化图表库，基于html5 Canvas的。能够�
 有时候在Java程序中也需要导出好看的图表，比如我经常会基于JMH做各种微基准测试，想将测试结果可视化导出为图表形式。
 试用了一下JFreeChart，跟Echarts导出的图比起来还是弱了不少。但是Echarts是基于js的，只能在浏览器中解析和导出图片，怎么办呢？
 
-后来我想到一个方法，就是基于WebSocket技术，服务器将图表数据推送到页面，然后页面再触发导出动作。
-本篇将介绍如何通过SpringBoot、SocketIO、Echarts技术来实现这个图表导出功能。
+后来我想到一个方法，就是基于WebSocket技术，服务器将图表数据推送到页面，然后页面再触发导出动作。 本篇将介绍如何通过SpringBoot、SocketIO、Echarts技术来实现这个图表导出功能。
 
 大致步骤是这样的：
 
@@ -16,8 +15,7 @@ Echarts是百度一款开源可视化图表库，基于html5 Canvas的。能够�
 1. 打开页面，自动连接上websocket服务器，并监听`导出图片`的消息请求，收到消息后发送`Echarts图片导出`消息
 1. 后面就可以调用这个RESTful API接口来讲数据可视化为Echarts图片并保存了。
 
-我曾经尝试过，Java程序通过phantomjs启动浏览器打开页面，最后导出来的图片有1.5M，而直接用浏览器打开后导出大小只有50K，
-所以放弃了phantomjs方案。
+我曾经尝试过，Java程序通过phantomjs启动浏览器打开页面，最后导出来的图片有1.5M，而直接用浏览器打开后导出大小只有50K， 所以放弃了phantomjs方案。
 
 ## maven依赖
 
@@ -242,8 +240,7 @@ public void pushMsg(String msgType, String jsonData) {
 
 ## 页面客户端
 
-接下来编写js客户端来连接WebSocket服务，并监听`notify`的消息，在页面上生成Echarts图表后，
-再给服务器发送一个`savePic`的消息，并把图表的Base64编码数据传过去。
+接下来编写js客户端来连接WebSocket服务，并监听`notify`的消息，在页面上生成Echarts图表后， 再给服务器发送一个`savePic`的消息，并把图表的Base64编码数据传过去。
 
 ```html
 <!DOCTYPE html>

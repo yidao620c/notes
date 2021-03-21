@@ -25,8 +25,7 @@ Authentication指的是确定这个用户的身份，Authorization是确定该�
 
 ## SpringBoot集成JWT
 
-简要的说明下我们为什么要用JWT，因为我们要实现完全的前后端分离，所以不可能使用session，cookie的方式进行鉴权，
-所以JWT就被派上了用场，可以通过一个加密密钥来进行前后端的鉴权。
+简要的说明下我们为什么要用JWT，因为我们要实现完全的前后端分离，所以不可能使用session，cookie的方式进行鉴权， 所以JWT就被派上了用场，可以通过一个加密密钥来进行前后端的鉴权。
 
 程序逻辑:
 
@@ -105,6 +104,7 @@ public ManagerInfo findByUsername(String username) {
 ```
 
 用户信息类：
+
 ```java
 public class ManagerInfo implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -132,8 +132,7 @@ public class ManagerInfo implements Serializable {
 
 ### JWT工具类
 
-我们写一个简单的JWT加密，校验工具，并且使用用户自己的密码充当加密密钥，
-这样保证了token 即使被他人截获也无法破解。并且我们在token中附带了username信息，并且设置密钥5分钟就会过期。
+我们写一个简单的JWT加密，校验工具，并且使用用户自己的密码充当加密密钥， 这样保证了token 即使被他人截获也无法破解。并且我们在token中附带了username信息，并且设置密钥5分钟就会过期。
 
 ```java
 public class JWTUtil {
@@ -355,14 +354,12 @@ public class ExceptionController {
 
 ### 配置Shiro
 
-大家可以先看下官方的 [Spring-Shiro](http://shiro.apache.org/spring.html) 整合教程，有个初步的了解。
-不过既然我们用了SpringBoot，那我们肯定要争取零配置文件。
+大家可以先看下官方的 [Spring-Shiro](http://shiro.apache.org/spring.html) 整合教程，有个初步的了解。 不过既然我们用了SpringBoot，那我们肯定要争取零配置文件。
 
 *实现JWTToken*
 
 JWTToken差不多就是Shiro用户名密码的载体。因为我们是前后端分离，服务器无需保存用户状态，所以不需要RememberMe这类功能，
-我们简单的实现下AuthenticationToken接口即可。因为token自己已经包含了用户名等信息，所以这里我就弄了一个字段。
-如果你喜欢钻研，可以看看官方的UsernamePasswordToken是如何实现的。
+我们简单的实现下AuthenticationToken接口即可。因为token自己已经包含了用户名等信息，所以这里我就弄了一个字段。 如果你喜欢钻研，可以看看官方的UsernamePasswordToken是如何实现的。
 
 ```java
 public class JWTToken implements AuthenticationToken {
@@ -499,8 +496,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 
 *重写Filter*
 
-所有的请求都会先经过Filter，所以我们继承官方的`BasicHttpAuthenticationFilter`，并且重写鉴权的方法，
-另外通过重写preHandle，实现跨越访问。
+所有的请求都会先经过Filter，所以我们继承官方的`BasicHttpAuthenticationFilter`，并且重写鉴权的方法， 另外通过重写preHandle，实现跨越访问。
 
 代码的执行流程`preHandle->isAccessAllowed->isLoginAttempt->executeLogin`
 
@@ -706,7 +702,6 @@ public class ShiroConfig {
 如果使用普通用户登录，认证正确但是授权访问接口失败，会返回如下的未授权结果：
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/jwt24.png)
-
 
 ## 参考文章
 

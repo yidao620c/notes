@@ -1,11 +1,9 @@
 # K8S教程02-安装Docker私有仓库Harbor
 
 Harbor是VMware公司开源的企业级公司开源的企业级DockerRegistry项目， 项目地址为<https://github.com/vmware/harbor>。
-其目标是帮助用户迅速搭建一个企业级的Docker镜像服务。它以Docker公司开源的registry为基础，提供了管理UI，
-基于角色的访问控制(Role Based Access Control)，LDAP集成、审计日志、管理界面、自我注册、
-镜像复制等企业用户需求的功能，同时还原生支持中文。Harbor的每个组件都是以Docker容器的形式构建，
-使用Docker Compose来对它进行部署。用于部署Harbor的Compose模板位于`/Deployer/docker-compose.yml`，
-由5个容器组成，这几个容器通过Docker link的形式连接在一起，在容器之间通过容器名字互相访问。
+其目标是帮助用户迅速搭建一个企业级的Docker镜像服务。它以Docker公司开源的registry为基础，提供了管理UI， 基于角色的访问控制(Role Based Access Control)
+，LDAP集成、审计日志、管理界面、自我注册、 镜像复制等企业用户需求的功能，同时还原生支持中文。Harbor的每个组件都是以Docker容器的形式构建， 使用Docker
+Compose来对它进行部署。用于部署Harbor的Compose模板位于`/Deployer/docker-compose.yml`， 由5个容器组成，这几个容器通过Docker link的形式连接在一起，在容器之间通过容器名字互相访问。
 对终端用户而言，只需要暴露 Proxy（即Nginx）的服务端口。
 
 * Proxy：由Nginx 服务器构成的反向代理。
@@ -17,17 +15,20 @@ Harbor是VMware公司开源的企业级公司开源的企业级DockerRegistry项
 Harbor官方地址：https://goharbor.io/
 
 ## 下载Harbor
+
 前提是已安装Python、Docker和Docker Compose。安装官方最新版本即可。
 
-从官网上面下载最新的离线安装包，目前最新的是`harbor-offline-installer-v2.1.3.tgz`。从github上面下载下来。
-如果还想校验文件完整性，可以下载`*.asc`文件。然后执行如下校验命令
+从官网上面下载最新的离线安装包，目前最新的是`harbor-offline-installer-v2.1.3.tgz`。从github上面下载下来。 如果还想校验文件完整性，可以下载`*.asc`文件。然后执行如下校验命令
+
 ```bash
 gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys 644FF454C0B4115C
 gpg -v --verify harbor-offline-installer-v2.1.3.tgz.asc
 ```
 
 ## 配置证书
+
 生产环境最好使用HTTPS协议访问Harbor，因此需要有证书。这里说明通过openssl命令生成自签名证书。
+
 ```bash
 # 定义变量
 domain="xnharbor.com"
@@ -73,6 +74,7 @@ systemctl restart docker
 ```
 
 ## 修改配置文件harbor.yml
+
 解压后的安装目录有个配置模板文件`harbor.yml.tmpl`，将其复制一份为`harbor.yml`，下面说明一下必须参数。
 
 > hostname: 主机名或IP地址。这是访问Harbor的地址
@@ -88,7 +90,9 @@ systemctl restart docker
 > data_volume: 数据存储卷。默认为/data/
 
 ## 执行安装
+
 配置好了之后，直接执行`./install.sh`即可。看到下面的输出就是成功了
+
 ```
 Successfully called func: create_root_cert
 Generated configuration file: /compose_location/docker-compose.yml
@@ -110,18 +114,22 @@ Creating harbor-jobservice ... done
 ```
 
 ## 验证
+
 本地配置好hosts域名映射后，通过浏览器访问域名<https://xnharbor.com/>即可。输入管理员账号口令登录。
 ![img.png](images/img-20210208001801.png)
 
 还需要验证一下上传下载镜像的基本功能。首先创建一个test的项目。
 
 首先指定镜像仓库地址
+
 ```json
 {
     "registry-mirrors": ["https://30y4mr57.mirror.aliyuncs.com", "https://xnharbor.com"]
 }
 ```
+
 拉取一个hello-world镜像，再推到私有仓库中。
+
 ```bash
 docker pull hello-world
 docker tag hello-world xnharbor.com/test/hello-world:0.0.1

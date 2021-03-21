@@ -1,9 +1,7 @@
 # XPath入门笔记
 
-XPath即为XML路径语言（XML Path Language），它是一种用来确定XML文档中某部分位置的语言。
-XPath基于XML的树状结构，提供在数据结构树中找寻节点的能力。
-起初XPath的提出的初衷是将其作为一个通用的、介于XPointer与XSL间的语法模型。
-但是XPath很快的被开发者采用来当作小型查询语言。
+XPath即为XML路径语言（XML Path Language），它是一种用来确定XML文档中某部分位置的语言。 XPath基于XML的树状结构，提供在数据结构树中找寻节点的能力。
+起初XPath的提出的初衷是将其作为一个通用的、介于XPointer与XSL间的语法模型。 但是XPath很快的被开发者采用来当作小型查询语言。
 
 W3C网址： <http://www.w3schools.com/XPath/>
 <!-- more -->
@@ -12,8 +10,7 @@ W3C网址： <http://www.w3schools.com/XPath/>
 
 最常见的XPath表达式是路径表达式（XPath这一名称的另一来源）。
 
-路径表达式是从一个XML节点（当前的上下文节点）到另一个节点、或一组节点的书面步骤顺序。
-这些步骤以"／"字符分开，每一步有三个构成成分：
+路径表达式是从一个XML节点（当前的上下文节点）到另一个节点、或一组节点的书面步骤顺序。 这些步骤以"／"字符分开，每一步有三个构成成分：
 
 ### 轴描述
 
@@ -21,43 +18,45 @@ W3C网址： <http://www.w3schools.com/XPath/>
 
 节点描述（用于筛选节点的属性和子节点特征）
 
-一般情况下，我们使用简写后的语法。虽然完整的轴描述是一种更加贴近人类语言，
-利用自然语言的单词和语法来书写的描述方式，但是相比之下也更加罗嗦。
+一般情况下，我们使用简写后的语法。虽然完整的轴描述是一种更加贴近人类语言， 利用自然语言的单词和语法来书写的描述方式，但是相比之下也更加罗嗦。
 
 ### 三种表示法
 
 1. 最简单的XPath如下：
+
 ```
 /A/B/C
 ```
 
-在这里选择所有符合规矩的C节点：C节点必须是B的子节点（B/C），
-同时B节点必须是A的子节点（A/B），而A是这个XML文档的根节点（/A）。
-此时的这种描述法类似于磁盘中文件的路径（URI），从盘符开始顺着一级一级的目录最终找到文件。
+在这里选择所有符合规矩的C节点：C节点必须是B的子节点（B/C）， 同时B节点必须是A的子节点（A/B），而A是这个XML文档的根节点（/A）。 此时的这种描述法类似于磁盘中文件的路径（URI），从盘符开始顺着一级一级的目录最终找到文件。
 
 2. 这里还有一个复杂一些的例子，包含了全部构成成分（请详细的看）：
+
 ```
 A//B/*[1]
 ```
-此时选择的元素是：在B节点下的第一个节点（B/*[1]），不论节点的名称如何（*）；
-而B节点必须出现在A节点内，不论和A节点之间相隔几层节点（//B）；
-与此同时A节点还必须是当前节点的子节点（A，前边没有/）。
+
+此时选择的元素是：在B节点下的第一个节点（B/*[1]），不论节点的名称如何（*）； 而B节点必须出现在A节点内，不论和A节点之间相隔几层节点（//B）； 与此同时A节点还必须是当前节点的子节点（A，前边没有/）。
 
 3. 最后一个常用的例子，在所有节点下查找：
+
 ```
 //A/B/C/*[2]
 ```
 
 ### 轴语法
+
 在未缩写语法里，两个上述范例可以写为：
+
 ```
 /child::A/child::B/child::C
 child::A/descendant-or-self::B/child::node()[1]
 ```
-在XPath的每个步骤里，通过完整的轴描述（例如：child或descendant-or-self）进行明确的指定，
-然后使用::，它的后面跟着节点测试的内容，例如上面范例所示的A以及node()。
+
+在XPath的每个步骤里，通过完整的轴描述（例如：child或descendant-or-self）进行明确的指定， 然后使用::，它的后面跟着节点测试的内容，例如上面范例所示的A以及node()。
 
 ### XPath轴
+
 轴可定义相对于当前节点的节点集。
 <table class="goodtable">
     <tr><td>ancestor</td><td>选取当前节点的所有先辈（父、祖父等）。</td></tr>
@@ -89,6 +88,7 @@ child::A/descendant-or-self::B/child::node()[1]
 </table>
 
 ### XPath 运算符
+
 下面列出了可用在 XPath 表达式中的运算符：
 <table class="goodtable">
     <tr><td>|</td><td>计算两个节点集</td><td>//book | //cd</td><td>返回所有拥有 book 和 cd 元素的节点集</td></tr>
@@ -118,7 +118,6 @@ fn:ceiling(num)        |返回大于 num 参数的最小整数。例子：ceilin
 fn:floor(num)          |返回不大于 num 参数的最大整数。例子：floor(3.14)  结果：3
 fn:round(num)          |把 num 参数舍入为最接近的整数。例子：round(3.14)  结果：3
 
-
 有关字符串的函数
 
 函数                                    |说明
@@ -137,7 +136,6 @@ fn:ends-with(string1,string2)          |如果 string1 以 string2 结尾，则�
 fn:substring-before(string1,string2)   |返回 string2 在 string1 中出现之前的子字符串。例子：substring-before(’12/10′,’/’) 结果：’12’
 fn:substring-after(string1,string2)    |返回 string2 在 string1 中出现之后的子字符串。例子：substring-after(’12/10′,’/’) 结果：’10’
 fn:matches(string,pattern)             |如果 string 参数匹配指定的模式，则返回 true，否则返回 false。例子：matches("Merano", "ran") 结果：true
-
 
 更多函数请参考： <http://www.w3school.com.cn/xpath/xpath_functions.asp>
 
@@ -161,6 +159,7 @@ fn:matches(string,pattern)             |如果 string 参数匹配指定的模�
 看完前面部分，这些的含义应该很容易可以看懂了。恭喜你，基本的XPath已经没问题了！
 
 ### chrome插件PsychoXPath
+
 最后我还推荐一个chrome浏览器中很好用的xpath插件，名字叫PsychoXPath。
 
 插件地址：[PsychoXPath](https://chrome.google.com/webstore/detail/psychoxpath/bpnigkcdmnofjkmojlopmelmhgpbndog)

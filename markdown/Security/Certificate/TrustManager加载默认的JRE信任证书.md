@@ -2,9 +2,9 @@
 
 <https://stackoverflow.com/questions/24555890/using-a-custom-truststore-in-java-as-well-as-the-default-one>
 
-Essentially, get hold of the default trust manager, create a second trust manager that 
-uses your own trust store. Wrap them both in a custom trust manager implementation that 
-delegates call to both (falling back on the other when one fails).
+Essentially, get hold of the default trust manager, create a second trust manager that uses your own trust store. Wrap
+them both in a custom trust manager implementation that delegates call to both (falling back on the other when one
+fails).
 
 ```java
 TrustManagerFactory tmf = TrustManagerFactory
@@ -83,19 +83,16 @@ sslContext.init(null, new TrustManager[] { customTm }, null);
 SSLContext.setDefault(sslContext);
 ```
 
-You don't have to set that context as the default context. How you use it depends on 
-the client library you're using (and where it gets its socket factories from).
+You don't have to set that context as the default context. How you use it depends on the client library you're using (
+and where it gets its socket factories from).
 
-This being said, in principle, you'd always have to update the truststore as 
-required anyway. The Java 7 JSSE Reference Guide had an "important note" about this, 
-now downgraded to just a "note" in version 8 of the same guide:
+This being said, in principle, you'd always have to update the truststore as required anyway. The Java 7 JSSE Reference
+Guide had an "important note" about this, now downgraded to just a "note" in version 8 of the same guide:
 
-The JDK ships with a limited number of trusted root certificates in the 
-`java-home/lib/security/cacerts` file. As documented in keytool reference pages, 
-it is your responsibility to maintain (that is, add and remove) the certificates 
-contained in this file if you use this file as a truststore.
+The JDK ships with a limited number of trusted root certificates in the
+`java-home/lib/security/cacerts` file. As documented in keytool reference pages, it is your responsibility to maintain (
+that is, add and remove) the certificates contained in this file if you use this file as a truststore.
 
-Depending on the certificate configuration of the servers that you contact, 
-you may need to add additional root certificates. Obtain the needed specific root 
-certificates from the appropriate vendor.
+Depending on the certificate configuration of the servers that you contact, you may need to add additional root
+certificates. Obtain the needed specific root certificates from the appropriate vendor.
 

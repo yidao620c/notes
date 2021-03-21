@@ -1,11 +1,11 @@
 # Django1.9开发博客05-页面美化
 
-css是一种用来描述某种标记语言写的web站点的样式语言。这里我们并不想展开讨论，
-关于CSS我在这里推荐一个很不错的资源： [Codeacademy HTML & CSS course][]
+css是一种用来描述某种标记语言写的web站点的样式语言。这里我们并不想展开讨论， 关于CSS我在这里推荐一个很不错的资源： [Codeacademy HTML & CSS course][]
 
 不想从头开始写，因为我们有现成的css框架，没必要重复造轮子。
 
 ### 使用Bootstrap
+
 目前最流行的css框架非bootstrap莫属了，官网地址：<http://getbootstrap.com/>
 
 只需要在你的html模板页面的开始部分添加下面几句就行了
@@ -25,12 +25,15 @@ css是一种用来描述某种标记语言写的web站点的样式语言。这�
 是不是感觉变美观了。^_^
 
 ### django静态文件
+
 这里我还将讲解下django中的静态文件。静态文件就是css、js、图片、视频等等那些内容不会改变的文件，不管任何时候，对于任何用户都是一样的。
 
 css就是一种静态文件，为了自定义css，我们必须先再django中配置，你只需要配置一次就可以了。那让我们马上开始吧！
 
 ### django中配置静态文件
+
 首先我们需要创建一个目录来存储静态文件，在manage.py的同级目录中创建一个static文件夹
+
 ```
 mysite
 ├─── static
@@ -44,10 +47,13 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 ```
+
 它告知django应该在哪个位置去查找静态文件。
 
 ### 第一个CSS文件
+
 现在我们开始创建自己的css文件了，首先在static目录中新建一个css目录，然后在里面创建一个blog.css文件。目录结构如下
+
 ```
 static
 └─── css
@@ -61,19 +67,23 @@ h1 a {
     color: #FCA205;
 }
 ```
+
 h1 a是CSS选择器，上面的意思是在h1标签下的链接a的文字颜色会是#FCA205，其实就是橘黄色，颜色都是用十六进制表示的。
 
 接下来我们要让模板加载静态css文件，打开blog/templates/blog/post_list.html，在最开始部分加入：
+
 ```
 @% load staticfiles %@
 ```
 
 然后在bootstrap引用的后面添加下面这句
+
 ```html
 <link rel="stylesheet" href="@% static 'css/blog.css' %@">
 ```
 
 最后，整个模板文件类似这样：
+
 ```html
 @% load staticfiles %@
 <html>
@@ -111,6 +121,7 @@ body {
     padding-left: 15px;
 }
 ```
+
 刷新页面后效果：
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/dj013.jpg)
@@ -120,6 +131,7 @@ body {
 ```html
 <link href="http://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
 ```
+
 这句会引入Google的一个字体Lobster，然后修改blog.css中的h1 a的样式如下：
 
 ```css
@@ -128,11 +140,13 @@ h1 a {
     font-family: 'Lobster';
 }
 ```
+
 刷新后的效果：
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/dj014.jpg)
 
 ### CSS中的class
+
 在CSS中有一个class的概念，它可以让你只改变HTML中某一部分的样式而不会影响到其他部分。
 
 这里我们将区别标题头和文章本身的样式。
@@ -144,7 +158,9 @@ h1 a {
     <h1><a href="/">Django Girls Blog</a></h1>
 </div>
 ```
+
 文章列表段修改如下：
+
 ```html
 <div class="content">
     <div class="row">
@@ -162,6 +178,7 @@ h1 a {
 ```
 
 blog.css样式修改如下：
+
 ```css
 .page-header {
     background-color: #ff9400;
@@ -202,6 +219,7 @@ h1, h2, h3, h4 {
     color: #000000;
 }
 ```
+
 保存这些文件后，刷新页面，看看，是不是很酷了：
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/dj015.jpg)

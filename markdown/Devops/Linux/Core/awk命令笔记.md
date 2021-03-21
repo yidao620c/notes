@@ -1,15 +1,14 @@
 # awk命令笔记
 
-awk是一种样式扫描与处理工具。但其功能却大大强于sed和grep。awk提供了极其强大的功能，它几乎可以完成grep和sed所能完成的全部工作，
-同时，它还可以可以进行样式装入、流控制、数学运算符、进程控制语句甚至于内置的变量和函数。
-它具备了一个完整的语言所应具有的几乎所有精美特性。实际上，awk的确拥有自己的语言：样式扫描和处理语言。
-它允许您创建简短的程序，这些程序读取输入文件、为数据排序、处理数据、对输入执行计算以及生成报表，还有无数其他的功能。
+awk是一种样式扫描与处理工具。但其功能却大大强于sed和grep。awk提供了极其强大的功能，它几乎可以完成grep和sed所能完成的全部工作， 同时，它还可以可以进行样式装入、流控制、数学运算符、进程控制语句甚至于内置的变量和函数。
+它具备了一个完整的语言所应具有的几乎所有精美特性。实际上，awk的确拥有自己的语言：样式扫描和处理语言。 它允许您创建简短的程序，这些程序读取输入文件、为数据排序、处理数据、对输入执行计算以及生成报表，还有无数其他的功能。
 
 简单来说awk就是把文件逐行的读入，以空格为默认分隔符将每行切片，切开的部分再进行各种分析处理。
 
 ## 基本用法
 
 从`netstat -tnlp > netstat.txt`命令中提取了如下信息作为用例：
+
 ```
 Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
 tcp        0      0 0.0.0.0:8778            0.0.0.0:*               LISTEN      2689/python
@@ -35,11 +34,13 @@ tcp6       0      0 :::445                  :::*                    LISTEN      
 ```
 
 下面是最简单最常用的awk示例，比如要想输出第1列和第4列：
+
 ```bash
 $ awk '{print $1, $4}' netstat.txt
 ```
 
 我们再来看看awk的格式化输出，和C语言的printf没什么两样：
+
 ```bash
 $ awk '{printf "%-6s %-6s %-6s %-22s %-16s %-12s\n",$1,$2,$3,$4,$5,$6}' netstat.txt
 Proto  Recv-Q Send-Q Local                  Address          Foreign
@@ -53,6 +54,7 @@ tcp    0      0      0.0.0.0:4369           0.0.0.0:*        LISTEN
 ```
 
 ## 内置变量
+
 awk经常会使用到一些内置变量，下面是它们的含义：
 
 内置变量       | 含义
@@ -69,6 +71,7 @@ ORS           | 输出的记录分隔符，默认为换行符
 FILENAME      | 当前输入文件的名字
 
 ## 过滤记录
+
 如何过滤记录（下面过滤条件为：第三列的值为0 && 第7列包含字符串'python'）
 
 ```bash
@@ -83,6 +86,7 @@ tcp        0      0 127.0.0.1:58205         0.0.0.0:*    LISTEN      23681/pytho
 还有"~"表示正则匹配，这个就相当强大了。
 
 如果我们需要表头的话，我们可以引入内建变量NR：
+
 ```bash
 $ awk '$3==0 && $6=="LISTEN" || NR==1 ' netstat.txt
 Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
@@ -98,6 +102,7 @@ tcp        0      0 127.0.0.1:58205         0.0.0.0:*               LISTEN      
 ```
 
 再加上格式化输出：
+
 ```bash
 $ awk '$3==0 && $6=="LISTEN" || NR==1 {printf "%-20s %-20s %s\n",$4,$5,$6}' netstat.txt
 Local                Address              Foreign
@@ -112,6 +117,7 @@ Local                Address              Foreign
 ```
 
 ## 指定分隔符
+
 ```bash
 $ awk 'BEGIN{FS=":"} {print $1,$3,$6}' /etc/passwd
 root 0 /root
@@ -127,16 +133,19 @@ mail 8 /var/spool/mail
 ```
 
 上面的命令也等价于：（-F的意思就是指定分隔符）
+
 ```bash
 $ awk -F: '{print $1,$3,$6}' /etc/passwd
 ```
 
 注：如果你要指定多个分隔符，你可以这样来：
+
 ```bash
 awk -F '[;:]'
 ```
 
 再来看一个以\t作为分隔符输出的例子（下面使用了/etc/passwd文件，这个文件是以:分隔的）：
+
 ```bash
 $ awk -F: '{print $1,$3,$6}' OFS="\t" /etc/passwd
 root    0    /root
@@ -148,6 +157,7 @@ sync    5    /sbin
 ```
 
 ## 字符串匹配
+
 ```bash
 $ awk '$7 ~ /python/ || NR==1 {print NR,$4,$5,$6}' OFS="\t" netstat.txt
 1	Local	Address	Foreign
@@ -159,6 +169,7 @@ $ awk '$7 ~ /python/ || NR==1 {print NR,$4,$5,$6}' OFS="\t" netstat.txt
 上面示例第7列匹配"python"字符串，其实 ~ 表示模式开始。/ /中是模式，这就是一个正则表达式的匹配。
 
 其实awk可以像grep一样的去匹配一整行，就像这样：
+
 ```bash
 $ awk '/python/' netstat.txt
 tcp   0      0 0.0.0.0:8778     0.0.0.0:*     LISTEN      2689/python
@@ -167,12 +178,15 @@ tcp   0      0 127.0.0.1:58205  0.0.0.0:*     LISTEN      23681/python2
 ```
 
 再来看看模式取反的例子:
+
 ```bash
 awk '!/python/' netstat.txt
 ```
 
 ## 统计
+
 下面的命令计算所有的.py文件和.txt文件大小总和:
+
 ```bash
 $ ls -l *.py *.txt | awk '{sum+=$5} END {print sum}'
 3369

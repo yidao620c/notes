@@ -1,10 +1,8 @@
 # Jenkins教程01-安装配置
 
-Jenkins是一个用Java编写的开源的持续集成工具，前身是Hudson项目。
-在与Oracle发生争执后，项目从Hudson复制过来继续发展。
+Jenkins是一个用Java编写的开源的持续集成工具，前身是Hudson项目。 在与Oracle发生争执后，项目从Hudson复制过来继续发展。
 
-Jenkins提供了软件开发的持续集成服务。它运行在Servlet容器中（例如Apache Tomcat）。
-它支持许多软件配置管理（SCM）工具，可以执行基于Apache Ant和Apache Maven的项目，
+Jenkins提供了软件开发的持续集成服务。它运行在Servlet容器中（例如Apache Tomcat）。 它支持许多软件配置管理（SCM）工具，可以执行基于Apache Ant和Apache Maven的项目，
 以及任意的Shell脚本和Windows批处理命令。Jenkins的主要开发者是川口耕介，MIT许可证。
 
 ## 安装
@@ -14,7 +12,9 @@ Jenkins提供了软件开发的持续集成服务。它运行在Servlet容器中
 Jenkins有很多中安装方式，这里在CentOS7.2系统上面，我选择通过yum的方式安装，然后使用nginx做反向代理。
 
 ### 安装JDK8
+
 先查查看系统上面是否有其他的旧版本，有的话就卸载掉：
+
 ```bash
 sudo rpm -qa | grep jdk
 jdk-1.7.0_45-fcs.x86_64
@@ -22,6 +22,7 @@ sudo rpm -e jdk-1.7.0_45
 ```
 
 下载最新的JDK8压缩包
+
 ```
 cd /opt/
 wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u121-b13/e9e7ea248e2c4826b92b3f075a80e441/jdk-8u121-linux-x64.tar.gz"
@@ -30,6 +31,7 @@ tar xzf jdk-8u121-linux-x64.tar.gz
 ```
 
 使用alternatives命令安装java
+
 ```
 cd /opt/jdk1.8.0_121/
 sudo chown -R root:root /opt/jdk1.8.0_121/
@@ -47,6 +49,7 @@ Enter to keep the current selection[+], or type selection number: 3
 ```
 
 配置javac和jar命令
+
 ```
 alternatives --install /usr/bin/jar jar /opt/jdk1.8.0_121/bin/jar 2
 alternatives --install /usr/bin/javac javac /opt/jdk1.8.0_121/bin/javac 2
@@ -55,6 +58,7 @@ alternatives --set javac /opt/jdk1.8.0_121/bin/javac
 ```
 
 检查是否安装成功:
+
 ```
 java -version
 
@@ -106,8 +110,7 @@ rm -f /var/lib/jenkins/jobs/{projectname}/modules/*
 
 ### 更改Jenkins目录
 
-有时候磁盘满了，需要将jenkins的目录迁移至新的磁盘中，比如新的磁盘挂载点为/data目录，
-我想将`/var/lib/jenkins`目录迁移至`/data/jenkins`中，最简单的办法如下：
+有时候磁盘满了，需要将jenkins的目录迁移至新的磁盘中，比如新的磁盘挂载点为/data目录， 我想将`/var/lib/jenkins`目录迁移至`/data/jenkins`中，最简单的办法如下：
 
 ```
 sudo service jenkins stop
@@ -117,6 +120,7 @@ sudo service jenkins start
 ```
 
 ### 安装GitLab
+
 我专门写过一篇文章怎样安装和使用Gitlab，请查阅 [centos7安装gitlab8.8](https://www.xncoding.com/2016/09/09/fullstack/gitlab.html)
 
 ## 配置
@@ -135,8 +139,7 @@ JENKINS_USER="root"
 
 重启服务：`/etc/init.d/jenkins restart`
 
-第一次进入jenkins需要你输入root密码，你安装引导把那个文件打开输入就是。
-然后设置root密码，安装推荐插件，耐心等待片刻即可。
+第一次进入jenkins需要你输入root密码，你安装引导把那个文件打开输入就是。 然后设置root密码，安装推荐插件，耐心等待片刻即可。
 
 界面先来一个吧，很熟悉的界面：
 
@@ -173,8 +176,7 @@ Jenkins上配置密钥到SSH：复制id_rsa里面的公钥添加到Jenkins（pri
 操作： `Manage Jenkins -> Credentials -> System -> Global credentials (unrestricted) -> Add Credentials`
 
 然后选择kind类型为`SSH username with private key`，username随便填，
-`Private Key`选择`Enter directly`，然后把你的私钥直接copy到这里来，保存即可。
-如果你生成sshkey的时候输入了密码，那么这里的Passphrase也要输入，否则留空。
+`Private Key`选择`Enter directly`，然后把你的私钥直接copy到这里来，保存即可。 如果你生成sshkey的时候输入了密码，那么这里的Passphrase也要输入，否则留空。
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/jenkins05.png)
 
@@ -183,11 +185,13 @@ Jenkins上配置密钥到SSH：复制id_rsa里面的公钥添加到Jenkins（pri
 直接参考官网教程：<https://jenkins.io/doc/pipeline/tour/hello-world/#examples>
 
 先在本地clone工程：
+
 ```
 git clone git@192.168.217.161:xiongneng/testproject.git
 ```
 
 然后添加一个文件叫`Jenkinsfile`，这里我选的是python的例子，里面内容如下：
+
 ```
 pipeline {
     agent { docker 'python:3.5.1' }
@@ -202,6 +206,7 @@ pipeline {
 ```
 
 然后提交后push上去即可：
+
 ```
 git commt -a -m "add Jenkinsfile"
 git push origin master
@@ -218,10 +223,11 @@ git push origin master
 第一次运行踩过的一些坑：
 
 1. 主机上面先安装docker，不然会报命令找不到
-2. 我使用过的tomcat来运行jenkins，这个进程是使用tomcat用户启动，执行命令也是tomcat用户，
-所以需要确保tomcat用户可使用`su - c`执行，也就是shell为`/bin/bash`而不是`/sbin/nologin`
+2. 我使用过的tomcat来运行jenkins，这个进程是使用tomcat用户启动，执行命令也是tomcat用户， 所以需要确保tomcat用户可使用`su - c`执行，也就是shell为`/bin/bash`
+   而不是`/sbin/nologin`
 3. Cannot connect to the Docker daemon. Is the docker daemon running on this host?
-先切换到tomcat用户执行`docker pull python:3.5.1`命令发现报错一样，那么看看docker进程是否启动。
+   先切换到tomcat用户执行`docker pull python:3.5.1`命令发现报错一样，那么看看docker进程是否启动。
+
 ```
 systemctl status docker
 systemctl stop docker
@@ -235,6 +241,6 @@ systemctl start docker
 说明已经在执行脚本了，那么耐心等待就行！
 
 ## 升级
-Jenkins的升级非常简单，插件升级就去插件管理里面去在线升级，如果Jenkins本身要升级就下载最新war包替换，
-修改权限拥有者重启tomcat服务即可。
+
+Jenkins的升级非常简单，插件升级就去插件管理里面去在线升级，如果Jenkins本身要升级就下载最新war包替换， 修改权限拥有者重启tomcat服务即可。
 

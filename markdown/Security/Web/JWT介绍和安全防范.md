@@ -8,6 +8,7 @@ JWT官网：<https://jwt.io/>
 <!-- more -->
 
 JWT是由三段信息构成的，将这三段信息文本用.链接一起就构成了Jwt字符串。就像这样:
+
 ```
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ
 ```
@@ -30,6 +31,7 @@ jwt的头部承载两部分信息：
 * HMAC (Hash Message Authentication Code，散列消息鉴别码，基于密钥的Hash算法的认证协议。用公开函数和密钥产生一个固定长度的值作为认证标识，用这个标识鉴别消息的完整性。常用于接口签名验证
 
 完整的头部就像下面这样的JSON：
+
 ```json
 {
   'typ': 'JWT',
@@ -38,6 +40,7 @@ jwt的头部承载两部分信息：
 ```
 
 然后将头部进行base64加密（该加密是可以对称解密的),构成了第一部分
+
 ```
 eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
 ```
@@ -69,6 +72,7 @@ eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
 私有声明是提供者和消费者所共同定义的声明，一般不建议存放敏感信息，因为base64是对称解密的，意味着该部分信息可以归类为明文信息。
 
 定义一个payload:
+
 ```json
 {
   "sub": "1234567890",
@@ -78,6 +82,7 @@ eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
 ```
 
 然后将其进行base64加密，得到Jwt的第二部分：
+
 ```
 eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9
 ```
@@ -92,8 +97,7 @@ payload (base64后的)
 secret
 ```
 
-这个部分需要base64加密后的header和base64加密后的payload使用.连接组成的字符串，
-然后通过header中声明的加密方式进行加盐secret组合加密，然后就构成了jwt的第三部分。
+这个部分需要base64加密后的header和base64加密后的payload使用.连接组成的字符串， 然后通过header中声明的加密方式进行加盐secret组合加密，然后就构成了jwt的第三部分。
 
 ```js
 // javascript
@@ -102,16 +106,18 @@ var signature = HMACSHA256(encodedString, 'secret'); // TJVA95OrM7E2cBab30RMHrHD
 ```
 
 将这三部分用.连接成一个完整的字符串,构成了最终的jwt:
+
 ```
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ
 ```
 
-注意：secret是保存在服务器端的，jwt的签发生成也是在服务器端的，secret就是用来进行jwt的签发和jwt的验证，
-所以，它就是你服务端的私钥，在任何场景都不应该流露出去。一旦客户端得知这个secret, 那就意味着客户端是可以自我签发jwt了。
+注意：secret是保存在服务器端的，jwt的签发生成也是在服务器端的，secret就是用来进行jwt的签发和jwt的验证， 所以，它就是你服务端的私钥，在任何场景都不应该流露出去。一旦客户端得知这个secret,
+那就意味着客户端是可以自我签发jwt了。
 
 ## 如何应用
 
 一般是在请求头里加入Authorization，并加上Bearer标注：
+
 ```js
 fetch('api/user/1', {
   headers: {
@@ -128,13 +134,12 @@ fetch('api/user/1', {
 
 ### 敏感信息泄露
 
-JWT中的header 和 payload 虽然看起来不可读，但实际上都只经过简单编码，
-开发者可能误将敏感信息存储在里面。使用上述工具可以方便地解码JWT中前两部分的信息。
+JWT中的header 和 payload 虽然看起来不可读，但实际上都只经过简单编码， 开发者可能误将敏感信息存储在里面。使用上述工具可以方便地解码JWT中前两部分的信息。
 
 ### 指定算法为none
 
-上面提到算法 none 是JWT规范中强制要求实现的，但有些实现JWT的库直接将使用none 算法的token视为已经过校验。
-这样攻击者就可以设置alg 为none ，使signature 部分为空，然后构造包含任意payload 的JWT来欺骗服务端。
+上面提到算法 none 是JWT规范中强制要求实现的，但有些实现JWT的库直接将使用none 算法的token视为已经过校验。 这样攻击者就可以设置alg 为none ，使signature 部分为空，然后构造包含任意payload
+的JWT来欺骗服务端。
 
 ### 将签名算法从非对称类型改为对称类型
 
@@ -142,11 +147,9 @@ JWT中的header 和 payload 虽然看起来不可读，但实际上都只经过�
 
 使用对称加密算法（主要基于HMAC，如HS256）分发JWT的过程是使用同一个密钥（secret）生成和验证JWT。
 
-如果服务端期待收到的算法类型为RS256，然后以RS256和public去验证JWT，而实际上收到的算法类型是HS256，
-那么服务端就可能尝试把public当作secret，然后用HS256算法解密验证JWT。
+如果服务端期待收到的算法类型为RS256，然后以RS256和public去验证JWT，而实际上收到的算法类型是HS256， 那么服务端就可能尝试把public当作secret，然后用HS256算法解密验证JWT。
 
 由于RS256的public人人都可获得，攻击者可以预先以public为密钥，用HS256算法伪造包含任意payload 的JWT，从而成功通过服务端的验证。
-
 
 ### 爆破密钥
 
@@ -162,25 +165,20 @@ WT的安全性依赖于密钥的保密性，任何拥有密钥的人都可以构
 
 ### 伪造密钥
 
-时JWT采用header 中的kid 字段关联校验算法的密钥，这个密钥可能是对称加密的密钥，也可能是非对称加密的公钥。
-如果能够猜测kid 和 密钥的关联性，攻击者就可能修改kid 来欺骗服务端，使其校验时使用攻击者可控的密钥，
+时JWT采用header 中的kid 字段关联校验算法的密钥，这个密钥可能是对称加密的密钥，也可能是非对称加密的公钥。 如果能够猜测kid 和 密钥的关联性，攻击者就可能修改kid 来欺骗服务端，使其校验时使用攻击者可控的密钥，
 于是攻击者就可以伪造任意内容的可通过校验的JWT。
-
 
 ## 安全建议
 
-验证函数应忽略JWT中的algo 字段，预先就明确JWT使用的算法，如果需要使用多种算法，可以在header 中使用表示"key ID" 的kid 字段，查询每个kid 对应的算法。
-JWT/JWS 标准应该移除 header 中的algo 字段。JWT的许多安全缺陷都来自于开发者依赖这一客户端可控的字段。
-开发者应升级相应库到最新版本，因为旧版本可能存在致命缺陷。
+验证函数应忽略JWT中的algo 字段，预先就明确JWT使用的算法，如果需要使用多种算法，可以在header 中使用表示"key ID" 的kid 字段，查询每个kid 对应的算法。 JWT/JWS 标准应该移除 header 中的algo
+字段。JWT的许多安全缺陷都来自于开发者依赖这一客户端可控的字段。 开发者应升级相应库到最新版本，因为旧版本可能存在致命缺陷。
 
 1. 不应该在jwt的payload部分存放敏感信息，因为该部分是客户端可解密的部分。
 1. 保护好secret私钥，该私钥非常重要。
 1. 请使用https的安全通道进行传输
-1. 验证函数应忽略JWT中的algo 字段，预先就明确JWT使用的算法，如果需要使用多种算法，
-可以在header中使用表示"key ID"的kid字段，查询每个kid对应的算法。
+1. 验证函数应忽略JWT中的algo 字段，预先就明确JWT使用的算法，如果需要使用多种算法， 可以在header中使用表示"key ID"的kid字段，查询每个kid对应的算法。
 1. JWT/JWS 标准应该移除 header 中的algo 字段。JWT的许多安全缺陷都来自于开发者依赖这一客户端可控的字段。
 1. 开发者应升级相应库到最新版本，因为旧版本可能存在致命缺陷。
-
 
 ## 参考文章
 

@@ -3,12 +3,14 @@
 fastjson对日期的序列化方式
 
 一种方法是通过注解
+
 ```java
 @JSONField (format="yyyy-MM-dd HH:mm:ss")
 public Date birthday;
 ```
 
 另一种是通过SerializeConfig：
+
 ```java
 private static SerializeConfig mapping = new SerializeConfig();
 private static String dateFormat;
@@ -19,11 +21,13 @@ static {
 ```
 
 json字符串中使用单引号：
+
 ```java
 String text = JSON.toJSONString(object, SerializerFeature.UseSingleQuotes);
 ```
 
 字段显示不同的key：
+
 ```java
 public class User {
     @JSONField(name="ID")
@@ -35,18 +39,21 @@ JSON.toJSONString(user); // {"ID":001}
 ```
 
 类的反序列化 JavaBean：
+
 ```java
 String text = ...; // {"r":255,"g":0,"b":0,"alpha":255}
 Color color = JSON.parseObject(text, Color.class);
 ```
 
 数组：
+
 ```java
 String text = ...; // [{ ... }, { ... }]
 List<User> users = JSON.parseArray(text, User.class);
 ```
 
 泛型：
+
 ```java
 String text = ...; // {"name":{"name":"ljw",age:18} }
 Map<String, User> userMap = JSON.parseObject(text, new TypeReference<Map<String, User>>() {});
@@ -89,6 +96,7 @@ public class JsonUtil {
 ### 自定义日期格式反序列化示例
 
 先自定义一个日期解析类：
+
 ```java
 public class MyDateFormatDeserializer extends DateFormatDeserializer {
 
@@ -122,6 +130,7 @@ public class MyDateFormatDeserializer extends DateFormatDeserializer {
 ```
 
 User类
+
 ```java
 public class User {
 
@@ -139,6 +148,7 @@ public class User {
 ```
 
 测试如下：
+
 ```java
 /**
  * @param args
@@ -160,7 +170,6 @@ public static void main(String[] args) throws IOException, ParseException {
 
 ### 总结
 
-对于JSONField注解，好像只对序列号的格式有影响，反序列化不管这个，不知道为什么，
-只能自己写个解析类了，不过这样就更灵活了，可以在里面写很多处理逻辑，
+对于JSONField注解，好像只对序列号的格式有影响，反序列化不管这个，不知道为什么， 只能自己写个解析类了，不过这样就更灵活了，可以在里面写很多处理逻辑，
 比如json字符串里面日期格式并不是标准格式的时候，就可以先转成标准格式再去解析了。
 

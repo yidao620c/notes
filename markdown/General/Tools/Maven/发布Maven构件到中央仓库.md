@@ -1,7 +1,6 @@
 # 发布Maven构件到中央仓库
 
-之前写过一篇如何使用Nexus私服，发布自己写的maven构件，供大家使用。但是只能在公司内部用，
-而你想全世界的人都能用到你写的东西，就需要发布到Maven中央仓库了。
+之前写过一篇如何使用Nexus私服，发布自己写的maven构件，供大家使用。但是只能在公司内部用， 而你想全世界的人都能用到你写的东西，就需要发布到Maven中央仓库了。
 
 本篇文章详细讲解如何发布Maven构件到中央仓库。
 
@@ -18,14 +17,11 @@ maven中央仓库是有一个叫做Sonatype的公司在维护的，在发布构�
 
 在填写issue信息的时候，有一些需要注意的地方：
 
-1. "group id" 就是别人在使用你的构件的时候在pom.xml里面进行定位的坐标的一部分，最好是自己的域名倒序，
-如果自己没有域名就填写github域名，比如`io.github.yidao620c`
+1. "group id" 就是别人在使用你的构件的时候在pom.xml里面进行定位的坐标的一部分，最好是自己的域名倒序， 如果自己没有域名就填写github域名，比如`io.github.yidao620c`
 2. "project url"是这个项目站点，填写你的github项目地址即可。
-3. "SCM url"这个是构件的源代码URL，一般就是可以通过`git clone`命令来下载源码的地址，
-比如我的是 `https://github.com/yidao620c/springfox-swagger-ui.git`
+3. "SCM url"这个是构件的源代码URL，一般就是可以通过`git clone`命令来下载源码的地址， 比如我的是 `https://github.com/yidao620c/springfox-swagger-ui.git`
 
-其他的就没有什么了，提交之后就等工作人员离开确认吧。有时候你填写的是自己域名的时候，工作人员会问你是不是真的是自己的域名，
-你在下面回答他就可以了。
+其他的就没有什么了，提交之后就等工作人员离开确认吧。有时候你填写的是自己域名的时候，工作人员会问你是不是真的是自己的域名， 你在下面回答他就可以了。
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/maven19.png)
 
@@ -47,13 +43,11 @@ windows用户到 <http://www.gpg4win.org/download.html> 去下载Gpg4win-Vanilla
 gpg --gen-key
 ```
 
-需要输入姓名、邮箱等字段，其它字段可使用默认值，此外，还需要输入一个 Passphase，相当于一个密钥库的密码，
-一定不要忘了，也不要告诉别人，最好记下来，因为后面会用到。
+需要输入姓名、邮箱等字段，其它字段可使用默认值，此外，还需要输入一个 Passphase，相当于一个密钥库的密码， 一定不要忘了，也不要告诉别人，最好记下来，因为后面会用到。
 
 ## 配置settings.xml
 
-找你所使用的maven的配置文件<mvn_home>/conf/settings.xml，在配置文件中找到<servers>节点，
-这个节点默认是注释了的，我们就在这个猪似的外边增加一个<servers>的配置如下：
+找你所使用的maven的配置文件<mvn_home>/conf/settings.xml，在配置文件中找到<servers>节点， 这个节点默认是注释了的，我们就在这个猪似的外边增加一个<servers>的配置如下：
 
 ```xml
 <servers>
@@ -69,13 +63,11 @@ gpg --gen-key
 
 ## 配置pom.xml
 
-接下来就是重头戏了，pom.xml是一个maven项目的重点配置，一个项目的所有配置都可以由这个文件来描述，
-文件中的所有配置都有默认值，也就是说所有的配置都是可选配置，但是为了把构件发布到中央仓库，
+接下来就是重头戏了，pom.xml是一个maven项目的重点配置，一个项目的所有配置都可以由这个文件来描述， 文件中的所有配置都有默认值，也就是说所有的配置都是可选配置，但是为了把构件发布到中央仓库，
 我们必须配置一些关键信息，否则再发布时是不会通过了。
 
-这些必须明确的信息包括：name、description、url、licenses、developers、scm等基本信息，
-此外，使用了 Maven 的 profile 功能，只有在 release 的时候，创建源码包、创建文档包、使用 GPG 进行数字签名。
-此外，snapshotRepository 与 repository 中的 id 一定要与 settings.xml 中 server 的 id 保持一致。
+这些必须明确的信息包括：name、description、url、licenses、developers、scm等基本信息， 此外，使用了 Maven 的 profile 功能，只有在 release 的时候，创建源码包、创建文档包、使用
+GPG 进行数字签名。 此外，snapshotRepository 与 repository 中的 id 一定要与 settings.xml 中 server 的 id 保持一致。
 
 下面是我的一个示例：
 
@@ -203,8 +195,7 @@ gpg --gen-key
 mvn clean deploy -P release
 ```
 
-在稍后些时候会要你输入gpg密钥库的密码，输入即可完成上传。
-当然有时候不会弹出输入密码的输入框，只是提示需要输入密码，根据gpg插件的官网解释，需要加上密码作为参数执行命令，即：
+在稍后些时候会要你输入gpg密钥库的密码，输入即可完成上传。 当然有时候不会弹出输入密码的输入框，只是提示需要输入密码，根据gpg插件的官网解释，需要加上密码作为参数执行命令，即：
 
 ```bash
 mvn clean deploy -P release -Dgpg.passphrase=密码
@@ -212,10 +203,9 @@ mvn clean deploy -P release -Dgpg.passphrase=密码
 
 ## 在OSS中发布构件
 
-构建上传之后需要在OSS系统中对操作进行确认，将构件发布，进入 <https://oss.sonatype.org/> 使用你的用户名和密码登陆之后，
-在左边菜单找到"Staging Repositories"，点击，在右边上面一点有一个输入搜索框输入你的groupid进行快速定位，
-可以发现这时你的构件状态是"open"，勾选你的构件，查看校验的结果信息，
-如果没有错误就可以点击刚才勾选的checkbox上面右边一点的"close"按钮，在弹出框中"confirm"，这里又需要校验一次，稍后结果会通过邮箱通知。
+构建上传之后需要在OSS系统中对操作进行确认，将构件发布，进入 <https://oss.sonatype.org/> 使用你的用户名和密码登陆之后， 在左边菜单找到"Staging Repositories"
+，点击，在右边上面一点有一个输入搜索框输入你的groupid进行快速定位， 可以发现这时你的构件状态是"open"，勾选你的构件，查看校验的结果信息， 如果没有错误就可以点击刚才勾选的checkbox上面右边一点的"close"
+按钮，在弹出框中"confirm"，这里又需要校验一次，稍后结果会通过邮箱通知。
 
 我再close过程中出现过验证签名失败的问题：
 
@@ -231,8 +221,7 @@ gpg --keyserver hkp://keyserver.ubuntu.com --send-keys xxxx
 
 其中的xxxx是你的GPG key，在生成GPG密钥的时候控制台会打印。
 
-发送key完成后再次试一下close成功了。刷新页面，这是状态已经是"closed"的了，再次勾选，然后点击"close"旁边的"release"，
-在弹出框中进行"confirm"，稍后结果会通过邮件进行通知。
+发送key完成后再次试一下close成功了。刷新页面，这是状态已经是"closed"的了，再次勾选，然后点击"close"旁边的"release"， 在弹出框中进行"confirm"，稍后结果会通过邮件进行通知。
 
 注意，你执行release成功之后，OSS里面就没有这个构件了，我一开始还在想这家伙跑哪去了，原来是跑到Maven中央库里面去啦。
 
@@ -244,8 +233,7 @@ gpg --keyserver hkp://keyserver.ubuntu.com --send-keys xxxx
 
 ## 使用构件
 
-一切完成后并不可以马上就使用你所发布的构件，得等系统将你的构件同步到中央仓库之后才可以使用，
-这个时间至少要2个小时，然后就可以在中央仓库的搜索页面 <http://search.maven.org/> 搜到你的构件啦，
+一切完成后并不可以马上就使用你所发布的构件，得等系统将你的构件同步到中央仓库之后才可以使用， 这个时间至少要2个小时，然后就可以在中央仓库的搜索页面 <http://search.maven.org/> 搜到你的构件啦，
 
 赶快截图，向他人炫耀一下吧。
 

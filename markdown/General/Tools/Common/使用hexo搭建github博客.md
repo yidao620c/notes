@@ -3,14 +3,14 @@
 最今天我又折腾了我的博客，将它从octopress迁移到hexo上来。之前还专门写了一篇怎样利用octopress搭建博客的文章，
 最近试用了一下hexo，毫不犹豫的迁移过来了，实在是忍受不了octopress的速度，还有稳定性，经常莫名其妙的出错。
 
-hexo是一个台湾人做的基于Node.js的静态博客程序，优势是生成静态文件的速度非常快，支持markdown，
-我最终选定它的原因是它速度快而且不容易出错，并且可以一键部署到github或者其它静态服务器上去。折腾了一天总算搞定。
+hexo是一个台湾人做的基于Node.js的静态博客程序，优势是生成静态文件的速度非常快，支持markdown， 我最终选定它的原因是它速度快而且不容易出错，并且可以一键部署到github或者其它静态服务器上去。折腾了一天总算搞定。
 
 ## 安装
 
 我这个教程hexo3版本，本地使用Windows7系统，在IDEA上面写Markdown的博客，爽歪歪。
 
 ### 安装依赖软件
+
 [Node.js](https://nodejs.org/en): node.js用来创建hexo博客框架的
 
 如果是windows系统，可以直接下载安装文件安装。如果是linux系统，可以使用下面的命令行：
@@ -25,16 +25,20 @@ node --version  # 如果命令找不到就将/usr/local/nodejs/bin加入PATH中
 ```
 
 最新的node.js已经集成了npm，不过需要经常更新：
+
 ```bash
 npm install npm@latest -g
 npm --version
 ```
 
 ### 换淘宝源
+
 ```bash
 npm install -g cnpm --registry=https://registry.npm.taobao.org
 ```
+
 之后使用cnpm命令代替npm命令，或者你直接通过添加 npm 参数 alias 一个新命令:
+
 ```bash
 alias cnpm="npm --registry=https://registry.npm.taobao.org \
 --cache=$HOME/.npm/.cache/cnpm \
@@ -45,29 +49,35 @@ alias cnpm="npm --registry=https://registry.npm.taobao.org \
 [Git客户端](http://git-scm.com/download/win): 把本地的hexo内容提交到github上去
 
 ### 安装hexo
+
 利用 npm 命令即可安装。打开窗口控制台，输入安装hexo命令：
+
 ```bash
 cnpm install -g hexo
 ```
 
 ### 初始化
+
 安装完成后，在你喜爱的文件夹下（如D:\hexo），控制台执行以下指令，hexo会自动在目标文件夹建立网站所需要的所有文件。
+
 ```bash
 hexo init
 ```
 
 安装依赖包：
+
 ```bash
 cnpm install
 ```
 
 一切准备就绪让我们试验下，在D:\hexo内执行以下命令：
+
 ```bash
 hexo g
 hexo s
 ```
-然后用浏览器访问http://localhost:4000， 此时，你应该看到了一个漂亮的博客了，当然这个博客只是在本地的，别人是看不到的，hexo3.0使用的默认主题是landscape。
 
+然后用浏览器访问http://localhost:4000， 此时，你应该看到了一个漂亮的博客了，当然这个博客只是在本地的，别人是看不到的，hexo3.0使用的默认主题是landscape。
 
 ## 发布到github上面
 
@@ -75,8 +85,8 @@ hexo s
 
 ### 创建repository
 
-repository相当于一个仓库，用来放置你的代码文件。登陆进入Github，并进入个人页面，选择repositories，然后New一个repository。
-创建时，只需要填写Repository name即可。格式必须为yourname.github.io，比如我的是yidao620c.github.io
+repository相当于一个仓库，用来放置你的代码文件。登陆进入Github，并进入个人页面，选择repositories，然后New一个repository。 创建时，只需要填写Repository
+name即可。格式必须为yourname.github.io，比如我的是yidao620c.github.io
 
 ### 将本地博客部署上去
 
@@ -89,8 +99,8 @@ deploy:
     branch: master
 ```
 
-如果你是第一次使用Github或者是已经使用过，但没有配置过SSH，则可能需要配置一下SSH。
-在Git Bash输入以下指令（任意位置点击鼠标右键），检查是否已经存在了SSH keys。
+如果你是第一次使用Github或者是已经使用过，但没有配置过SSH，则可能需要配置一下SSH。 在Git Bash输入以下指令（任意位置点击鼠标右键），检查是否已经存在了SSH keys。
+
 ```bash
 ls -al ~/.ssh
 ```
@@ -98,36 +108,46 @@ ls -al ~/.ssh
 如果不存在就没有关系，如果存在的话，直接删除.ssh文件夹里面所有文件
 
 输入以下指令（邮箱就是你注册Github时候的邮箱）后回车，出现提示让你输入的时候一直按回车：
+
 ```bash
 ssh-keygen -t rsa -C "yidao620@gmail.com"
 ```
 
 然后键入以下指令：
+
 ```bash
 eval `ssh-agent -s`
 ssh-add
 ```
+
 到了这一步，就可以添加SSH key到你的Github账户了。键入以下指令，拷贝Key（先拷贝了，等一下可以直接粘贴，不放心的在执行下面命令后，先黏贴在记事本上）：
+
 ```bash
 clip < ~/.ssh/id_rsa.pub
 ```
+
 然后到Github里面，点击右上角的设置图标Settings,找到SSH keys,Ttile随便你命名，Key就黏贴上你刚才复制的key,然后点Add SSH key，最后会让你重新输入下gitHub的密码
 最后还是测试一下吧，键入以下命令：
+
 ```bash
 ssh -T git@github.com
 ```
+
 你可能会看到有警告，输入"yes"就好
 
 还要安装hexo-deployer-git这个模块:
+
 ```bash
 npm install hexo-deployer-git --save
 ```
 
 以上就表示SSH配置好了，执行以下命令部署到Github上。
+
 ```bash
 hexo g
 hexo d
 ```
+
 提示输入gitHub的账号密码，就能访问你得博客网站了。我的是: yidao620c.github.io
 
 ## 发布到自己的VPS
@@ -135,7 +155,6 @@ hexo d
 如果你觉得github不是你想要的，你有一个自己的云主机，那么还可以将hexo博客自动发布到自己的服务器上去。
 
 比如我自己有一条腾讯云主机，操作系统是CentOS7.4，我将博客迁移到这台虚拟机上去。步骤如下：
-
 
 ### 源码安装 git2
 
@@ -147,32 +166,38 @@ yum reomve git
 ```
 
 2,下载最新的git
+
 ```bash
 wget -P /opt/ https://www.kernel.org/pub/software/scm/git/git-2.14.1.tar.gz
 ```
 
 3,解压
+
 ```bash
 tar xzvf git-2.14.1.tar.gz
 ```
 
 5,安装依赖lib
+
 ```bash
 yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel
 yum install  gcc perl-ExtUtils-MakeMaker
 ```
 
 4,指定安装目录
+
 ```bash
 ./configure --prefix=/usr/local/git
 ```
 
 6,编译安装
+
 ```bash
 make && make install
 ```
 
 7,配置环境变量，编辑/etc/profile
+
 ```bash
 #git settings
 GIT_HOME=/usr/local/git
@@ -180,38 +205,45 @@ export PATH=$GIT_HOME/bin:$PATH
 ```
 
 8,配置生效
+
 ```bash
 source /etc/profile
 ```
 
 9,检查git是否安装成功
+
 ```bash
 git --version
 ```
 
 10,创建git账户, 并设置密码
+
 ```bash
 useradd git
 passwd git
 ```
 
 11,使用git登录并进入git目录
+
 ```bash
 su - git
 cd ~
 ```
 
 12,在/home/git目录下创建.ssh目录,并进入
+
 ```bash
 mkdir .ssh && cd .ssh
 ```
 
 13,创建一个存储所有登录用户的公钥(id_rsa.pub),一行一个用户
+
 ```bash
 touch authorized_keys
 ```
 
 14,初始化git仓库
+
 ```bash
 mkdir /var/repo && cd /var/repo
 git init --bare hexo.git
@@ -226,6 +258,7 @@ git:x:1000:1000::/home/git:/usr/bin/git-shell
 ```
 
 ### yum安装git2
+
 还有一种更方便的方法安装git2：
 
 ```bash
@@ -283,13 +316,15 @@ deploy:
 ```
 
 ## 发表一篇文章
+
 在你的D:\hexo目录下面，控制台执行命令：
+
 ```bash
 hexo new "Hello World"
 ```
 
-会自动在D:\hexo\source\_posts文件夹生成一个hello-world.md文件，用编辑器打开，在里面写文章。
-记住hexo中写文章使用的是Markdown语法，自己去google下这个语法吧，很方便很强大。里面的初始内容
+会自动在D:\hexo\source\_posts文件夹生成一个hello-world.md文件，用编辑器打开，在里面写文章。 记住hexo中写文章使用的是Markdown语法，自己去google下这个语法吧，很方便很强大。里面的初始内容
+
 ```
 title: Hello World #可以改成中文的，如"新文章"
 date: 2016-03-06 16:04:09 #发表日期，一般不改动
@@ -317,25 +352,30 @@ $ git clone https://github.com/iissnan/hexo-theme-next themes/next
 ```
 
 ### 启用主题
+
 修改你的博客根目录下的config.yml配置文件中的theme属性，将其设置为next
 
 ### 更新主题
+
 ```bash
 cd themes/next
 git pull
 ```
+
 更新好后，本地启动起来效果
+
 ```bash
 hexo server -g  #生成加预览
 ```
 
 ### 主题的_config.yml配置
+
 具体配置请直接参考[开始使用NexT主题](http://theme-next.iissnan.com/getting-started.html)。
 同时我对这个主题进行了很多的修改让它看上去更加符合自己的审美观，如果对我博客的主题感兴趣可以直接在我的github页面拉取即可。
 
 ### 畅言评论
-一开始我用了多说，后来多说关闭不能使用了。然后换到disqus，发现还是有不少问题，首先是https因为不少认证过的，在浏览器里面有警告。
-另外匿名评论我在管理后台看不到，不知道什么原因。最后还是切换至国内的畅言评论。
+
+一开始我用了多说，后来多说关闭不能使用了。然后换到disqus，发现还是有不少问题，首先是https因为不少认证过的，在浏览器里面有警告。 另外匿名评论我在管理后台看不到，不知道什么原因。最后还是切换至国内的畅言评论。
 
 参考这篇 <http://www.jianshu.com/p/5888bd91d070>
 
@@ -351,10 +391,10 @@ changyan:
   appkey: your_appkey
 ```
 
-安装畅言后遇到几个问题，打开页面控制台后一直报错误，页面循环计数，另外有评论的文章，在首页评论数永远是0，在文章里面计数正常，
-虽然不影响使用，但是看着真是不舒服。必须解决，参考了一篇文章（后面贴了链接）解决方案。
+安装畅言后遇到几个问题，打开页面控制台后一直报错误，页面循环计数，另外有评论的文章，在首页评论数永远是0，在文章里面计数正常， 虽然不影响使用，但是看着真是不舒服。必须解决，参考了一篇文章（后面贴了链接）解决方案。
 
 找到`next/layout/_third-party/comments/changyan.swig:1~4行`
+
 ```html
 @% if theme.changyan.enable and theme.changyan.appid and theme.changyan.appkey %@
   @% if is_home() %@
@@ -364,6 +404,7 @@ changyan:
 ```
 
 只需要将
+
 ```
 @% else %@
 ```
@@ -383,6 +424,7 @@ changyan:
 ```
 
 只需要将`post.permalink`这个值包一层encodeURI方法，如下修改：
+
 ```html
 <span id="url::@@ encodeURI(post.permalink) @@" class="cy_cmt_count" data-xid="@@ post.path @@" itemprop="commentsCount" ></span>
 ```
@@ -396,6 +438,7 @@ changyan:
 ```bash
 cnpm install hexo-generator-feed --save
 ```
+
 安装完后，会在node_modules目录下生成hexo-generator-feed目录
 
 ### 配置根目录的_config.yml
@@ -413,16 +456,21 @@ feed:
   limit: 20
   hub:
 ```
+
 其中，feed是可选项，可配可不配！然后根据各个主题的说明添加一个RSS订阅链接即可
 
 ## 自定义分页
+
 安装三个插件：归档，标签，分类。然后将每个分页显示文章数都变大点
+
 ```yaml
 npm install hexo-generator-archive --save
 npm install hexo-generator-tag --save
 npm install hexo-generator-category --save
 ```
+
 三者各自的配置：
+
 ```yaml
 archive_generator:
   per_page: 100
@@ -436,30 +484,39 @@ category_generator:
 ```
 
 ## 绑定自己的域名
+
 Github Page绑定自己域名，在source/目录下面新建`CNAME`文件，里面写入你自己的域名比如
+
 ```
 www.pycoding.com
 ```
+
 去自己的域名运营商处添加CNAME类型的DNS记录:
+
 ```
 CNAME: @        =>  yidao620c.github.io
 CNAME: www      =>  yidao620c.github.io
 ```
+
 如果是DNSPod，那么后面多加个点
+
 ```
 @，CNAME，cmback.github.io.
 www，CNAME，cmback.github.io.
 ```
 
 ## 站内搜索
+
 最简单是直接开启`Local Search`
 
 安装 `hexo-generator-searchdb`，在站点的根目录下执行以下命令：
+
 ```bash
 cnpm install hexo-generator-searchdb --save
 ```
 
 全局配置文件_config.yml中定义搜索页面：
+
 ```yaml
 search:
   path: search.xml
@@ -469,6 +526,7 @@ search:
 ```
 
 在NexT的_config.yml配置中开启这个本地搜索：
+
 ```yaml
 # Local search
 local_search:
@@ -476,29 +534,30 @@ local_search:
 ```
 
 ## algolia搜索
-使用一段时间的`Local Search`后发现还是不太好用，后来比较了一下Swiftype、 微搜索、Local Search 和 Algolia，
-发现`algolia`比较好。安装`NexT`文档配置步骤如下：
+
+使用一段时间的`Local Search`后发现还是不太好用，后来比较了一下Swiftype、 微搜索、Local Search 和 Algolia， 发现`algolia`比较好。安装`NexT`文档配置步骤如下：
 
 第一步，先注册Algolia，创建Index
 
-前往 [Algolia 注册页面](https://www.algolia.com/)，注册一个新账户。可以使用 GitHub 或者 Google 账户直接登录，
-注册后的 14 天内拥有所有功能（包括收费类别的）。之后若未续费会自动降级为免费账户，免费账户总共有 10,000 条记录，
-每月有 100,000 的可以操作数。注册完成后，创建一个新的 Index，这个 Index 将在后面使用。
+前往 [Algolia 注册页面](https://www.algolia.com/)，注册一个新账户。可以使用 GitHub 或者 Google 账户直接登录， 注册后的 14
+天内拥有所有功能（包括收费类别的）。之后若未续费会自动降级为免费账户，免费账户总共有 10,000 条记录， 每月有 100,000 的可以操作数。注册完成后，创建一个新的 Index，这个 Index 将在后面使用。
 
 第二步，安装Algolia
+
 ```bash
 npm install --save hexo-algolia
 ```
 
 第三步，获取Key，更新站点配置
 
-在 Algolia 服务站点上找到需要使用的一些配置的值，包括 `ApplicationID`、`Search-Only API Key`、`min API Key`。
-注意，Admin API Key 需要保密保存。点击ALL API KEYS 找到新建INDEX对应的key， 编辑权限，
-在弹出框中找到ACL选择勾选`Search`、`Add records`、`Delete records`、`List indices`、`Delete index`权限，点击update更新。
+在 Algolia 服务站点上找到需要使用的一些配置的值，包括 `ApplicationID`、`Search-Only API Key`、`min API Key`。 注意，Admin API Key 需要保密保存。点击ALL API
+KEYS 找到新建INDEX对应的key， 编辑权限， 在弹出框中找到ACL选择勾选`Search`、`Add records`、`Delete records`、`List indices`、`Delete index`
+权限，点击update更新。
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/hexo20.png)
 
 编辑站点配置文件，新增以下配置：
+
 ```yaml
 algolia:
   applicationID: 'IQUD4IM8MM'
@@ -517,11 +576,13 @@ HEXO_ALGOLIA_INDEXING_KEY=Search-Only API key
 ```
 
 在站点根目录下执行
+
 ```bash
 $ hexo algolia
 ```
 
 来更新 Index，请注意观察命令的输出。
+
 ```bash
 $ hexo algolia
 INFO  [Algolia] Testing HEXO_ALGOLIA_INDEXING_KEY permissions.
@@ -539,6 +600,7 @@ INFO  [Algolia] Indexing done.
 第五步，主题集成
 
 更改主题配置文件，找到 Algolia Search 配置部分：
+
 ```yaml
 # Algolia Search
 algolia_search:
@@ -553,11 +615,9 @@ algolia_search:
 
 将 `enable` 改为 `true` 即可，根据需要你可以调整 `labels` 中的文本。
 
-
 ## 阅读次数统计
 
-使用LeanCloud为文章添加阅读次数统计，
-请参考文章[第三方服务集成](https://theme-next.iissnan.com/third-party-services.html) 中的阅读次数统计（LeanCloud)部分。
+使用LeanCloud为文章添加阅读次数统计， 请参考文章[第三方服务集成](https://theme-next.iissnan.com/third-party-services.html) 中的阅读次数统计（LeanCloud)部分。
 
 另外有个安全补丁需要打上，参考<https://github.com/theme-next/hexo-leancloud-counter-security>
 
@@ -568,7 +628,8 @@ algolia_search:
 ### 思路
 
 * 对于一个已创建的博客目录，其已通过hexo建立了public目录下的内容与远程仓库yidao620c@github.com的master分支的连接关系，通过hexo的hexo deploy命令即可保持更新；
-* 因此只需要在此仓库yidao620c@github.com上再创建一个分支如source，将其与hexo下其他文件如node_modules、themes、scaffolds等（即除了public目录及.gitignore包含的文件外）进行同步绑定。
+*
+因此只需要在此仓库yidao620c@github.com上再创建一个分支如source，将其与hexo下其他文件如node_modules、themes、scaffolds等（即除了public目录及.gitignore包含的文件外）进行同步绑定。
 * 在不同的电脑下设置好hexo环境，通过hexo命令维护master分支，通过git命令维护source分支即可。
 
 ### 具体步骤
@@ -576,6 +637,7 @@ algolia_search:
 （假定最初创建博客为A，其他另一个为B)
 
 1) 在A中的git_blog目录下，建立source分支：
+
 ```bash
 $ git branch source // 创建source分支
 $ git checkout source // 切换到source分支
@@ -607,11 +669,13 @@ $ cnpm install
 3. 同样保证B的git当前在git_blog下的source分支下
 
 先使用：
+
 ```bash
 git pull origin source
 ```
 
 获得Github的source分支上的最新版本，再使用：
+
 ```bash
 $ git add -u
 $ git commit -m ""
@@ -635,8 +699,8 @@ npm remove --save hexo-renderer-pandoc
 
 参考这篇文章：<https://www.zfl9.com/hexo-code.html>
 
-hexo 默认的代码高亮插件为 highlight.js，highlight.js 的代码高亮个人感觉不是很好看（主要是配色方面，感觉不够"高亮"），
-然后偶然之间发现了一个还不错的代码高亮插件：prism.js，所以就琢磨着如何将 hexo 的 highlight.js 替换为 prism.js。
+hexo 默认的代码高亮插件为 highlight.js，highlight.js 的代码高亮个人感觉不是很好看（主要是配色方面，感觉不够"高亮"）， 然后偶然之间发现了一个还不错的代码高亮插件：prism.js，所以就琢磨着如何将
+hexo 的 highlight.js 替换为 prism.js。
 
 ### 禁用 highlight.js
 
@@ -652,18 +716,19 @@ highlight:
 
 ### 获取 prism.js
 
-下载页面：<https://prismjs.com/download.html>；选择 theme 主题、language 支持的语言（不要选太多，够用就好）、plugin 插件；
-然后点击下载按钮就行了。下载到本地之后，将它们重命名为 prism.js、prism.css，
-然后将它们放置到 $HEXO/themes/hexo-theme-snippet/source/js/prism/ 目录下（prism 文件夹需要自己新建）
+下载页面：<https://prismjs.com/download.html>；选择 theme 主题、language 支持的语言（不要选太多，够用就好）、plugin 插件； 然后点击下载按钮就行了。下载到本地之后，将它们重命名为
+prism.js、prism.css， 然后将它们放置到 $HEXO/themes/hexo-theme-snippet/source/js/prism/ 目录下（prism 文件夹需要自己新建）
 
 ### 配置 prism.js
 
 1、修改 `$HEXO/themes/hexo-theme-snippet/layout/_partials/head.ejs`，在尾部添加以下代码：
+
 ```html
 <link rel="stylesheet" href="/js/prism/prism.css">
 ```
 
 2、修改 `$HEXO/themes/hexo-theme-snippet/layout/_partials/footer.ejs`，在尾部添加以下代码：
+
 ```html
 <script src="/js/prism/clipboard.min.js"></script>
 <script src="/js/prism/prism.js" async></script>
@@ -671,14 +736,15 @@ highlight:
 
 如果你选择了 `Copy to Clipboard Button prism.js` 插件，
 则还需下载 [clipboard.js](https://cdn.bootcss.com/clipboard.js/1.7.1/clipboard.min.js)，
-因为这个插件需要使用 clipboard.js 里面的函数，如果不这样做，在 Chrome 浏览器中将无法正常显示代码块，
-将 clipboard.js 放到 `$HEXO/themes/hexo-theme-snippet/source/js/prism/` 目录下。
+因为这个插件需要使用 clipboard.js 里面的函数，如果不这样做，在 Chrome 浏览器中将无法正常显示代码块， 将 clipboard.js
+放到 `$HEXO/themes/hexo-theme-snippet/source/js/prism/` 目录下。
 
 3、修改 `$HEXO/node_modules/marked/lib/marked.js`
 
 搜索 `<pre><code class="` 关键字（应该只有一处），该行的内容为：`return '<pre><code class="'`
 
 将这行语句改为：如果你下载的 prism.js 未选择 Line Numbers 插件，则去掉 line-numbers（注意后面还有个空格，也要去掉）：
+
 ```
 return '<pre><code class="line-numbers language-'
 ```
@@ -704,6 +770,7 @@ Gitalk是一个基于 Github Issue 和 Preact 开发的评论插件，详情Demo
 
 * 遇到有大括号的代码块，如果多行的不用管，如果单行的就单个反引号，并且在里面加raw标签，比如@% raw %@ `@@test@@` @% endraw %@
 * 关闭hexo的将回车当换行做法是用正常的markdown两个回车当换行，在全局_config.yml中添加配置
+
 ```yaml
 marked:
   gfm: true
@@ -721,13 +788,16 @@ marked:
     exclude: []
     nofollow: false
 ```
+
 * 对于行内代码引用使用单个反引号的时候，如果代码长度过长的时候，代码会自动换行，导致上面文字撑开很难看。
-解决办法是修改css文件`/themes/next/source/css/_common/scaffolding/highlight/highlight.styl`
+  解决办法是修改css文件`/themes/next/source/css/_common/scaffolding/highlight/highlight.styl`
+
 ```css
 code {
   word-break: break-all; //这一行是增加的，为了防止inline代码引用过长换行后样式变差
 }
 ```
+
 * `<!--more-->`不能直接放到table后面，所有table后面都应该空一行。
 
 ## 参考

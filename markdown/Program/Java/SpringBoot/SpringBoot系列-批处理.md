@@ -1,7 +1,6 @@
 # SpringBoot系列-批处理
 
-Spring Batch是一个轻量级的框架,完全面向Spring的批处理框架,用于企业级大量的数据读写处理系统。以POJO和Spring 框架为基础，
-包括日志记录/跟踪，事务管理、 作业处理统计工作重新启动、跳过、资源管理等功能。
+Spring Batch是一个轻量级的框架,完全面向Spring的批处理框架,用于企业级大量的数据读写处理系统。以POJO和Spring 框架为基础， 包括日志记录/跟踪，事务管理、 作业处理统计工作重新启动、跳过、资源管理等功能。
 
 Spring Batch官网是这样介绍的自己：一款轻量的、全面的批处理框架，用于开发强大的日常运营的企业级批处理应用程序。
 
@@ -33,8 +32,7 @@ Spring Batch官网是这样介绍的自己：一款轻量的、全面的批处�
 
 ### JobRepository
 
-JobRepository用于存储任务执行的状态信息，比如什么时间点执行了什么任务、任务执行结果如何等等。
-框架提供了2种实现，一种是通过Map形式保存在内存中，当Java程序重启后任务信息也就丢失了，
+JobRepository用于存储任务执行的状态信息，比如什么时间点执行了什么任务、任务执行结果如何等等。 框架提供了2种实现，一种是通过Map形式保存在内存中，当Java程序重启后任务信息也就丢失了，
 并且在分布式下无法获取其他节点的任务执行情况；另一种是保存在数据库中，并且将数据保存在下面6张表里：
 
 * BATCH_JOB_INSTANCE
@@ -56,10 +54,8 @@ public interface JobLauncher {
 }
 ```
 
-除了传入Job对象之外，还需要传入JobParameters对象，后续讲到Job再解释为什么要多传一个JobParameters。
-通过JobLauncher可以在Java程序中调用批处理任务，也可以通过命令行或者其他框架
-（如定时调度框架Quartz、Web后台框架Spring MVC）中调用批处理任务。
-Spring Batch框架提供了一个JobLauncher的实现类SimpleJobLauncher。
+除了传入Job对象之外，还需要传入JobParameters对象，后续讲到Job再解释为什么要多传一个JobParameters。 通过JobLauncher可以在Java程序中调用批处理任务，也可以通过命令行或者其他框架
+（如定时调度框架Quartz、Web后台框架Spring MVC）中调用批处理任务。 Spring Batch框架提供了一个JobLauncher的实现类SimpleJobLauncher。
 
 ### Job
 
@@ -67,13 +63,10 @@ Job代表着一个任务，一个Job与一个或者多个JobInstance相关联，
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/sb-batch02.png)
 
-考虑到任务可能不是只执行一次就再也不执行了，更多的情况可能是定时任务，如每天执行一次，每个星期执行一次等等，
-那么为了区分每次执行的任务，框架使用了JobInstance。如上图所示，Job是一个EndOfDay（每天最后时刻执行的任务），
-那么其中一个JobInstance就代表着2007年5月5日那天执行的任务实例。
-框架通过在执行JobLauncher.run(Job, JobParameters)方法时传入的JobParameters来区分是哪一天的任务。
+考虑到任务可能不是只执行一次就再也不执行了，更多的情况可能是定时任务，如每天执行一次，每个星期执行一次等等， 那么为了区分每次执行的任务，框架使用了JobInstance。如上图所示，Job是一个EndOfDay（每天最后时刻执行的任务），
+那么其中一个JobInstance就代表着2007年5月5日那天执行的任务实例。 框架通过在执行JobLauncher.run(Job, JobParameters)方法时传入的JobParameters来区分是哪一天的任务。
 
-由于2007年5月5日那天执行的任务可能不会一次就执行完成，比如中途被停止，或者出现异常导致中断，
-需要多执行几次才能完成，所以框架使用了JobExecution来表示每次执行的任务。
+由于2007年5月5日那天执行的任务可能不会一次就执行完成，比如中途被停止，或者出现异常导致中断， 需要多执行几次才能完成，所以框架使用了JobExecution来表示每次执行的任务。
 
 ### Step
 
@@ -190,8 +183,7 @@ public Validator<User> myBeanValidator(){
 
 Spring Boot对Spring Batch支持的源码位于`org.springframework.boot.autoconfigure.batch`下。
 
-Spring Boot为我们自动初始化了Spring Batch存储批处理记录的数据库，且当我们程序启动时，
-会自动执行我们定义的Job的Bean，不过我们可以通过配置定时器或手动触发方式启动。
+Spring Boot为我们自动初始化了Spring Batch存储批处理记录的数据库，且当我们程序启动时， 会自动执行我们定义的Job的Bean，不过我们可以通过配置定时器或手动触发方式启动。
 
 Spring Boot提供如下属性来定制Spring Batch：
 
@@ -605,18 +597,16 @@ public class BatchServiceTest {
 
 ## 并发执行多个Job
 
-SpringBatch批处理框架默认使用单线程完成所有任务的执行，官方推荐配置任务执行器来并发执行，
-提高批处理的效率。
+SpringBatch批处理框架默认使用单线程完成所有任务的执行，官方推荐配置任务执行器来并发执行， 提高批处理的效率。
 
 Spring Core 为我们提供了多种执行器实现（包括多种异步执行器），我们可以根据实际情况灵活选择使用。
 
-类名	                     | 描述                                        | 是否异步
+类名                         | 描述                                        | 是否异步
 -------------------------|---------------------------------------------|-------------------------
 SyncTaskExecutor         | 简单同步执行器                               | 否
-SimpleAsyncTaskExecutor	 | 简单异步执行器，提供最基本的异步实现          | 是
+SimpleAsyncTaskExecutor     | 简单异步执行器，提供最基本的异步实现          | 是
 WorkManagerTaskExecutor  | 该类作为通过 JCA 规范进行任务执行的实现       | 是
 ThreadPoolTaskExecutor   | 线程池任务执行器                             | 是
-
 
 配置线程池执行Job：
 
@@ -729,8 +719,7 @@ public class AppConfig {
 }
 ```
 
-注意，每个Bean配置都加一个name属性，然后自动注入里面需要通过@Qualifier注解来指定当前类中的Bean，
-因为如果不指定name，Spring默认只会初始化一个Bean实例。
+注意，每个Bean配置都加一个name属性，然后自动注入里面需要通过@Qualifier注解来指定当前类中的Bean， 因为如果不指定name，Spring默认只会初始化一个Bean实例。
 
 比如定义Job：
 
@@ -790,8 +779,7 @@ public void testTwoJobs() throws Exception {
 
 ## 异常处理
 
-默认情况下，Spring Batch遇到异常的时候会终止处理，比如遇到csv文件中解析错误就会终止异常。如果我想忽略掉这些异常继续处理，
-可以配置在Reader中忽略异常。
+默认情况下，Spring Batch遇到异常的时候会终止处理，比如遇到csv文件中解析错误就会终止异常。如果我想忽略掉这些异常继续处理， 可以配置在Reader中忽略异常。
 
 这个在Step的定义中配置：
 
@@ -813,8 +801,7 @@ return stepBuilderFactory
     .build();
 ```
 
-上面定义了使用可容忍异常模式，遇到Exception异常就重试1次，对于ParseException异常不重试，所有异常都会忽略掉，不会导致程序终止。
-但是最大允许跳过200次异常，超过这个数字就终止执行了。
+上面定义了使用可容忍异常模式，遇到Exception异常就重试1次，对于ParseException异常不重试，所有异常都会忽略掉，不会导致程序终止。 但是最大允许跳过200次异常，超过这个数字就终止执行了。
 
 然后改一下csv文件，把某个字段改大点，超过数据库中定义长度：
 
@@ -832,8 +819,7 @@ return stepBuilderFactory
 
 更进一步，如果有多个CSV文件需要导入，那么安装上面的写法。每次都要定义一个新的Config类，一个新的Bean类，代码重复率很高。
 
-实际上可以定义一个通用配置，去掉里面的显示Bean类，通过Java反射机制，还有@StepScope注解，
-实现每次运行时候根据JobParameters初始化不同的Job。
+实际上可以定义一个通用配置，去掉里面的显示Bean类，通过Java反射机制，还有@StepScope注解， 实现每次运行时候根据JobParameters初始化不同的Job。
 
 如果有一个新的CSV文件需要导入，只需要新建一个Bean，定义好相应的列，然后将Bean的属性列表、插入SQL语句作为参数传入即可。
 

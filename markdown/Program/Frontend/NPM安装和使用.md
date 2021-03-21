@@ -1,8 +1,54 @@
-# NPM版本号规则以及更新策略
+# NPM安装和使用
 
-初次使用NodeJS的时候，被package.json中的版本规则搞晕，现在记录一下。
+NPM是一个Node.js包管理和分发工具，也是整个Node.js社区最流行、支持第三方模块最多的包管理器。
+
+## 安装
+
+Node.js已经集成了NPM，因此我们一般不单独去安装NPM，直接安装Node.js即可。去nodejs官网下载安装稳定版即可。要使用最新的NPM版本，使用如下命令：
+
+```bash
+npm install npm@latest -g
+```
+
+在使用npm安装软件的时候，比如安装vue，使用命令`npm install vue`。会将软件安装在当前目录的`./node_modules`目录下，如果当前目录没有这个目录则会创建一个目录。本地安装模块无法被其他项目用到。加上`-g`
+选项可以安装到全局目录中。
+
+可修改全局模块的默认安装目录，方法如下：
+
+1. 在自己选定的目录下新建`npm_global`和`npm_cache`目录，前者作为全局模块的存放目录，后者作为缓存的路径。
+2. 找到Node.js安装目录，编辑`.\node_modules\npm\npmrc`文件，输入如下内容
+
+```
+prefix=D:\libs\NodeModules\npm_global
+cache=D:\libs\NodeModules\npm_cache
+```
+
+3. 新建环境变量`NODE_PATH`，值为`D:\libs\NodeModules\npm_global`。
+
+后续再通过npm安装全局模块则会安装到上面设置的目录中。由于`NODE_PATH`环境变量指向了自定义目录，则其他项目也能引用到模块了。
+
+查看全局安装的软件包命令
+
+```bash
+npm list -g
+npm list -g --depth 0 //--depth 0 表示仅查看一级目录
+```
+
+另外国内访问国外服务器非常慢，可以使用国内taobao镜像。
+
+```bash
+npm config set registry https://registry.npm.taobao.org
+```
+
+配置后可通过下面方式来验证是否成功
+
+```bash
+npm config get registry
+```
 
 ## NPM中的版本号规则
+
+初次使用NodeJS的时候，被package.json中的版本规则搞晕，现在记录一下。
 
 ### 版本的格式
 

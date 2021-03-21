@@ -20,8 +20,7 @@ cas客户端接入称之为service，必须经过cas的允许才能进行登录�
 * LDAP
 * Cochbase
 
-在sso初步上线时推荐采用json文件存储，后面逐步多服务注入时推荐采用Mongo进行存储，
-采用cas-management 通过UI方式进行管理我们的数据，目前阶段，持久化策略必须和cas进行配置一致才能生效。
+在sso初步上线时推荐采用json文件存储，后面逐步多服务注入时推荐采用Mongo进行存储， 采用cas-management 通过UI方式进行管理我们的数据，目前阶段，持久化策略必须和cas进行配置一致才能生效。
 
 本章进行service的json配置及介绍，yml文件格式配置，参考文档：
 
@@ -34,6 +33,7 @@ https://apereo.github.io/cas/5.3.x/installation/JSON-Service-Management.html
 这里我只允许http://localhost开头请求的service才能认证。
 
 在resources/services下新建文件localhost-10000002.json，内容如下：
+
 ```json
 {
   "@class": "org.apereo.cas.services.RegexRegisteredService",
@@ -49,8 +49,7 @@ https://apereo.github.io/cas/5.3.x/installation/JSON-Service-Management.html
 
 json文件解释：
 
-* @class：必须为org.apereo.cas.services.RegisteredService的实现类，
-对其他属性进行一个json反射对象，常用的有RegexRegisteredService，匹配策略为id的正则表达式
+* @class：必须为org.apereo.cas.services.RegisteredService的实现类， 对其他属性进行一个json反射对象，常用的有RegexRegisteredService，匹配策略为id的正则表达式
 * serviceId：唯一的服务id
 * name： 服务名称，会显示在默认登录页
 * id：全局唯一标志
@@ -82,6 +81,7 @@ cas.serviceRegistry.initFromJson=true
 https://apereo.github.io/cas/5.3.x/installation/Configuration-Properties.html
 
 另外还需要在 pom.xml 文件中加入依赖配置
+
 ```xml
 <!--json服务注册-->
 <dependency>
@@ -93,8 +93,7 @@ https://apereo.github.io/cas/5.3.x/installation/Configuration-Properties.html
 
 ## 自定义登录界面和主题
 
-主题就意味着风格不一，目的就是为了在不同的接入端（service）展示不同的页面，
-就例如淘宝登录、天猫登录，其中登录点还是一个sso，但淘宝登录卖的广告是淘宝的，而天猫登录卖的广告是天猫的。
+主题就意味着风格不一，目的就是为了在不同的接入端（service）展示不同的页面， 就例如淘宝登录、天猫登录，其中登录点还是一个sso，但淘宝登录卖的广告是淘宝的，而天猫登录卖的广告是天猫的。
 
 简略看完后，会有以下的规范：
 
@@ -131,9 +130,7 @@ cas.theme.defaultThemeName=app1
 
 `app1/css/main.css` 设置一个标题为粉色
 
-h3 {
-    color: pink; /**粉色**/
-}
+h3 { color: pink; /**粉色**/ }
 
 ### 主题配置文件
 

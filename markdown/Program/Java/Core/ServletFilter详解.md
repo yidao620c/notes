@@ -1,20 +1,17 @@
 # ServletFilter详解
 
-在写一个springmvc项目中想对用户的请求进行拦截，只有登录用户才能访问资源。
-这时候可以使用到SpringMVC的拦截器Intercepter，但是这个只能局限在SpringMVC中使用，
-如果想更加通用一点，最好使用Servlet Filter实现这个需求。
+在写一个springmvc项目中想对用户的请求进行拦截，只有登录用户才能访问资源。 这时候可以使用到SpringMVC的拦截器Intercepter，但是这个只能局限在SpringMVC中使用， 如果想更加通用一点，最好使用Servlet
+Filter实现这个需求。
 
 本文将通过几个实际的例子展示下Servlet中的Filter的使用。
 <!-- more -->
 
 ### 我们为什么需要使用Filter？
 
-通常我们会使用session来保存登录用户的信息，通过从session中取出保存的属性值来判断用户是否登录，
-但是如果我们有大量的请求方法，每个人方法中都这样去判断就会有很多重复代码，将来我们想改动下逻辑，
+通常我们会使用session来保存登录用户的信息，通过从session中取出保存的属性值来判断用户是否登录， 但是如果我们有大量的请求方法，每个人方法中都这样去判断就会有很多重复代码，将来我们想改动下逻辑，
 那得改动所有的请求方法实现，所以这个是不可取的。
 
-这时候就是使用Servlet Filter的时候了，它是可插拔的，对于普通的action方法来讲是透明的。
-它会在执行其他方法之前或将结果返回给客户端之前来执行其他逻辑。
+这时候就是使用Servlet Filter的时候了，它是可插拔的，对于普通的action方法来讲是透明的。 它会在执行其他方法之前或将结果返回给客户端之前来执行其他逻辑。
 
 以下几种场景下我们会使用到Servlet Filter：
 
@@ -24,24 +21,25 @@
 - 压缩返回数据后发送给客户端
 - 修改返回内容，增加一些cookie、header等信息
 
-前面提到过，Servlet是可插拔的，可以通过在web.xml中配置是否使用。如果我们定义了多个Filter，就会形成一个过滤器链。
-通过实现接口javax.servlet.Filter来创建一个过过滤器。
+前面提到过，Servlet是可插拔的，可以通过在web.xml中配置是否使用。如果我们定义了多个Filter，就会形成一个过滤器链。 通过实现接口javax.servlet.Filter来创建一个过过滤器。
 
 ### Filter接口
 
 Filter接口包含了三个跟生命周期有关的方法，并且由Servlet容器来管理。它们分别是：
+
 ```java
 void init(FilterConfig paramFilterConfig)
 ```
 
-当容器初始化这个Filter的时候被调用，并且只会被调用一次。因此在这个方法里面我们可以初始化一些资源。
-FilterConfig会被容器用来给Filter提供初始化参数以及Servlet Context对象。
+当容器初始化这个Filter的时候被调用，并且只会被调用一次。因此在这个方法里面我们可以初始化一些资源。 FilterConfig会被容器用来给Filter提供初始化参数以及Servlet Context对象。
 我们可以在这个方法中抛出ServletException异常。
+
 ```java
 doFilter(ServletRequest paramServletRequest, ServletResponse paramServletResponse, FilterChain paramFilterChain)
 ```
 
 这个方法在每次执行过滤的时候被调用，request和response被作为参数传递进来，FilterChain表示过滤器链，这是典型的责任链模式的实现例子。
+
 ```java
 void destroy()
 ```
@@ -103,6 +101,7 @@ Password: <input type="password" name="pwd">
 ```
 
 LoginServlet负责验证客户端是否已经登录：
+
 ```java LoginServlet.java
 package com.journaldev.servlet.session;
   
@@ -154,6 +153,7 @@ public class LoginServlet extends HttpServlet {
 ```
 
 验证通过后跳转到LoginSuccess.jsp：
+
 ```jsp LoginSuccess.jsp
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
     pageEncoding="US-ASCII"%>
@@ -190,6 +190,7 @@ User=<%=user %>
 ```
 
 退出时我们并不需要进行验证，退出页面为：
+
 ```jsp CheckoutPage.jsp
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
     pageEncoding="US-ASCII"%>
@@ -220,6 +221,7 @@ for(Cookie cookie : cookies){
 ```
 
 LogoutServlet在用户点击退出按钮时执行：
+
 ```java LogoutServlet.java
 package com.journaldev.servlet.session;
   
@@ -264,6 +266,7 @@ public class LogoutServlet extends HttpServlet {
 ```
 
 现在我们来创建日志和登录认证的两个filter：
+
 ```java RequestLoggingFilter.java
 package com.journaldev.servlet.filters;
 
@@ -319,7 +322,9 @@ public class RequestLoggingFilter implements Filter {
   
 }
 ```
+
 然后是另一个Filter：
+
 ```java AuthenticationFilter.java
 package com.journaldev.servlet.filters;
   
@@ -373,6 +378,7 @@ public class AuthenticationFilter implements Filter {
 ```
 
 注意我们并不会对任何静态html页面或LoginServlet进行验证，下面我们在web.xml文件中配置：
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">

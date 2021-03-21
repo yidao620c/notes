@@ -2,8 +2,7 @@
 
 前面一篇介绍了Jenkins的入门安装和简单演示，这篇讲解最核心的Pipeline部分。
 
-Jenkins Pipeline 就是一系列的插件集合，可通过组合它们来实现持续集成和交付的功能。
-通过`Pipeline DSL`为我们提供了一个可扩展的工具集，将简单到复杂的逻辑通过代码实现。
+Jenkins Pipeline 就是一系列的插件集合，可通过组合它们来实现持续集成和交付的功能。 通过`Pipeline DSL`为我们提供了一个可扩展的工具集，将简单到复杂的逻辑通过代码实现。
 
 通常，我们可以通过编写`Jenkinsfile`将管道代码化，并且纳入到版本管理系统中。
 
@@ -61,10 +60,10 @@ node {
 * Stage 将你的命令组织成一个更高一层的逻辑单元
 * Node 指定这些任务在哪执行
 
-Stage和Step可以放到一个Node下面执行，不指定就默认在master节点上面执行。
-另外Node和Step也能组合成一个Stage。
+Stage和Step可以放到一个Node下面执行，不指定就默认在master节点上面执行。 另外Node和Step也能组合成一个Stage。
 
 ## 定义管道
+
 有两种定义管道的方式，一种是通过Web UI来定义，一种是直接写`Jenkinsfile`。推荐后面一种，因为可以纳入版本管理系统。
 
 ### Web UI方式
@@ -105,19 +104,21 @@ node { ①
 * ② echo 在控制台输出一个简单的字符串
 
 ### Jenkinsfile方式
-上面通过Web UI方式只适用于非常简单的任务，而大型复杂的任务最好采用`Jenkinsfile`方式并纳入SCM管理。
-这次我选择从SCM中的`Jenkinsfile`来定义管道。
+
+上面通过Web UI方式只适用于非常简单的任务，而大型复杂的任务最好采用`Jenkinsfile`方式并纳入SCM管理。 这次我选择从SCM中的`Jenkinsfile`来定义管道。
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/jenkins12.png)
 
 我这里配置了一个git仓库位置，然后我在该项目根目录放一个`Jenkinsfile`，其实就是我上一篇里演示的。
 
 ### Poll SCM 触发器
+
 选择`Build Trigger`为`Poll SCM`，定时检查是否有push操作，这里我设置每隔2分钟检查一次。
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/jenkins13.png)
 
 ### Push触发器
+
 这个触发器我更加推荐，因为是实时的，但是需要先配置gitlab的Webhook。
 
 选择
@@ -149,12 +150,12 @@ push钩子的大致流程是这样的：
 Tips: 每个`Jenkinsfile`文件都应该以`#!groovy`为开头第一行
 
 ## 使用Jenkinsfile
+
 接下来详细介绍一下怎样编写`Jenkinsfile`来完成各种复杂的任务。
 
 Pipeline支持两种形式，一种是`Declarative`管道，一个是`Scripted`管道。
 
-一个`Jenkinsfile`就是一个文本文件，里面定义了`Jenkins Pipeline`。
-将这个文本文件放到项目的根目录下面，纳入版本系统。
+一个`Jenkinsfile`就是一个文本文件，里面定义了`Jenkins Pipeline`。 将这个文本文件放到项目的根目录下面，纳入版本系统。
 
 ### 部署三阶段
 
@@ -201,13 +202,14 @@ pipeline {
 
 ### 环境变量
 
-Jenkins定了很多内置的环境变量，可在文档`localhost:8080/pipeline-syntax/globals#env`找到，
-通过`env`直接使用它们：
+Jenkins定了很多内置的环境变量，可在文档`localhost:8080/pipeline-syntax/globals#env`找到， 通过`env`直接使用它们：
+
 ```
 echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
 ```
 
 设置环境变量：
+
 ```
 // Declarative //
 pipeline {
@@ -229,6 +231,7 @@ pipeline {
 ```
 
 ### 使用多个agent
+
 ```
 // Declarative //
 pipeline {
@@ -274,8 +277,7 @@ pipeline {
 }
 ```
 
-上面的例子，在任一台机器上面做Build操作，并通过`stash`命令保存文件，然后分别在两台agent机器上面做测试。
-注意这里所有步骤都是串行执行的。
+上面的例子，在任一台机器上面做Build操作，并通过`stash`命令保存文件，然后分别在两台agent机器上面做测试。 注意这里所有步骤都是串行执行的。
 
 ### Multibranch Pipeline
 
@@ -286,11 +288,13 @@ pipeline {
 ## Pipeline语法
 
 先讲`Declarative Pipeline`，所有声明式管道都必须包含在`pipeline`块中：
+
 ```
 pipeline {
     /* insert Declarative Pipeline here */
 }
 ```
+
 块里面的语句和表达式都是Groovy语法，遵循以下规则：
 
 1. 最顶层规定就是`pipeline { }`
@@ -307,8 +311,7 @@ pipeline {
 #### post
 
 `post` section 定义了管道执行结束后要进行的操作。支持在里面定义很多`Conditions`块：
-`always`, `changed`, `failure`, `success` 和 `unstable`。
-这些条件块会根据不同的返回结果来执行不同的逻辑。
+`always`, `changed`, `failure`, `success` 和 `unstable`。 这些条件块会根据不同的返回结果来执行不同的逻辑。
 
 * always：不管返回什么状态都会执行
 * changed：如果当前管道返回值和上一次已经完成的管道返回值不同时候执行
@@ -336,8 +339,9 @@ pipeline {
 ```
 
 #### stages
-由一个或多个`stage`指令组成，stages块也是核心逻辑的部分。
-我们建议对于每个独立的交付部分（比如`Build`,`Test`,`Deploy`）都应该至少定义一个`stage`指令。比如：
+
+由一个或多个`stage`指令组成，stages块也是核心逻辑的部分。 我们建议对于每个独立的交付部分（比如`Build`,`Test`,`Deploy`）都应该至少定义一个`stage`指令。比如：
+
 ```
 // Declarative //
 pipeline {
@@ -353,7 +357,9 @@ pipeline {
 ```
 
 #### steps
+
 在`stage`中定义一系列的`step`来执行命令。
+
 ```
 // Declarative //
 pipeline {
@@ -373,17 +379,20 @@ pipeline {
 jenkins中的各种指令
 
 #### agent
+
 `agent`指令指定整个管道或某个特定的`stage`的执行环境。它的参数可用使用：
 
-1. any    - 任意一个可用的agent
-2. none   - 如果放在pipeline顶层，那么每一个`stage`都需要定义自己的`agent`指令
-3. label  - 在jenkins环境中指定标签的agent上面执行，比如`agent { label 'my-defined-label' }`
-4. node   - `agent { node { label 'labelName' } }` 和 label一样，但是可用定义更多可选项
+1. any - 任意一个可用的agent
+2. none - 如果放在pipeline顶层，那么每一个`stage`都需要定义自己的`agent`指令
+3. label - 在jenkins环境中指定标签的agent上面执行，比如`agent { label 'my-defined-label' }`
+4. node - `agent { node { label 'labelName' } }` 和 label一样，但是可用定义更多可选项
 5. docker - 指定在docker容器中运行
 6. dockerfile - 使用源码根目录下面的`Dockerfile`构建容器来运行
 
 #### environment
+
 `environment`定义键值对的环境变量
+
 ```
 // Declarative //
 pipeline {
@@ -405,6 +414,7 @@ pipeline {
 ```
 
 #### options
+
 还能定义一些管道特定的选项，介绍几个常用的：
 
 * skipDefaultCheckout - 在`agent`指令中忽略源码`checkout`这一步骤。
@@ -413,7 +423,9 @@ pipeline {
 * timestamps - 控制台输出前面加时间戳`options { timestamps() }`
 
 #### parameters
+
 参数指令，触发这个管道需要用户指定的参数，然后在`step`中通过`params`对象访问这些参数。
+
 ```
 // Declarative //
 pipeline {
@@ -432,8 +444,9 @@ pipeline {
 ```
 
 #### triggers
-触发器指令定义了这个管道何时该执行，一般我们会将管道和GitHub、GitLab、BitBucket关联，
-然后使用它们的webhooks来触发，就不需要这个指令了。如果不适用`webhooks`，就可以定义两种`cron`和`pollSCM`
+
+触发器指令定义了这个管道何时该执行，一般我们会将管道和GitHub、GitLab、BitBucket关联， 然后使用它们的webhooks来触发，就不需要这个指令了。如果不适用`webhooks`，就可以定义两种`cron`
+和`pollSCM`
 
 * cron - linux的cron格式`triggers { cron('H 4/* 0 0 1-5') }`
 * pollSCM - jenkins的`poll scm`语法，比如`triggers { pollSCM('H 4/* 0 0 1-5') }`
@@ -456,7 +469,9 @@ pipeline {
 ```
 
 #### stage
+
 `stage`指令定义在`stages`块中，里面必须至少包含一个`steps`指令，一个可选的`agent`指令，以及其他stage相关指令。
+
 ```
 // Declarative //
 pipeline {
@@ -472,7 +487,9 @@ pipeline {
 ```
 
 #### tools
+
 定义自动安装并自动放入`PATH`里面的工具集合
+
 ```
 // Declarative //
 pipeline {
@@ -520,8 +537,7 @@ pipeline {
 
 ### Steps
 
-这里就是实实在在的执行步骤了，每个步骤step都具体干些什么东西，
-前面的`Sections`、`Directives`算控制逻辑和环境准备，这里的就是真实执行步骤。
+这里就是实实在在的执行步骤了，每个步骤step都具体干些什么东西， 前面的`Sections`、`Directives`算控制逻辑和环境准备，这里的就是真实执行步骤。
 
 这部分内容最多不可能全部讲完，[官方Step指南](https://jenkins.io/doc/pipeline/steps/) 包含所有的东西。
 
@@ -557,6 +573,7 @@ pipeline {
 ```
 
 最后列出来一个典型的`Scripted Pipeline`：
+
 ```
 node('master') {
     checkout scm
@@ -576,14 +593,15 @@ node('master') {
     }
 }
 ```
-可以看到，`Scripted Pipeline`没那么多东西，就是定义一个`node`，
-里面多个`stage`，里面就是使用Groovy语法执行各个`step`了，非常简单和清晰，也非常灵活。
+
+可以看到，`Scripted Pipeline`没那么多东西，就是定义一个`node`， 里面多个`stage`，里面就是使用Groovy语法执行各个`step`了，非常简单和清晰，也非常灵活。
 
 ### 两种Pipeline比较
-`Declarative Pipeline`相对简单，而且不需要学习groovy语法，对于日常的一般任务完全够用，
-而`Scripted Pipeline`可通过Groovy语言的强大特性做任何你想做的事情。
+
+`Declarative Pipeline`相对简单，而且不需要学习groovy语法，对于日常的一般任务完全够用， 而`Scripted Pipeline`可通过Groovy语言的强大特性做任何你想做的事情。
 
 ## Blue Ocean
+
 Jenkins最新整了个`Blue Ocean`出来，我觉得有必要用单独来介绍一下这个东西。
 
 `Blue Ocean`重新设计了用户使用Jenkins的方式，给我们带来极大的方便，同时也兼容自由风格的任务定义。
@@ -599,6 +617,7 @@ Jenkins最新整了个`Blue Ocean`出来，我觉得有必要用单独来介绍�
 5. 选择"不重启安装"或"下载并重启后安装"
 
 ### 启动
+
 安装好后会出现一个"Open Blue Ocean"的按钮，点击即可进入蓝色海洋：
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/jenkins17.png)
@@ -610,8 +629,8 @@ Jenkins最新整了个`Blue Ocean`出来，我觉得有必要用单独来介绍�
 蓝色海洋果真是蓝色的，^_^
 
 ### Pipeline编辑器
-使用管道编辑器是最简单的方式，可以来创建多个并行执行的任务。
-编辑完保存后会自动保存为`Jenkinsfile`并放到源码管理系统中。
+
+使用管道编辑器是最简单的方式，可以来创建多个并行执行的任务。 编辑完保存后会自动保存为`Jenkinsfile`并放到源码管理系统中。
 
 这里我演示一个在github中没有定义过`Jenkinsfile`的仓库，创建pipeline会默认写入`Jenkinsfile`文件。
 
@@ -630,8 +649,9 @@ Jenkins最新整了个`Blue Ocean`出来，我觉得有必要用单独来介绍�
 ![](https://xnstatic-1253397658.file.myqcloud.com/jenkins21.png)
 
 ## FAQ
-如果遇见`for (item : items)`报错`NotSerializableException`或者`Unserializable iterator`等等错误，
-就将`foreach`循环改成传统C语言的循环：
+
+如果遇见`for (item : items)`报错`NotSerializableException`或者`Unserializable iterator`等等错误， 就将`foreach`循环改成传统C语言的循环：
+
 ```
 for (int i = 0; i < cluster_nodes.size(); i++) {
     node = cluster_nodes[i]

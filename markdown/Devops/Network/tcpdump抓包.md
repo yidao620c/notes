@@ -1,9 +1,9 @@
 # tcpdump抓包
 
-比较常见的抓包方法是使用tcpdump在linux机器上运行，生成pcap文件。
-然后拖到windows机器，下载wireshark来可视化分析。
+比较常见的抓包方法是使用tcpdump在linux机器上运行，生成pcap文件。 然后拖到windows机器，下载wireshark来可视化分析。
 
 常用操作
+
 ```bash
 ./tcpdump -i eth0 -vv -s0 -weth0.pcap
 # 特定IP地址，不管是源IP还是目的IP
@@ -26,11 +26,13 @@ tcpdump tcp port 8083 -w  ./abc.cap
 ```
 
 稍微复杂例子
+
 ```bash
 tcpdump tcp -i eth1 -t -s 0 -c 100 and dst port ! 22 and src net 192.168.1.0/24 -w ./target.cap
 ```
 
 参数说明
+
 ```
 tcp: ip icmp arp rarp 和 tcp、udp、icmp这些选项等都要放到第一个参数的位置，用来过滤数据报的类型
 -i eth1 : 只抓经过接口eth1的包

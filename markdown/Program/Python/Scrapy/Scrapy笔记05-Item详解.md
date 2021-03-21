@@ -5,7 +5,9 @@ Item是保存结构数据的地方，Scrapy可以将解析结果以字典形式�
 Item提供了类字典的API，并且可以很方便的声明字段，很多Scrapy组件可以利用Item的其他信息。
 
 ## 定义Item
+
 定义Item非常简单，只需要继承`scrapy.Item`类，并将所有字段都定义为`scrapy.Field`类型即可
+
 ```python
 import scrapy
 
@@ -15,18 +17,25 @@ class Product(scrapy.Item):
     stock = scrapy.Field()
     last_updated = scrapy.Field(serializer=str)
 ```
+
 ## Item Fields
+
 `Field`对象可用来对每个字段指定元数据。例如上面`last_updated`的序列化函数指定为`str`，可任意指定元数据，不过每种元数据对于不同的组件意义不一样。
 
 ## Item使用示例
+
 你会看到Item的使用跟Python中的字典API非常类似
+
 ### 创建Item
+
 ```python
 >>> product = Product(name='Desktop PC', price=1000)
 >>> print product
 Product(name='Desktop PC', price=1000)
 ```
+
 ### 获取值
+
 ```python
 >>> product['name']
 Desktop PC
@@ -66,6 +75,7 @@ False
 ```
 
 ### 设置值
+
 ```python
 >>> product['last_updated'] = 'today'
 >>> product['last_updated']
@@ -78,6 +88,7 @@ KeyError: 'Product does not support field: lala'
 ```
 
 ### 访问所有的值
+
 ```python
 >>> product.keys()
 ['price', 'name']
@@ -87,9 +98,11 @@ KeyError: 'Product does not support field: lala'
 ```
 
 ## Item Loader
+
 Item Loader为我们提供了生成Item的相当便利的方法。Item为抓取的数据提供了容器，而Item Loader可以让我们非常方便的将输入填充到容器中。
 
 下面我们通过一个例子来展示一般使用方法：
+
 ```python
 from scrapy.loader import ItemLoader
 from myproject.items import Product
@@ -103,10 +116,13 @@ def parse(self, response):
     l.add_value('last_updated', 'today') # you can also use literal values
     return l.load_item()
 ```
+
 注意上面的`name`字段是从两个xpath路径添累加后得到。
 
 ## 输入/输出处理器
+
 每个Item Loader对每个`Field`都有一个输入处理器和一个输出处理器。输入处理器在数据被接受到时执行，当数据收集完后调用`ItemLoader.load_item() `时再执行输出处理器，返回最终结果。
+
 ```python
 l = ItemLoader(Product(), some_selector)
 l.add_xpath('name', xpath1) # (1)
@@ -115,6 +131,7 @@ l.add_css('name', css) # (3)
 l.add_value('name', 'test') # (4)
 return l.load_item() # (5)
 ```
+
 执行流程是这样的：
 
 1. `xpath1`中的数据被提取出来，然后传输到`name`字段的输入处理器中，在输入处理器处理完后生成结果放在Item Loader里面(这时候没有赋值给item)
@@ -124,7 +141,9 @@ return l.load_item() # (5)
 5. 上面4步的数据被传输给`name`的输出处理器，将最终的结果赋值给`name`字段
 
 ## 自定义Item Loader
+
 使用类定义语法，下面是一个例子
+
 ```python
 from scrapy.loader import ItemLoader
 from scrapy.loader.processors import TakeFirst, MapCompose, Join
@@ -140,10 +159,13 @@ class ProductLoader(ItemLoader):
 
     # ...
 ```
+
 通过`_in`和`_out`后缀来定义输入和输出处理器，并且还可以定义默认的`ItemLoader.default_input_processor`和`ItemLoader.default_input_processor`.
 
 ## 在Field定义中声明输入/输出处理器
+
 还有个地方可以非常方便的添加输入/输出处理器，那就是直接在Field定义中
+
 ```python
 import scrapy
 from scrapy.loader.processors import Join, MapCompose, TakeFirst
@@ -163,6 +185,7 @@ class Product(scrapy.Item):
         output_processor=TakeFirst(),
     )
 ```
+
 优先级：
 
 1. 在Item Loader中定义的`field_in`和`field_out`
@@ -172,7 +195,9 @@ class Product(scrapy.Item):
 Tips：一般来讲，将输入处理器定义在Item Loader的定义中`field_in`，然后将输出处理器定义在Field元数据中
 
 ## Item Loader上下文
+
 Item Loader上下文被所有输入/输出处理器共享，比如你有一个解析长度的函数
+
 ```python
 def parse_length(text, loader_context):
     unit = loader_context.get('unit', 'm')
@@ -181,6 +206,7 @@ def parse_length(text, loader_context):
 ```
 
 初始化和修改上下文的值
+
 ```python
 loader = ItemLoader(product)
 loader.context['unit'] = 'cm'
@@ -198,6 +224,6 @@ class ProductLoader(ItemLoader):
 1. `Join` 将结果连起来，默认使用空格' '
 1. `Compose` 将函数链接起来形成管道流，产生最后的输出
 1. `MapCompose` 跟上面的`Compose`类似，区别在于内部结果在函数中的传递方式.
-它的输入值是可迭代的，首先将第一个函数依次作用于所有值，产生新的可迭代输入，作为第二个函数的输入，最后生成的结果连起来返回最终值，一般用在输入处理器中。
+   它的输入值是可迭代的，首先将第一个函数依次作用于所有值，产生新的可迭代输入，作为第二个函数的输入，最后生成的结果连起来返回最终值，一般用在输入处理器中。
 1. `SelectJmes` 使用json路径来查询值并返回结果
 

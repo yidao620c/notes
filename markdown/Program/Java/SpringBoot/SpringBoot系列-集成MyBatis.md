@@ -1,7 +1,7 @@
 # SpringBoot系列-集成MyBatis
 
-MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。
-MyBatis 可以使用简单的 XML 或注解来配置和映射原生信息，将接口和 Java 的 POJOs映射成数据库中的记录。
+MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。 MyBatis 可以使用简单的 XML 或注解来配置和映射原生信息，将接口和
+Java 的 POJOs映射成数据库中的记录。
 
 使用MyBatis的时候需要自己手动编写SQL语句，也有代码自动生成工具来简化开发，我一般会使用Mybatis-Plus增强工具包来简化MyBatis的开发。
 
@@ -123,8 +123,7 @@ spring:
 
 ## 配置类
 
-由于使用到的Druid连接池的配置项非常多，可先定义一个`DruidProperties`属性类，具体的数据源配置我就不贴了。
-然后再定义`MybatisPlusConfig`如下：
+由于使用到的Druid连接池的配置项非常多，可先定义一个`DruidProperties`属性类，具体的数据源配置我就不贴了。 然后再定义`MybatisPlusConfig`如下：
 
 ```java
 @Configuration
@@ -228,8 +227,7 @@ public interface UserMapper extends BaseMapper<User> {
 }
 ```
 
-这个接口继承 `BaseMapper<User>`后即可获得常用的增删改查的方法，
-如果有其他复杂的操作，就再定义自己的方法，并同时定义mapping文件即可。
+这个接口继承 `BaseMapper<User>`后即可获得常用的增删改查的方法， 如果有其他复杂的操作，就再定义自己的方法，并同时定义mapping文件即可。
 
 这里演示比较简单，无需自己再去写mapping文件。
 
@@ -326,8 +324,7 @@ public class ApplicationTests {
 }
 ```
 
-先创建一个用户，插入到表中，使用了数据库的自增主键，调用`insertUser`成功后，user的id会被自动设置上。
-然后再通过id查询用户，确保能查询到。后面更新用户并确认，删除用户并确认。
+先创建一个用户，插入到表中，使用了数据库的自增主键，调用`insertUser`成功后，user的id会被自动设置上。 然后再通过id查询用户，确保能查询到。后面更新用户并确认，删除用户并确认。
 
 运行测试用例，结果是green bar，测试通过。
 

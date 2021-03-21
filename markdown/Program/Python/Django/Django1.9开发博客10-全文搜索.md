@@ -1,11 +1,10 @@
 # Django1.9开发博客10-全文搜索
 
-Django本身不提供全文检索的功能，但django-haystack为其提供了全文检索的框架。
-django-haystack能为Django提供whoosh,solr,Xapian和Elasticsearc四种全文检索引擎作为后端。
-其中whoosh为纯python的实现，不是非常大型的应用，是没有问题的。
-本文将介绍Django1.9中通过django-haystack与whoosh集成以及whoosh的中文支持。
+Django本身不提供全文检索的功能，但django-haystack为其提供了全文检索的框架。 django-haystack能为Django提供whoosh,solr,Xapian和Elasticsearc四种全文检索引擎作为后端。
+其中whoosh为纯python的实现，不是非常大型的应用，是没有问题的。 本文将介绍Django1.9中通过django-haystack与whoosh集成以及whoosh的中文支持。
 
 ### 安装依赖：
+
 ```bash
 pip install django-haystack
 pip install whoosh
@@ -13,8 +12,8 @@ pip install jieba
 ```
 
 ### 建立模型
-我们以文章为搜索目标，现在我的app名字为blog，
-模型文件是mysite/blog/models.py ：
+
+我们以文章为搜索目标，现在我的app名字为blog， 模型文件是mysite/blog/models.py ：
 
 ```python
 # coding=utf-8
@@ -50,6 +49,7 @@ class Post(models.Model):
 ```
 
 ### search_indexes.py
+
 在app目录下建立一个search_indexes.py（mysite/blog/search_indexes.py）代码如下：
 
 ```python
@@ -72,6 +72,7 @@ class PostIndex(indexes.SearchIndex, indexes.Indexable):
 *备注*：search_indexes.py文件名不能修改，否则报错：`No fields were found in any search_indexes.`
 
 ### post_text.txt
+
 因为在search_indexes.py使用了use_template=True，所以可以同时使用模板对索引字段进行定义。
 
 如：`mysite/blog/templates/search/indexes/blog/post_text.txt`:
@@ -106,24 +107,26 @@ urlpatterns = patterns(
 ```
 
 ### jieba中文分词
-jieba其实已经提供了集成whoosh的ChineseAnalyzer，
-也就是说不需要自己写ChineseAnalyzer了，直接在whoosh_backend.py中直接引用就好；
+
+jieba其实已经提供了集成whoosh的ChineseAnalyzer， 也就是说不需要自己写ChineseAnalyzer了，直接在whoosh_backend.py中直接引用就好；
 同时，不推荐将whoosh_backend.py放到Lib下面，这样移植性会有问题，自己的代码，还是放在项目下面为妙。
 
-1\. 将文件haystack.backends.whoosh_backend.py拷贝到app下面，并重命名为whoosh_cn_backend.py，
-如blog/whoosh_cn_backend.py。重点的改造有：
+1\. 将文件haystack.backends.whoosh_backend.py拷贝到app下面，并重命名为whoosh_cn_backend.py， 如blog/whoosh_cn_backend.py。重点的改造有：
 
 * 增加：
+
 ```python
 from jieba.analyse import ChineseAnalyzer
 ```
 
 * 修改
+
 ```python
 schema_fields[field_class.index_fieldname] = TEXT(stored=True, analyzer=ChineseAnalyzer(), field_boost=field_class.boost, sortable=True)
 ```
 
 2\. 修改后端引擎，setting.py配置：
+
 ```python
 # full text search
 HAYSTACK_CONNECTIONS = {
@@ -135,6 +138,7 @@ HAYSTACK_CONNECTIONS = {
 ```
 
 ### 重建索引
+
 ```python
 python manage.py rebuild_index
 ```
@@ -142,6 +146,7 @@ python manage.py rebuild_index
 ### 索引更新
 
 最简单的办法就是在settings.py中添加：
+
 ```python
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 ```
@@ -162,6 +167,7 @@ def full_search(request):
 ```
 
 (2) 然后在template页面中：
+
 ```html
 <!-- searchbox START -->
 <div id="searchbox">

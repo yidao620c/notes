@@ -208,6 +208,7 @@ KeyIdentifier [
 **根据 alias 别名删除 JDK 证书**
 
 做完实验后如果你想删除JDK证书，可使用如下命令：
+
 ```bash
 keytool -delete -alias cas.server.com -keystore /usr/local/jdk/jre/lib/security/cacerts
 ```
@@ -235,8 +236,7 @@ server.ssl.key-alias=cas.server.com
 
 第三步，修改log4j2.xml 日志文件
 
-在`cas-overlay-template-master`项目中，创建一个logs目录，用于存放日志文件，
-默认cas在项目根目录下生成日志，日志多了不方便管理，修改log4j2.xml文件，将日志目录做调整。
+在`cas-overlay-template-master`项目中，创建一个logs目录，用于存放日志文件， 默认cas在项目根目录下生成日志，日志多了不方便管理，修改log4j2.xml文件，将日志目录做调整。
 
 比如将`fileName="${sys:cas.log.dir}/cas.log"` 修改为 `fileName="${sys:cas.log.dir}/logs/cas.log"`
 
@@ -262,7 +262,7 @@ xx.xx.xx.xx cas.server.com
 
 访问地址：<https://cas.server.com:8443/cas>
 
-默认账号：`casuser`默认密码：`Mellon` 
+默认账号：`casuser`默认密码：`Mellon`
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/cas20190221-01.png)
 

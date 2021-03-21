@@ -1,15 +1,14 @@
 # SpringBoot系列-异步线程池
 
-在项目中，当访问其他人的接口较慢或者做耗时任务时，不想程序一直卡在耗时任务上，想程序能够并行执行，
-我们可以使用多线程来并行的处理任务，也可以使用spring提供的异步处理方式@Async。
+在项目中，当访问其他人的接口较慢或者做耗时任务时，不想程序一直卡在耗时任务上，想程序能够并行执行， 我们可以使用多线程来并行的处理任务，也可以使用spring提供的异步处理方式@Async。
 
 Spring异步线程池的接口类，其实质是`java.util.concurrent.Executor`。
 
 Spring 已经实现的异常线程池：
 
-1. `SimpleAsyncTaskExecutor`：不是真的线程池，这个类不重用线程，每次调用都会创建一个新的线程。 
-2. `SyncTaskExecutor`：这个类没有实现异步调用，只是一个同步操作，只适用于不需要多线程的地方 
-3. `ConcurrentTaskExecutor`：Executor的适配类，不推荐使用。如果`ThreadPoolTaskExecutor`不满足要求时，才用考虑使用这个类 
+1. `SimpleAsyncTaskExecutor`：不是真的线程池，这个类不重用线程，每次调用都会创建一个新的线程。
+2. `SyncTaskExecutor`：这个类没有实现异步调用，只是一个同步操作，只适用于不需要多线程的地方
+3. `ConcurrentTaskExecutor`：Executor的适配类，不推荐使用。如果`ThreadPoolTaskExecutor`不满足要求时，才用考虑使用这个类
 4. `SimpleThreadPoolTaskExecutor`：是Quartz的`SimpleThreadPool`的类。线程池同时被quartz和非quartz使用，才需要使用此类
 5. `ThreadPoolTaskExecutor`：最常使用，推荐。其实质是对`java.util.concurrent.ThreadPoolExecutor`的包装
 
@@ -151,9 +150,9 @@ public class AsyncException extends Exception {
 }
 ```
 
-在调用方法时，可能出现方法中抛出异常的情况。Spring对于2种异步方法的异常处理机制如下： 
+在调用方法时，可能出现方法中抛出异常的情况。Spring对于2种异步方法的异常处理机制如下：
 
-1. 对于方法返回值是Futrue的异步方法: a) 在调用future的get时捕获异常; b) 在异常方法中直接捕获异常 
+1. 对于方法返回值是Futrue的异步方法: a) 在调用future的get时捕获异常; b) 在异常方法中直接捕获异常
 2. 对于返回值是void的异步方法：通过`AsyncUncaughtExceptionHandler`处理异常
 
 ## 测试代码
@@ -197,8 +196,7 @@ INFO 4180 --- [       Thread-4] com.alibaba.druid.pool.DruidDataSource   : {data
 
 ## FAQ
 
-实际运行中，还出现过一个问题，一个Service中的方法调用自己的另一个方法，然后我将这个方法加上@Async注解，然而并不起作用。
-异步方法都应该放到单独的异步任务Bean里面去，然后将这个Bean注入到Service中即可。
+实际运行中，还出现过一个问题，一个Service中的方法调用自己的另一个方法，然后我将这个方法加上@Async注解，然而并不起作用。 异步方法都应该放到单独的异步任务Bean里面去，然后将这个Bean注入到Service中即可。
 
 ```java
 @Service

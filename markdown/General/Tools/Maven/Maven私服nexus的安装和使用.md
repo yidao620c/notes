@@ -1,11 +1,9 @@
 # Maven私服nexus的安装和使用
 
-私服是指私有服务器，是架设在局域网的一种特殊的远程仓库，目的是代理远程仓库及部署第三方构建。
-有了私服之后，当 Maven 需要下载构件时，直接请求私服，私服上存在则下载到本地仓库；
+私服是指私有服务器，是架设在局域网的一种特殊的远程仓库，目的是代理远程仓库及部署第三方构建。 有了私服之后，当 Maven 需要下载构件时，直接请求私服，私服上存在则下载到本地仓库；
 否则，私服请求外部的远程仓库，将构件下载到私服，再提供给本地仓库下载。
 
-Nexus是一个强大的Maven仓库管理器，它极大地简化了本地内部仓库的维护和外部仓库的访问。
-如果使用了公共的Maven仓库服务器，可以从Maven中央仓库下载所需要的构件（Artifact），但这通常不是一个好的做法。
+Nexus是一个强大的Maven仓库管理器，它极大地简化了本地内部仓库的维护和外部仓库的访问。 如果使用了公共的Maven仓库服务器，可以从Maven中央仓库下载所需要的构件（Artifact），但这通常不是一个好的做法。
 正常做法是在本地架设一个本地Maven仓库服务器，利用Nexus私服可以只在一个地方就能够完全控制访问和部署在你所维护仓库中的每个Artifact。
 
 ## Nexus优点
@@ -13,9 +11,9 @@ Nexus是一个强大的Maven仓库管理器，它极大地简化了本地内部�
 为什么要构建Nexus私服？好处我随便列几点：
 
 * Nexus在代理远程仓库的同时维护本地仓库，以降低中央仓库的负荷,节省外网带宽和时间，Nexus私服就可以满足这样的需要。
-* Nexus是一套"开箱即用"的系统不需要数据库，它使用文件系统加Lucene来组织数据。 
-* Nexus使用ExtJS来开发界面，利用Restlet来提供完整的REST APIs，并能通过插件和各种IDE集成。 
-* Nexus支持WebDAV与LDAP安全身份认证。 
+* Nexus是一套"开箱即用"的系统不需要数据库，它使用文件系统加Lucene来组织数据。
+* Nexus使用ExtJS来开发界面，利用Restlet来提供完整的REST APIs，并能通过插件和各种IDE集成。
+* Nexus支持WebDAV与LDAP安全身份认证。
 * Nexus还提供了强大的仓库管理功能，构件搜索功能，它基于REST，提供友好的UI，占用较少的内存，基于简单文件系统而非数据库。
 
 ## 安装
@@ -25,6 +23,7 @@ Nexus是一个强大的Maven仓库管理器，它极大地简化了本地内部�
 去官网下载最新的 [download nexus](https://www.sonatype.com/download-oss-sonatype)
 
 下载文件nexus-3.6.0-02-unix.tar.gz，解压缩。
+
 ```bash
 tar zxf nexus-3.6.0-02-unix.tar.gz -C /usr/local/
 cd /usr/local/
@@ -32,11 +31,13 @@ mv nexus-3.6.0-02/ nexus
 ```
 
 启动：
+
 ```bash
 ./nexus/bin/nexus start
 ```
 
 默认端口8081，如果开了防火墙，就把这个端口放开：
+
 ```bash
 firewall-cmd --zone=public --add-port=8081/tcp --permanent
 ```
@@ -50,6 +51,7 @@ Nexus默认的用户名密码是admin/admin123
 当遇到奇怪问题时，重启nexus，重启后web界面要1分钟左右后才能访问。
 
 Nexus的工作目录是`sonatype-work`（路径一般在nexus同级目录下），日志文件也在这里。
+
 ```bash
 ls sonatype-work/nexus3/
 backup  blobs  cache  db  elasticsearch  etc  generated-bundles  
@@ -59,7 +61,6 @@ health-check  instances  keystores  lock  log  orient  port  tmp
 访问：<http://localhost:8081>，效果如下：
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/nexus01.png)
-
 
 使用默认的管理员admin/admin123登录，进入管理界面：
 
@@ -81,9 +82,9 @@ health-check  instances  keystores  lock  log  orient  port  tmp
 
 默认的这几个仓库我解释一下：
 
-1. maven-central：maven中央库，默认从https://repo1.maven.org/maven2/拉取jar 
+1. maven-central：maven中央库，默认从https://repo1.maven.org/maven2/拉取jar
 2. maven-releases：私库发行版jar，初次安装请将`Deployment policy`设置为`Allow redeploy`
-3. maven-snapshots：私库快照（调试版本）jar 
+3. maven-snapshots：私库快照（调试版本）jar
 4. maven-public：仓库分组，把上面三个仓库组合在一起对外提供服务，在本地maven基础配置`settings.xml`中使用。
 
 Nexus默认的仓库类型有以下四种：
@@ -95,8 +96,7 @@ Nexus默认的仓库类型有以下四种：
 
 Policy(策略): 表示该仓库为发布(Release)版本仓库还是快照(Snapshot)版本仓库；
 
-由于访问中央仓库有时候会比较慢，这里我添加一个阿里云的代理仓库，然后优先级放到默认中央库之前,，
-阿里云的maven仓库url为`http://maven.aliyun.com/nexus/content/groups/public`
+由于访问中央仓库有时候会比较慢，这里我添加一个阿里云的代理仓库，然后优先级放到默认中央库之前,， 阿里云的maven仓库url为`http://maven.aliyun.com/nexus/content/groups/public`
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/nexus09.png)
 
@@ -104,9 +104,9 @@ Policy(策略): 表示该仓库为发布(Release)版本仓库还是快照(Snapsh
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/nexus10.png)
 
-** Nexus仓库分类的概念 ** 
+** Nexus仓库分类的概念 **
 
-1）Maven可直接从宿主仓库下载构件,也可以从代理仓库下载构件,而代理仓库间接的从远程仓库下载并缓存构件 
+1）Maven可直接从宿主仓库下载构件,也可以从代理仓库下载构件,而代理仓库间接的从远程仓库下载并缓存构件
 
 2）为了方便,Maven可以从仓库组下载构件,而仓库组并没有时间的内容(下图中用虚线表示,它会转向包含的宿主仓库或者代理仓库获得实际构件的内容)
 
@@ -335,8 +335,7 @@ mvn clean && mvn deploy
 mvn clean && mvn deploy -P jdk16
 ```
 
-第一条命令打包使用默认的profile，编译的版本是1.8，生成的文件是xxx-SNAPSHOT.jar；
-而第二条命令打包指定使用jdk16这个profile，编译版本是1.6，生成的文件是xxx-SNAPSHOT-jdk16.jar。
+第一条命令打包使用默认的profile，编译的版本是1.8，生成的文件是xxx-SNAPSHOT.jar； 而第二条命令打包指定使用jdk16这个profile，编译版本是1.6，生成的文件是xxx-SNAPSHOT-jdk16.jar。
 
 项目中引用的时候可通过指定classifier：
 
@@ -426,6 +425,7 @@ mvn clean && mvn deploy -P jdk16
 发布javadoc的时候，每个方法注释必须遵循规范，比如参数、返回值、异常都应该有说明。
 
 打包或发布的时候如果想跳过测试，加一个参数：
+
 ```bash
 mvn clean && mvn deploy -DskipTests=true
 ```

@@ -9,6 +9,7 @@
 另外还有好多实际效果的演示，可以去看看。
 
 ## 下载
+
 直接去github下载源码：<https://github.com/zTree/zTree_v3>
 
 选取了一个最基本的例子，带metro风格的，比较好看。
@@ -95,6 +96,7 @@
 ```
 
 记住引入`metroStyle.css`，还有metro的图片文件夹也引入，另外自己还自定义了一些样式：
+
 ```css
 .ztree li.title {list-style: none;}
 .ztree ul.ztree {margin-top: 10px;border: 1px solid #617775;background: #f0f6e4;width:220px;height:360px;overflow-y:scroll;overflow-x:auto;}
@@ -113,6 +115,7 @@ ul.ztree li span.button {cursor: default}
 ```
 
 ## API
+
 zTree的API介绍也很详细，<http://www.treejs.cn/v3/api.php>
 
 这里我弄两个最典型的来讲，一个是获取所有的选择节点，另一个是将所有选择的叶子节点id拿出来。

@@ -1,22 +1,19 @@
 # SpringBoot系列-集成Redis
 
-在互联网场景下，尤其 2C 端大流量场景下，需要将一些经常展现和不会频繁变更的数据，存放在存取速率更快的地方。
-缓存就是一个存储器，在技术选型中，常用 Redis 作为缓存数据库。缓存主要是在获取资源方便性能优化的关键方面。
+在互联网场景下，尤其 2C 端大流量场景下，需要将一些经常展现和不会频繁变更的数据，存放在存取速率更快的地方。 缓存就是一个存储器，在技术选型中，常用 Redis 作为缓存数据库。缓存主要是在获取资源方便性能优化的关键方面。
 
-如果使用Redis缓存技术，SpringBoot中有两种方式实现缓存，一个是上一篇中通过CacheManager实现，
-不过这个是对于简单的缓存场景，而更为强大的是通过`RedisTemplate`来直接操作Redis数据库实现缓存。
+如果使用Redis缓存技术，SpringBoot中有两种方式实现缓存，一个是上一篇中通过CacheManager实现， 不过这个是对于简单的缓存场景，而更为强大的是通过`RedisTemplate`来直接操作Redis数据库实现缓存。
 
 Redis 是一个高性能的 key-value 数据库。GitHub 地址：<https://github.com/antirez/redis> 。
 
 Github 是这么描述的：
 
-Redis is an in-memory database that persists on disk. The data model is key-value, 
-but many different kind of values are supported: Strings, Lists, Sets, Sorted Sets, Hashes, HyperLogLogs, Bitmaps.
+Redis is an in-memory database that persists on disk. The data model is key-value, but many different kind of values are
+supported: Strings, Lists, Sets, Sorted Sets, Hashes, HyperLogLogs, Bitmaps.
 
 缓存的应用场景有哪些呢？
 
-比如常见的电商场景，根据商品 ID 获取商品信息时，店铺信息和商品详情信息就可以缓存在 Redis，直接从 Redis 获取。
-减少了去数据库查询的次数。但会出现新的问题，就是如何对缓存进行更新？这就是下面要讲的。
+比如常见的电商场景，根据商品 ID 获取商品信息时，店铺信息和商品详情信息就可以缓存在 Redis，直接从 Redis 获取。 减少了去数据库查询的次数。但会出现新的问题，就是如何对缓存进行更新？这就是下面要讲的。
 
 ## 缓存更新策略
 
@@ -275,13 +272,11 @@ public class UserService {
 }
 ```
 
-RedisTemplate 封装了 RedisConnection，具有连接管理，序列化和 Redis 操作等功能。
-还有专门针对 String 的模板对象 StringRedisTemplate。
+RedisTemplate 封装了 RedisConnection，具有连接管理，序列化和 Redis 操作等功能。 还有专门针对 String 的模板对象 StringRedisTemplate。
 
 Redis 操作视图接口类用的是 ValueOperations，对应的是 Redis String/Value 操作。
 
-还有其他的操作视图，ListOperations、SetOperations、ZSetOperations 和 HashOperations 。
-ValueOperations 插入缓存是可以设置失效时间，这里设置的失效时间是 10 s。
+还有其他的操作视图，ListOperations、SetOperations、ZSetOperations 和 HashOperations 。 ValueOperations 插入缓存是可以设置失效时间，这里设置的失效时间是 10 s。
 
 然后写个测试类测试运行看看效果：
 
@@ -349,8 +344,7 @@ Closing org.springframework.context.annotation.AnnotationConfigApplicationContex
 {dataSource-1} closed
 ```
 
-可以看出第一次取的时候，缓存未命中，会从DB中取数据，而第2次取的时候缓存命中直接从缓存中取出来。
-后面不管是更新和删除，都会从缓存中删除。再去取的时候缓存未命中，从DB中取最新的。
+可以看出第一次取的时候，缓存未命中，会从DB中取数据，而第2次取的时候缓存命中直接从缓存中取出来。 后面不管是更新和删除，都会从缓存中删除。再去取的时候缓存未命中，从DB中取最新的。
 
 ## GitHub源码
 

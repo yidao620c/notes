@@ -53,8 +53,7 @@ Spring Boot默认提供静态资源目录位置需置于classpath下，目录名
 1. /resources
 1. /META-INF/resources
 
-举例：我们可以在`src/main/resources/`目录下创建static，在该位置放置一个图片文件`pic.jpg`。
-启动程序后，尝试访问`http://localhost:8080/pic.jpg`。如能显示图片，配置成功。
+举例：我们可以在`src/main/resources/`目录下创建static，在该位置放置一个图片文件`pic.jpg`。 启动程序后，尝试访问`http://localhost:8080/pic.jpg`。如能显示图片，配置成功。
 
 SpringBoot的默认模板路径为：`src/main/resources/templates`
 

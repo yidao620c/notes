@@ -2,10 +2,9 @@
 
 在你爬取网页的时候，最普遍的事情就是在页面源码中提取需要的数据，我们有几个库可以帮你完成这个任务：
 
-1. [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/)是python中一个非常流行的抓取库,
-它还能合理的处理错误格式的标签，但是有一个唯一缺点就是：它运行很慢。
-2. [lxml](http://lxml.de/)是一个基于[ElementTree](https://docs.python.org/2/library/xml.etree.elementtree.html)的XML解析库(同时还能解析HTML),
-不过lxml并不是Python标准库
+1. [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/)是python中一个非常流行的抓取库, 它还能合理的处理错误格式的标签，但是有一个唯一缺点就是：它运行很慢。
+2. [lxml](http://lxml.de/)是一个基于[ElementTree](https://docs.python.org/2/library/xml.etree.elementtree.html)的XML解析库(同时还能解析HTML)
+   , 不过lxml并不是Python标准库
 
 而Scrapy实现了自己的数据提取机制，它们被称为选择器，通过[XPath](http://www.w3.org/TR/xpath)或[CSS](http://www.w3.org/TR/selectors)表达式在HTML文档中来选择特定的部分
 
@@ -19,6 +18,7 @@ Scrapy选择器构建在lxml基础之上，所以可以保证速度和准确性�
 完整的API请查看[Selector参考](http://doc.scrapy.org/en/latest/topics/selectors.html#topics-selectors-ref)
 
 ## 关于选择器
+
 Scrapy帮我们下载完页面后，我们怎样在满是html标签的内容中找到我们所需要的元素呢，这里就需要使用到选择器了，它们是用来定位元素并且提取元素的值。先来举几个例子看看：
 
 * /html/head/title: 选择`<title>`节点, 它位于html文档的`<head>`节点内
@@ -34,7 +34,9 @@ Scrapy使用css和xpath选择器来定位元素，它有四个基本方法：
 * re(): 返回通过正则表达式提取的unicode字符串列表
 
 ## 使用选择器
+
 下面我们通过Scrapy shell演示下选择器的使用，假设我们有如下的一个网页<http://doc.scrapy.org/en/latest/_static/selectors-sample1.html>，内容如下：
+
 ```html
 <html>
  <head>
@@ -54,11 +56,13 @@ Scrapy使用css和xpath选择器来定位元素，它有四个基本方法：
 ```
 
 首先我们打开shell
+
 ```bash
 scrapy shell http://doc.scrapy.org/en/latest/_static/selectors-sample1.html
 ```
 
 运行
+
 ```
 >>> response.xpath('//title/text()')
 [<Selector (text) xpath=//title/text()>]
@@ -67,6 +71,7 @@ scrapy shell http://doc.scrapy.org/en/latest/_static/selectors-sample1.html
 ```
 
 结果可以看出,`xpath()`和`css()`方法返回的是`SelectorList`实例，是一个选择器列表，你可以选择嵌套的数据：
+
 ```
 >>> response.css('img').xpath('@src').extract()
 [u'image1_thumb.jpg',
@@ -77,24 +82,28 @@ scrapy shell http://doc.scrapy.org/en/latest/_static/selectors-sample1.html
 ```
 
 必须使用`.extract()`才能提取最终的数据，如果你只想获得第一个匹配的，可以使用`.extract_first()`
+
 ```
 >>> response.xpath('//div[@id="images"]/a/text()').extract_first()
 u'Name: My image 1 '
 ```
 
 如果没有找到，会返回`None`，还可选择默认值
+
 ```
 >>> response.xpath('//div[@id="not-exists"]/text()').extract_first(default='not-found')
 'not-found'
 ```
 
 而CSS选择器还可以使用CSS3标准：
+
 ```
 >>> response.css('title::text').extract()
 [u'Example website']
 ```
 
 下面是几个比较全面的示例：
+
 ```
 >>> response.xpath('//base/@href').extract()
 [u'http://example.com/']
@@ -133,7 +142,9 @@ u'Name: My image 1 '
 ```
 
 ## 嵌套选择器
+
 `xpath()`和`css()`返回的是选择器列表，所以你可以继续使用它们的方法。举例来讲：
+
 ```
 >>> links = response.xpath('//a[contains(@href, "image")]')
 >>> links.extract()
@@ -155,7 +166,9 @@ Link number 4 points to url [u'image5.html'] and image [u'image5_thumb.jpg']
 ```
 
 ## 使用正则表达式
+
 `Selector`有一个`re()`方法通过正则表达式提取数据，它返回的是unicode字符串列表，你不能再去嵌套使用
+
 ```
 >>> response.xpath('//a[contains(@href, "image")]/text()').re(r'Name:\s*(.*)')
 [u'My image 1',
@@ -169,7 +182,9 @@ u'My image 1'
 ```
 
 ## XPath相对路径
+
 当你嵌套使用XPath时候，不要使用`/`开头的，因为这个会相对文档根节点开始算起，需要使用相对路径
+
 ```
 >>> divs = response.xpath('//div')
 >>> for p in divs.xpath('.//p'):  # extracts all <p> inside
@@ -185,6 +200,7 @@ u'My image 1'
 ### 使用text作为条件时
 
 避免使用`.//text()`,直接使用`.`
+
 ```
 >>> sel.xpath("//a[contains(., 'Next Page')]").extract()
 [u'<a href="#">Click here to go to the <strong>Next Page</strong></a>']
@@ -196,6 +212,7 @@ u'My image 1'
 * (//node)[1]: 选择所有的node节点，然后返回结果中的第一个node节点
 
 ### 通过class查找时优先考虑CSS
+
 ```
 >> from scrapy import Selector
 >>> sel = Selector(text='<div class="hero shout"><time datetime="2014-07-23 19:00">Special date</time></div>')

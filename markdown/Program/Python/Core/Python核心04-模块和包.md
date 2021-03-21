@@ -1,10 +1,8 @@
 # Python核心04-模块和包
 
-模块和包都是用来组织代码用的，在python中一个模块就是一个.py文件，而一个包就是一个包含了`__init__.py`的文件夹。
-使用模块最大的好处就是提高代码可维护性，我们在编写代码的时候通常会引用内置模块或第三方模块。
+模块和包都是用来组织代码用的，在python中一个模块就是一个.py文件，而一个包就是一个包含了`__init__.py`的文件夹。 使用模块最大的好处就是提高代码可维护性，我们在编写代码的时候通常会引用内置模块或第三方模块。
 
-引入包是为了解决命名冲突问题，你可以把包当成是命名空间，比如你写的`abc.py`模块和其他人写的`abc.py`模块只要在不同的包中就不会冲突。
-只要顶层的包名不与别人冲突，那所有模块都不会与别人冲突。
+引入包是为了解决命名冲突问题，你可以把包当成是命名空间，比如你写的`abc.py`模块和其他人写的`abc.py`模块只要在不同的包中就不会冲突。 只要顶层的包名不与别人冲突，那所有模块都不会与别人冲突。
 
 比如我现在有这样一个目录结构：
 
@@ -15,18 +13,18 @@
         __init__.py   (定义cool()函数)
         main.py       (定义aa()函数和User类)
 
-每一个包目录下面都会有一个`__init__.py`的文件，这个文件是必须存在的，否则，Python就把这个目录当成普通目录，
-而不是一个包。`__init__.py`可以是空文件，也可以有Python代码，`__init__.py`本身就是一个模块，
-而它的模块名就是所在文件夹名，比如`winhong`目录下的`__init__.py`模块名就是`winhong`，而web目录下的`__init__.py`的模块名就是`web`。
+每一个包目录下面都会有一个`__init__.py`的文件，这个文件是必须存在的，否则，Python就把这个目录当成普通目录， 而不是一个包。`__init__.py`可以是空文件，也可以有Python代码，`__init__.py`
+本身就是一个模块， 而它的模块名就是所在文件夹名，比如`winhong`目录下的`__init__.py`模块名就是`winhong`，而web目录下的`__init__.py`的模块名就是`web`。
 
 注：自己编写模块时候
 
 1. 模块名不要跟内置模块名冲突，例如系统自带了`sys`模块，自己的模块就不可命名为`sys.py`
-2. 模块内函数与变量名称不要和内置函数名冲突，
-点[这里](http://docs.python.org/3/library/functions.html)查看Python的所有内置函数
+2. 模块内函数与变量名称不要和内置函数名冲突， 点[这里](http://docs.python.org/3/library/functions.html)查看Python的所有内置函数
 
 ## 导入模块
+
 要使用模块就需要先导入
+
 ```python
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
@@ -42,41 +40,44 @@ def demo():
 if __name__ == '__main__':
     demo()
 ```
-上面第一行是解释器路径，这个是标准写法，第二行指定源文件编码utf-8，这样可支持中文。
-接下来是模块文档注释，任何模块代码的第一个字符串都被视为模块的文档注释。
-下面的`__author__ = "Xiong Neng"`指定了作者，你公开源码后别人可看到。
-接下来是主体部分，这个是一个模块的标准写法。
+
+上面第一行是解释器路径，这个是标准写法，第二行指定源文件编码utf-8，这样可支持中文。 接下来是模块文档注释，任何模块代码的第一个字符串都被视为模块的文档注释。 下面的`__author__ = "Xiong Neng"`
+指定了作者，你公开源码后别人可看到。 接下来是主体部分，这个是一个模块的标准写法。
 
 注意到：
+
 ```python
 if __name__ == '__main__':
     demo()
 ```
-当我们直接运行这个模块时候，Python解释器把一个特殊变量`__name__`置为`__main__`，
-而如果在其他地方导入该`hello`模块时，if判断将失败，所以这个是模块测试的标准写法。
+
+当我们直接运行这个模块时候，Python解释器把一个特殊变量`__name__`置为`__main__`， 而如果在其他地方导入该`hello`模块时，if判断将失败，所以这个是模块测试的标准写法。
 
 ## 模块搜索路径
-当我们试图加载一个模块时，Python会在指定的路径下搜索对应的.py文件，如果找不到就会报错。
-默认情况下，Python解释器会搜索当前目录、所有已安装的内置模块和第三方模块，搜索路径存放在sys模块的path变量中：
+
+当我们试图加载一个模块时，Python会在指定的路径下搜索对应的.py文件，如果找不到就会报错。 默认情况下，Python解释器会搜索当前目录、所有已安装的内置模块和第三方模块，搜索路径存放在sys模块的path变量中：
+
 ```python
 import sys
 print('\n'.join(sys.path))
 ```
+
 如果我们要添加自己的搜索目录，有两种方法：
 
 第一种方法是直接修改sys.path，添加要搜索的目录，这种方法是在运行时修改，运行结束后失效。：
+
 ```python
 >>> import sys
 >>> sys.path.append('/Users/michael/my_py_scripts')
 ```
-第二种方法是设置环境变量PYTHONPATH，该环境变量的内容会被自动添加到模块搜索路径中。
-设置方式与设置Path环境变量类似。注意只需要添加你自己的搜索路径，Python自己本身的搜索路径不受影响。
+
+第二种方法是设置环境变量PYTHONPATH，该环境变量的内容会被自动添加到模块搜索路径中。 设置方式与设置Path环境变量类似。注意只需要添加你自己的搜索路径，Python自己本身的搜索路径不受影响。
 
 ## 私有属性
+
 一般我们会在模块中定义很多函数和变量，但是我们只想公开一部分，那么我们可使用单下划线_来实现。
 
-类似`__xxx__`这样的变量是特殊变量，可以被直接引用，但是有特殊用途，
-比如上面的`__author__`，`__name__`就是特殊变量，我们没事就别在模块中定义这些东西了。
+类似`__xxx__`这样的变量是特殊变量，可以被直接引用，但是有特殊用途， 比如上面的`__author__`，`__name__`就是特殊变量，我们没事就别在模块中定义这些东西了。
 
 在模块中：
 
@@ -87,6 +88,7 @@ print('\n'.join(sys.path))
 总的来说就是，Python本身没有任何机制阻止你干坏事，一切全靠约定和自觉。
 
 ## 特殊属性
+
 对于模块、包、类、对象，函数等，它们都有各自一些特殊的内置属性值，我这里选几个比较有用的讲一下：
 
 1. `__package__`表示包名
@@ -105,6 +107,7 @@ print('\n'.join(sys.path))
             class User(object): pass
 
 然后我来对这些对象做一个测试，注意我注释掉的是不支持属性并给出报错信息：
+
 ```python
 # 打印python解释器路径和PYTHONPATH
 import sys
@@ -190,18 +193,19 @@ print('----------------------------------------------------')
 
 ### 使用pip
 
-安装完python后就已经安装了所有的内置模块，如果只是需要内置模块之间导入即可，而当我们需要第三方模块的时候就需要自己去安装了。
-python里面最常用的是使用pip在线安装第三方模块。
+安装完python后就已经安装了所有的内置模块，如果只是需要内置模块之间导入即可，而当我们需要第三方模块的时候就需要自己去安装了。 python里面最常用的是使用pip在线安装第三方模块。
 
 安装pip有三种方式，我都介绍一遍。
 
 第一种通过get-pip.py脚本安装：
+
 ```bash
 curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
 python get-pip.py
 ```
 
 第二种先下载安装setuptoos，使用它里面的easy_install命令安装：
+
 ```bash
 tar -zxvf /root/install_venv/setuptools-28.8.0.tar.gz -C /root/setuptools --strip-components=1
 cd /root/setuptools && python setup.py install
@@ -209,17 +213,20 @@ sudo easy_install pip
 ```
 
 第三种之间下载源码安装：
+
 ```bash
 tar -zxvf /root/install_venv/pip-9.0.1.tar.gz -C /root/pip --strip-components=1
 cd /root/pip && python setup.py install
 ```
 
 安装完pip后就可以通过简单的命令安装其他python模块了，比如要安装网络爬虫scrapy：
+
 ```bash
 pip install scrapy
 ```
 
 一些更高级的命令示例：
+
 ```bash
 # 安装指定版本
 sudo pip install scrapy==1.0.2
@@ -240,15 +247,17 @@ pip install --no-index --find-links=d:\python27\packages -r requirements.txt
 ```
 
 ### 虚拟环境virtualenv
-如果正常使用pip安装会将软件包安装到python系统包目录下面，也就是site-packages目录。
-通常我们需要对环境进行隔离以防止别的包影响到。这时候需要安装虚拟环境virtualenv了。
+
+如果正常使用pip安装会将软件包安装到python系统包目录下面，也就是site-packages目录。 通常我们需要对环境进行隔离以防止别的包影响到。这时候需要安装虚拟环境virtualenv了。
 
 **安装**：
+
 ```bash
 sudo pip install -U virtualenv
 ```
 
 **创建**：
+
 ```bash
 # 默认继承系统的site-packages中的模块
 virtualenv myenv
@@ -257,11 +266,13 @@ virtualenv --no-site-packages myenv
 ```
 
 **激活**：
+
 ```bash
 source myenv/bin/activate
 ```
 
 **退出**：
+
 ```bash
 deactivate
 ```
@@ -271,17 +282,20 @@ deactivate
 退出后直接删除myenv文件夹即可
 
 **安装第三方包**：
+
 ```
 (未激活) pip install -E myenv scrapy
 (激活)   pip install scrapy
 ```
 
 **整个虚拟环境导出**：
+
 ```bash
 pip freeze -E django-mimo > requirements.txt
 ```
 
 **整个虚拟环境导入**：
+
 ```bash
 pip install -E django-mimo -r requirements.txt
 ```

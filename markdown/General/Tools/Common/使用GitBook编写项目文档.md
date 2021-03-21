@@ -1,7 +1,6 @@
 # 使用GitBook编写项目文档
 
-我之前写了一篇如何在readthedoc上面发布文档的文章，现在又多了一个选择，就是使用GitBook来编写文档。
-主要是觉得对于一个托管到GitHub上面的项目来讲，可以顺带的编写使用教程和文档，可以托管到`github.io`上面，
+我之前写了一篇如何在readthedoc上面发布文档的文章，现在又多了一个选择，就是使用GitBook来编写文档。 主要是觉得对于一个托管到GitHub上面的项目来讲，可以顺带的编写使用教程和文档，可以托管到`github.io`上面，
 非常的方便有用。因为很多软件别人觉得好不好用，文档太重要了。
 
 ## 安装
@@ -26,6 +25,7 @@ node -v
 ```
 npm install -g cnpm --registry=https://registry.npm.taobao.org
 ```
+
 之后使用cnpm命令代替npm命令
 
 **安装gitbook-cli**
@@ -68,6 +68,7 @@ This is a book powered by [GitBook](https://github.com/GitbookIO/gitbook).
 ```
 
 SUMMARY.md 是书籍的目录结构。内容如下：
+
 ```
 $ cat book/SUMMARY.md 
 # SUMMARY
@@ -98,6 +99,7 @@ $ tree
 ```
 
 书籍目录结构创建完成以后，就可以使用 gitbook serve 来编译和预览书籍了：
+
 ```
 [root@VM_170_150_centos book]# gitbook serve
 Live reload server started on port: 35729
@@ -113,13 +115,12 @@ Starting server ...
 Serving book on http://localhost:4000
 ```
 
-`gitbook serve` 命令实际上会首先调用 `gitbook build` 编译书籍，
-完成以后会打开一个 web 服务器，监听在本地的 4000 端口。
+`gitbook serve` 命令实际上会首先调用 `gitbook build` 编译书籍， 完成以后会打开一个 web 服务器，监听在本地的 4000 端口。
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/gitbook01.png)
 
-现在，gitbook 为我们创建了书籍目录结构后，就可以向其中添加真正的内容了，文件的编写使用 markdown 语法，
-在文件修改过程中，每一次保存文件，`gitbook serve` 都会自动重新编译，所以可以持续通过浏览器来查看最新的书籍效果！
+现在，gitbook 为我们创建了书籍目录结构后，就可以向其中添加真正的内容了，文件的编写使用 markdown 语法， 在文件修改过程中，每一次保存文件，`gitbook serve`
+都会自动重新编译，所以可以持续通过浏览器来查看最新的书籍效果！
 
 另外，你还可以下载 [gitbook 编辑器](https://www.gitbook.com/editor)，做到所见即所得的编辑。
 
@@ -203,13 +204,11 @@ cnpm i -g gitbook-plugin-styles-sass-fix
 
 ### multipart
 
-这个是能将一本书分成街部分，每一部分单独编号，互不影响。
-对有非常多章节的书籍非常有用，分成两部分后，各个部分的章节都从 1 开始编号。
+这个是能将一本书分成街部分，每一部分单独编号，互不影响。 对有非常多章节的书籍非常有用，分成两部分后，各个部分的章节都从 1 开始编号。
 
 ### toggle-chapters
 
-toggle-chapters 插件的效果是：默认只在目录导航中显示章的标题，而不会显示小节的标题，
-点击每一章或者每一节会显示当前章或节的子目录，如果有的话，但是同时会收起其它之前展开的章节。
+toggle-chapters 插件的效果是：默认只在目录导航中显示章的标题，而不会显示小节的标题， 点击每一章或者每一节会显示当前章或节的子目录，如果有的话，但是同时会收起其它之前展开的章节。
 
 ### disqus
 
@@ -218,6 +217,7 @@ Disqus 是一个非常流行的为网站集成评论系统的工具，同样，g
 首先，需要在 disqus 上注册一个账号，然后添加一个 website，这会获得一个关键字，然后在集成时配置这个关键字即可。
 
 配置如下：
+
 ```json
 {
     "plugins": ["disqus"],
@@ -235,19 +235,16 @@ Disqus 是一个非常流行的为网站集成评论系统的工具，同样，g
 
 ## 集成GitHub
 
-我对GitBook最感兴趣的地方还是它能非常轻松的跟GitHub集成，对每个项目生成各自的文档或书籍，
-并且可以发布至github.io上面，提供版本控制，这个对于写软件的文档来讲实在是太方便了，不得不爱它。
+我对GitBook最感兴趣的地方还是它能非常轻松的跟GitHub集成，对每个项目生成各自的文档或书籍， 并且可以发布至github.io上面，提供版本控制，这个对于写软件的文档来讲实在是太方便了，不得不爱它。
 
 下面我以自己的一个实际项目来说明如果进行集成。
 
 项目地址：<https://github.com/yidao620c/core-scrapy>
 
-如果读者不了解 GitHub Pages 为何物，简单说就是一个可以托管静态网站的 Git 项目，
-支持使用 markdown 语法以及 Jekyll 来构建，或者直接使用已经生成好的静态站点。
+如果读者不了解 GitHub Pages 为何物，简单说就是一个可以托管静态网站的 Git 项目， 支持使用 markdown 语法以及 Jekyll 来构建，或者直接使用已经生成好的静态站点。
 详细可以参考 [GitHub Pages 主页](https://pages.github.com/)
 
-由于 gitbook 书籍可以通过 gitbook 本地构建出 site 格式，所以可以直接将构建好的书籍直接放到 GitHub Pages 中托管，
-之后，可以通过如下地址访问书籍：
+由于 gitbook 书籍可以通过 gitbook 本地构建出 site 格式，所以可以直接将构建好的书籍直接放到 GitHub Pages 中托管， 之后，可以通过如下地址访问书籍：
 
 ```
 http://<username>.github.io/<project>
@@ -332,15 +329,13 @@ git checkout master
 
 初次执行脚本时候注意：
 
-将项目clone下来之后，默认只有maser分支，先手动增加`gh-pages`分支，
-使用npm下载好所有的gitbook插件，并执行`gitbook install`命令。
+将项目clone下来之后，默认只有maser分支，先手动增加`gh-pages`分支， 使用npm下载好所有的gitbook插件，并执行`gitbook install`命令。
 
 这些做好之后再执行publish脚本，以后每次都不用管之前的步骤了。
 
 **URL路径问题**
 
-一开始发布之后发现logo图片、fontawesome路径都出现404错误，原因是对于每个项目而言多了个项目名称的路径，
-这样就会找不到正确的URL。
+一开始发布之后发现logo图片、fontawesome路径都出现404错误，原因是对于每个项目而言多了个项目名称的路径， 这样就会找不到正确的URL。
 
 解决办法：
 
@@ -358,6 +353,7 @@ fonts目录放入的字体：
 * fontawesome-webfont.woff2
 
 css目录放入的样式文件：
+
 ```
 font-awesome.css
 font-awesome.css.map

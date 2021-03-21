@@ -1,10 +1,9 @@
 # SpringBoot系列-缓存
 
-内存的速度远远大于硬盘的速度，当我们需要重复获取相同的数据的时候，一次又一次的请求数据库或远程服务，
-导致大量时间都消耗在数据库查询或远程方法调用上面，性能下降，这时候就需要使用到缓存技术了。
+内存的速度远远大于硬盘的速度，当我们需要重复获取相同的数据的时候，一次又一次的请求数据库或远程服务， 导致大量时间都消耗在数据库查询或远程方法调用上面，性能下降，这时候就需要使用到缓存技术了。
 
-本文介绍SpringBoot 如何使用redis做缓存，如何对redis缓存进行定制化配置(如key的有效期)以及初始化redis做缓存。
-使用具体的代码介绍了`@Cacheable`，`@CacheEvict`，`@CachePut`，`@CacheConfig`等注解及其属性的用法。
+本文介绍SpringBoot 如何使用redis做缓存，如何对redis缓存进行定制化配置(如key的有效期)以及初始化redis做缓存。 使用具体的代码介绍了`@Cacheable`，`@CacheEvict`，`@CachePut`
+，`@CacheConfig`等注解及其属性的用法。
 
 ## Spring缓存支持
 
@@ -209,8 +208,7 @@ sync         | 多线程同时访问时候进行同步
 
 ### @CacheEvict
 
-该注解在执行完方法后会触发一次缓存evict操作，参数除了@Cacheable里的外，还有个特殊的`allEntries`，
-表示将清空缓存中所有的值。
+该注解在执行完方法后会触发一次缓存evict操作，参数除了@Cacheable里的外，还有个特殊的`allEntries`， 表示将清空缓存中所有的值。
 
 ## 使用
 
@@ -382,8 +380,7 @@ Closing org.springframework.context.annotation.AnnotationConfigApplicationContex
 
 ## 切换缓存技术
 
-得益于SpringBoot的自动配置机制，切换缓存技术除了替换相关maven依赖包和配置Bean外，使用方式和实例中一样，
-不需要修改业务代码。如果你要切换到其他缓存技术非常简单。
+得益于SpringBoot的自动配置机制，切换缓存技术除了替换相关maven依赖包和配置Bean外，使用方式和实例中一样， 不需要修改业务代码。如果你要切换到其他缓存技术非常简单。
 
 **EhCache**
 
@@ -457,7 +454,6 @@ SpringBoot会为我们自动配置`GuavaCacheManager`这个Bean。
 
 SpringBoot会为我们自动配置`RedisCacheManager`这个Bean，同时还会配置`RedisTemplate`这个Bean。
 后面这个Bean就是下一篇要讲解的操作Redis数据库用，这个就比单纯注解缓存强大和灵活的多了。
-
 
 ## 参考文章
 

@@ -1,17 +1,12 @@
 ---
-title: Spring集成Axis2
-date: 2017-09-06 15:22:10 +0800
-comments: true
-toc: true
-categories: spring
-tags:
-  - spring
-  - axis2
-abbrlink: 57631
+title: Spring集成Axis2 date: 2017-09-06 15:22:10 +0800 comments: true toc: true categories: spring tags:
+
+- spring
+- axis2 abbrlink: 57631
+
 ---
 
-虽然现在做WebService开发的越来越少了，但是还是会碰到很多老的系统用到这个技术。
-本篇讲解一下如何在Spring4里面集成Axis2开发WebService，包括服务器端和客户端。
+虽然现在做WebService开发的越来越少了，但是还是会碰到很多老的系统用到这个技术。 本篇讲解一下如何在Spring4里面集成Axis2开发WebService，包括服务器端和客户端。
 <!-- more -->
 
 ## 服务端
@@ -30,76 +25,76 @@ abbrlink: 57631
 </properties>
 
 <dependencies>
-    <!-- spring start-->
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-core</artifactId>
-        <version>${spring.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-web</artifactId>
-        <version>${spring.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-webmvc</artifactId>
-        <version>${spring.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-beans</artifactId>
-        <version>${spring.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context</artifactId>
-        <version>${spring.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context-support</artifactId>
-        <version>${spring.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-test</artifactId>
-        <version>${spring.version}</version>
-        <scope>test</scope>
-    </dependency>
-    
-    <!-- axis2 -->
-    <dependency>
-        <groupId>org.apache.axis2</groupId>
-        <artifactId>axis2</artifactId>
-        <version>${axis2-version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.axis2</groupId>
-        <artifactId>axis2-spring</artifactId>
-        <version>${axis2-version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.axis2</groupId>
-        <artifactId>axis2-transport-http</artifactId>
-        <version>${axis2-version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.axis2</groupId>
-        <artifactId>axis2-transport-local</artifactId>
-        <version>${axis2-version}</version>
-    </dependency>
-    <!-- Axis2客户端的包-->
-    <dependency>
-        <groupId>org.apache.axis2</groupId>
-        <artifactId>axis2-kernel</artifactId>
-        <version>${axis2-version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.axis2</groupId>
-        <artifactId>axis2-adb</artifactId>
-        <version>${axis2-version}</version>
-    </dependency>
+<!-- spring start-->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-core</artifactId>
+    <version>${spring.version}</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-web</artifactId>
+    <version>${spring.version}</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-webmvc</artifactId>
+    <version>${spring.version}</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-beans</artifactId>
+    <version>${spring.version}</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>${spring.version}</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context-support</artifactId>
+    <version>${spring.version}</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-test</artifactId>
+    <version>${spring.version}</version>
+    <scope>test</scope>
+</dependency>
+
+<!-- axis2 -->
+<dependency>
+    <groupId>org.apache.axis2</groupId>
+    <artifactId>axis2</artifactId>
+    <version>${axis2-version}</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.axis2</groupId>
+    <artifactId>axis2-spring</artifactId>
+    <version>${axis2-version}</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.axis2</groupId>
+    <artifactId>axis2-transport-http</artifactId>
+    <version>${axis2-version}</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.axis2</groupId>
+    <artifactId>axis2-transport-local</artifactId>
+    <version>${axis2-version}</version>
+</dependency>
+<!-- Axis2客户端的包-->
+<dependency>
+    <groupId>org.apache.axis2</groupId>
+    <artifactId>axis2-kernel</artifactId>
+    <version>${axis2-version}</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.axis2</groupId>
+    <artifactId>axis2-adb</artifactId>
+    <version>${axis2-version}</version>
+</dependency>
 </dependencies>
 ```
 
@@ -114,7 +109,9 @@ public interface AxisHelloWorld {
 ```
 
 实现类：
+
 ```java
+
 @Service(value = "axisHelloWorldService")
 public class AxisHelloWorldImpl implements AxisHelloWorld {
     @Override
@@ -143,7 +140,7 @@ public class AxisHelloWorldImpl implements AxisHelloWorld {
     <!-- 扫描所有标注@Service的服务组件 -->
     <context:component-scan base-package="com.xncoding.axis2.service"/>
 
-    <bean id="applicationContext" class="org.apache.axis2.extensions.spring.receivers.ApplicationContextHolder" />
+    <bean id="applicationContext" class="org.apache.axis2.extensions.spring.receivers.ApplicationContextHolder"/>
 
 </beans>
 ```
@@ -172,6 +169,7 @@ public class AxisHelloWorldImpl implements AxisHelloWorld {
 再配置web.xml：
 
 ```xml
+
 <web-app version="2.4"
          xmlns="http://java.sun.com/xml/ns/j2ee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -212,6 +210,7 @@ public class AxisHelloWorldImpl implements AxisHelloWorld {
 正确的返回WSDL文件，并且里面会有我定义的一个服务：
 
 ```xml
+
 <wsdl:service name="axisHelloWorld">
 ```
 
@@ -221,8 +220,7 @@ public class AxisHelloWorldImpl implements AxisHelloWorld {
 
 ### 生成Stub类
 
-Axis2提供了一个wsdl2java.bat命令可以根据WSDL文件自动产生调用WebService的代码。 
-wsdl2java.bat命令可以在<Axis2安装目录>/bin目录中找到。
+Axis2提供了一个wsdl2java.bat命令可以根据WSDL文件自动产生调用WebService的代码。 wsdl2java.bat命令可以在<Axis2安装目录>/bin目录中找到。
 
 在使用wsdl2java.bat命令之前需要设置AXIS2_HOME环境变量，该变量值是<Axis2安装目录>。然后再将%AXIS2_HOME%\bin目录加入PATH
 
@@ -234,25 +232,24 @@ wsdl2java.bat命令可以在<Axis2安装目录>/bin目录中找到。
 
 -p指定你生成的客户端Stub的包名
 
-在执行完上面的命令后，就会发现在当前目录下多了个stub目录， 在stub/src/com/...目录可以找到一个xxxStub.java文件，
-可通过该文件调用WebService，在程序中直接使用这个类。
+在执行完上面的命令后，就会发现在当前目录下多了个stub目录， 在stub/src/com/...目录可以找到一个xxxStub.java文件， 可通过该文件调用WebService，在程序中直接使用这个类。
 
 ### 编写测试方法
 
 ```java
 @Test
-public void test() throws Exception {
-    //创建生成的stub类
-    AxisHelloWorldStub stub = new AxisHelloWorldStub();
-    //创建对应的方法类（这里我的webservice里有个getMessage的方法，具体的看你自己webservice里定义了何种方法）
-    AxisHelloWorldStub.GetMessage msgParam = new AxisHelloWorldStub.GetMessage();
-    msgParam.setMessage("消息消息");
-    AxisHelloWorldStub.GetMessageResponse responseMsg = stub.getMessage(msgParam);
-    //获取方法类的结果集
-    String get_return = responseMsg.get_return();
-    //打印输出结果
-    System.out.println(get_return);
-}
+public void test()throws Exception{
+        //创建生成的stub类
+        AxisHelloWorldStub stub=new AxisHelloWorldStub();
+        //创建对应的方法类（这里我的webservice里有个getMessage的方法，具体的看你自己webservice里定义了何种方法）
+        AxisHelloWorldStub.GetMessage msgParam=new AxisHelloWorldStub.GetMessage();
+        msgParam.setMessage("消息消息");
+        AxisHelloWorldStub.GetMessageResponse responseMsg=stub.getMessage(msgParam);
+        //获取方法类的结果集
+        String get_return=responseMsg.get_return();
+        //打印输出结果
+        System.out.println(get_return);
+        }
 ```
 
 运行后输出结果：

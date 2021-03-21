@@ -1,10 +1,10 @@
 # SpringBoot系列-自己写starter
 
-Spring Boot由众多Starter组成，随着版本的推移Starter家族成员也与日俱增。在传统Maven项目中通常将一些层、组件拆分为模块来管理，
-以便相互依赖复用，在Spring Boot项目中我们则可以创建自定义Spring Boot Starter来达成该目的。
+Spring Boot由众多Starter组成，随着版本的推移Starter家族成员也与日俱增。在传统Maven项目中通常将一些层、组件拆分为模块来管理， 以便相互依赖复用，在Spring Boot项目中我们则可以创建自定义Spring
+Boot Starter来达成该目的。
 
-可以认为starter是一种服务——使得使用某个功能的开发者不需要关注各种依赖库的处理，不需要具体的配置信息，
-由Spring Boot自动通过classpath路径下的类发现需要的Bean，并织入相应的Bean。举个栗子，spring-boot-starter-jdbc这个starter的存在，
+可以认为starter是一种服务——使得使用某个功能的开发者不需要关注各种依赖库的处理，不需要具体的配置信息， 由Spring
+Boot自动通过classpath路径下的类发现需要的Bean，并织入相应的Bean。举个栗子，spring-boot-starter-jdbc这个starter的存在，
 使得我们只需要在BookPubApplication下用@Autowired引入DataSource的bean就可以，Spring Boot会自动创建DataSource的实例。
 
 本篇将通过一个简单的例子来演示如何编写自己的starter。
@@ -58,9 +58,8 @@ Spring Boot由众多Starter组成，随着版本的推移Starter家族成员也�
 </project>
 ```
 
-注意其中 `spring-boot-configuration-processor` 的作用是编译时生成`spring-configuration-metadata.json`，
-此文件主要给IDE使用，用于提示使用。如在intellij idea中，当配置此jar相关配置属性在`application.yml`，
-你可以用ctlr+鼠标左键，IDE会跳转到你配置此属性的类中。
+注意其中 `spring-boot-configuration-processor` 的作用是编译时生成`spring-configuration-metadata.json`， 此文件主要给IDE使用，用于提示使用。如在intellij
+idea中，当配置此jar相关配置属性在`application.yml`， 你可以用ctlr+鼠标左键，IDE会跳转到你配置此属性的类中。
 
 这里说下artifactId的命名问题，Spring 官方 Starter通常命名为`spring-boot-starter-{name}` 如 `spring-boot-starter-web`。
 
@@ -158,8 +157,7 @@ OK，完事，运行 `mvn:install` 打包安装，一个Spring Boot Starter便�
 
 ## 测试
 
-打包好了当然要测试一下看看了。另外创建一个SpringBoot工程，在maven中引入这个starter依赖，
-然后在单元测试中引入这个Service看看效果。
+打包好了当然要测试一下看看了。另外创建一个SpringBoot工程，在maven中引入这个starter依赖， 然后在单元测试中引入这个Service看看效果。
 
 ```xml
 <dependency>

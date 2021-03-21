@@ -1,10 +1,8 @@
 # Django1.9开发博客11-富文本与代码高亮
 
-TinyMCE是一个轻量级的基于浏览器的所见即所得编辑器，支持目前流行的各种浏览器，由JavaScript写成。
-功能配置灵活简单（两行代码就可以将编辑器嵌入网页中），支持AJAX。另一特点是加载速度非常快。
+TinyMCE是一个轻量级的基于浏览器的所见即所得编辑器，支持目前流行的各种浏览器，由JavaScript写成。 功能配置灵活简单（两行代码就可以将编辑器嵌入网页中），支持AJAX。另一特点是加载速度非常快。
 
-django里引用TinyMCE富文本编辑器，其实很简单，前提是你知道django的静态文件配置。
-其实这个我已经在前面文章提到过，可以回去再看看。
+django里引用TinyMCE富文本编辑器，其实很简单，前提是你知道django的静态文件配置。 其实这个我已经在前面文章提到过，可以回去再看看。
 
 TinyMCE的官方网站是：<http://www.tinymce.com/>
 
@@ -19,11 +17,11 @@ TinyMCE的最新版本是4.1.9，下面是官网截屏：
 ![](https://xnstatic-1253397658.file.myqcloud.com/dj101.png)
 
 ## 安装原理
-安装的原理很简单，只需要在使用编辑器的页面里引用tinymce.min.js文件并初始化就可以了。
-tinymce.min.js文件在tinymce项目里，
-tinymce.min.js会根据初始配置里的信息找到需要用编辑器的html节点。
+
+安装的原理很简单，只需要在使用编辑器的页面里引用tinymce.min.js文件并初始化就可以了。 tinymce.min.js文件在tinymce项目里， tinymce.min.js会根据初始配置里的信息找到需要用编辑器的html节点。
 
 例如在post_edit.html页面使用编辑器，只需要在模板文件写下：
+
 ```html
 @% load staticfiles %@
 @% block header %@
@@ -47,17 +45,15 @@ tinymce.min.js会根据初始配置里的信息找到需要用编辑器的html�
 @% endblock %@
 ```
 
-这段代码的含义是 初始化 tinyMCE编辑器，selector指需要将编辑器显示在html那个标签节点，
-这里选了textareas。则表示<textareas>会变成编辑器所在的位置。
+这段代码的含义是 初始化 tinyMCE编辑器，selector指需要将编辑器显示在html那个标签节点， 这里选了textareas。则表示<textareas>会变成编辑器所在的位置。
 
 另外，我还自定义一下编辑器的高度、插件、菜单项目等。具体详细配置请参考官方文档，写的都比较清楚。
 
 ## 给TinyMCE增加一个addmore插件
-需求很简单，就是每次我写文章的时候需要插入某个`<!--more-->`标签，
-这样可以在列表页面先只显示文章的一部分，然后碰到这个more标签就显示一个"点击阅读更多"的链接。
 
-第一步，在tinymce/plugins文件下新增一个addmore文件夹，然后在里面新建一个plugin.min.js文件，
-内容如下：
+需求很简单，就是每次我写文章的时候需要插入某个`<!--more-->`标签， 这样可以在列表页面先只显示文章的一部分，然后碰到这个more标签就显示一个"点击阅读更多"的链接。
+
+第一步，在tinymce/plugins文件下新增一个addmore文件夹，然后在里面新建一个plugin.min.js文件， 内容如下：
 
 ```js
 tinymce.PluginManager.add("addmore", function (a) {
@@ -89,6 +85,7 @@ tinymce.PluginManager.add("addmore", function (a) {
 再看看效果，没问题了。
 
 ## SyntaxHighlighter代码高亮
+
 程序员写博客当然少不了代码高亮，这个功能页很容易实现。有一款插件叫SyntaxHighlighter值的推荐。
 
 项目主页：<http://alexgorbatchev.com/SyntaxHighlighter/>
@@ -102,6 +99,7 @@ tinymce.PluginManager.add("addmore", function (a) {
 只需要修改django页面的基础模板就行了，非常简单。
 
 打开mysite/templates/mysite/base.html页面，引入syntaxhighlighter：
+
 ```html
 @% load staticfiles %@
 @% load i18n %@
@@ -151,6 +149,7 @@ tinymce.PluginManager.add("addmore", function (a) {
 ![](https://xnstatic-1253397658.file.myqcloud.com/dj103.png)
 
 ## 最后一件事
+
 别忘了部署到Heroku上面和别人分享你的成果。
 
 OK，到此为止，前台的各种功能已经差不多了，你能一直坚持学到这里很不错了，为你自己鼓掌吧。

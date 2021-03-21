@@ -4,14 +4,12 @@ TLS(transport layer security), 和它的后继者SSL是一个安全套接字层�
 
 网站转成https是大势所趋。但是在国内，推进的过程显然要比国外慢很多。
 
-现阶段如果将自己的网站改成https以后，会碰到这样的尴尬现象：如果在页面上引用了http://的链接或者图片，
-用户在浏览器上会看到类似该网站是非安全网站的警告，对于网站运营者来说可以说非常冤。由于很多链接是第三方的，没有办法去控制。
+现阶段如果将自己的网站改成https以后，会碰到这样的尴尬现象：如果在页面上引用了http://的链接或者图片， 用户在浏览器上会看到类似该网站是非安全网站的警告，对于网站运营者来说可以说非常冤。由于很多链接是第三方的，没有办法去控制。
 对于api接口类的网站，就不存在混合的问题，所以首先应该从api后台接口部分开始用https。(ios已经强制要求接口地址必须为https了)
 
 本章专门来讲解在nginx中如何配置https访问。
 
-首先要明确的是要支持https就必须要有证书，这个证书可以是自己生成的，也可以从CA机构申请，在测试阶段可以自己生成，
-但是如果要部署到生产环境，最好去CA机构申请，有免费和收费的证书，同时还分不同的证书种类。
+首先要明确的是要支持https就必须要有证书，这个证书可以是自己生成的，也可以从CA机构申请，在测试阶段可以自己生成， 但是如果要部署到生产环境，最好去CA机构申请，有免费和收费的证书，同时还分不同的证书种类。
 
 ## SSL证书类型
 
@@ -20,26 +18,24 @@ TLS(transport layer security), 和它的后继者SSL是一个安全套接字层�
 * EV（增强型SSL证书）: 地址栏上显示公司名，显示公司的详细信息。
 
 三者的主要区别有以下几点：
- 
+
 1. 审核标准不一样，DV审核域名所有权，OV审核企业的身份，EV是审核最严格的证书；
-2. 证书中显示信息不一样，DV只显示公司域名，OV证书显示公司名称，EV证书中显示公司的详细信息，
-并且通过IE7.0等高安全浏览器访问时，地址栏会变为绿色，表示诚信，防止钓鱼和欺诈网站。
+2. 证书中显示信息不一样，DV只显示公司域名，OV证书显示公司名称，EV证书中显示公司的详细信息， 并且通过IE7.0等高安全浏览器访问时，地址栏会变为绿色，表示诚信，防止钓鱼和欺诈网站。
 
-证书申请流程大致为：填表签合同、付款、生成CSR，并且提交公司营业执照副本复印件并发送给我们、审核确认后，颁发证书。
-申请DV证书无需人工审核，快速颁发。 
+证书申请流程大致为：填表签合同、付款、生成CSR，并且提交公司营业执照副本复印件并发送给我们、审核确认后，颁发证书。 申请DV证书无需人工审核，快速颁发。
 
-申请OV证书需要贵公司提交申请证书的域名、企业营业执照副本复印件(有年检章和公章)、
-填写OV证书申请表并由贵公司经理级别以上领导签字盖章、生成证书签名请求（CSR），一般只要资料准确，2-3个工作日就可以颁发证书。
+申请OV证书需要贵公司提交申请证书的域名、企业营业执照副本复印件(有年检章和公章)、 填写OV证书申请表并由贵公司经理级别以上领导签字盖章、生成证书签名请求（CSR），一般只要资料准确，2-3个工作日就可以颁发证书。
 
-生成CSR时主要有5个字段： 
+生成CSR时主要有5个字段：
 
-1. Common Name(通用名称)：填写您的服务器的全名(网址)，必须一个字不差； 
-1. Organization(机构名称)：您的机构的名称全名，不要填写缩写； 
-1. Organization Unit(申请机构的部门名称)：City or Locality(机构所在的城市)； 
-1. Province(机构所在的省份)； 
+1. Common Name(通用名称)：填写您的服务器的全名(网址)，必须一个字不差；
+1. Organization(机构名称)：您的机构的名称全名，不要填写缩写；
+1. Organization Unit(申请机构的部门名称)：City or Locality(机构所在的城市)；
+1. Province(机构所在的省份)；
 1. Country(国家)：必须填写国家的两个字母简称,如中国就填 CN。
 
 ## 自签名证书
+
 先讲解如何生成自签名的证书。
 
 Nginx的安装和防火墙设置我前面已经说过，这里就不说了。
@@ -52,8 +48,8 @@ sudo chmod 700 /etc/ssl/private
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
 ```
 
-这条命令会同时生成一个key文件和一个证书文件，这期间会提示很多问题让你填写，大部分都可以忽略，不过最重要的`Common Name `不能忽略，
-你需要填写你的域名。类似下面这样：
+这条命令会同时生成一个key文件和一个证书文件，这期间会提示很多问题让你填写，大部分都可以忽略，不过最重要的`Common Name `不能忽略， 你需要填写你的域名。类似下面这样：
+
 ```
 Country Name (2 letter code) [AU]:US
 State or Province Name (full name) [Some-State]:New York
@@ -67,14 +63,17 @@ Email Address []:admin@your_domain.com
 生成的文件会在`/etc/ssl`相应的子目录下面。
 
 另外我们还要生成一个 Diffie-Hellman 组：
+
 ```
 sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 ```
+
 这个命令可能会运行比较长时间，耐心等待。生成的DH组文件放在`/etc/ssl/certs/dhparam.pem`，待会我们会用到。
 
 ### 配置nginx使用SSL
 
 一般我们配置nginx会单独生成一个配置文件，创建`/etc/nginx/conf.d/ssl.conf`，内容如下：
+
 ```
 server {
     listen 443 http2 ssl;
@@ -89,6 +88,7 @@ server {
 ```
 
 另外还可以多加点配置选项：
+
 ```
 server {
     listen 443 http2 ssl;
@@ -144,6 +144,7 @@ server {
 ### HTTP重定向到HTTPS
 
 有时候你想让别人访问你的网址的时候，无论使用什么方式访问，最后都是HTTPS。创建`/etc/nginx/default.d/ssl-redirect.conf`，内容如下：
+
 ```
 return 301 https://$host$request_uri/;
 ```
@@ -152,8 +153,7 @@ return 301 https://$host$request_uri/;
 
 ## Lets Encrypt 证书
 
-大牌提供商的SSL证书可不便宜，对于大公司也许不算什么，但是对于小公司及个人来说贵了。
-现在国外出现的免费SSL服务商`Let's Encrypt`，绝对是小公司或者开发者的福音。
+大牌提供商的SSL证书可不便宜，对于大公司也许不算什么，但是对于小公司及个人来说贵了。 现在国外出现的免费SSL服务商`Let's Encrypt`，绝对是小公司或者开发者的福音。
 
 这里整理了在CentOS7 + nginx安装和使用`Let's Encrypt`的完整过程。
 
@@ -167,8 +167,7 @@ return 301 https://$host$request_uri/;
 
 没有特殊情况，首选采用certbot脚本方式。
 
-`Let's Encrypt`证书的有效期只有90天，需要长期使用的话，需要在失效前进行延长申请。用certbot脚本工具，
-可以将延期申请的脚本写到定时任务来自动完成，非常方便。
+`Let's Encrypt`证书的有效期只有90天，需要长期使用的话，需要在失效前进行延长申请。用certbot脚本工具， 可以将延期申请的脚本写到定时任务来自动完成，非常方便。
 
 ### 前提条件
 
@@ -178,11 +177,9 @@ return 301 https://$host$request_uri/;
 
 ### 使用certbot-auto脚本安装Certbot
 
-`certbot-auto`脚本会安装Certbot，并且能够自己解决RPM包和Python包依赖问题，同样非常方便。
-同时`certbot-auto`是对certbot的封装，即`certbot-auto`提供certbot的所有功能。
+`certbot-auto`脚本会安装Certbot，并且能够自己解决RPM包和Python包依赖问题，同样非常方便。 同时`certbot-auto`是对certbot的封装，即`certbot-auto`提供certbot的所有功能。
 
 执行完成后就自动获得了HTTPS配置，并且还能设置成HTTP自动转HTTPS，非常方便，好喜欢哦。
-
 
 1）获取certbot-auto脚本
 
@@ -211,6 +208,7 @@ vi /etc/nginx/conf.d/api.enzhico.net.conf
 ```
 
 将以下内容复制到该文件中:
+
 ```
 server {
     listen 80;
@@ -248,6 +246,7 @@ sudo yum install httpd mod_ssl
 如果你想同时为多个domain申请证书，上面的`--domains` 参数后面接逗号隔开的域名，比如`--domains api.enzhico.net,dev.enzhico.net`
 
 联系人email地址要填写真实有效的，`let's encrypt`会在证书在过期以前发送预告的通知邮件。申请成功后，会显示以下Congratulations信息
+
 ```
 IMPORTANT NOTES:
  - Congratulations! Your certificate and chain have been saved at:
@@ -291,6 +290,7 @@ IMPORTANT NOTES:
 添加之后，不要心急着按回车，先执行`dig _acme-challenge.xncoding.com txt`确认解析记录是否生效，生效之后再回去按回车确认。
 
 申请成功后，会显示以下Congratulations信息
+
 ```
 IMPORTANT NOTES:
  - Congratulations! Your certificate and chain have been saved at:
@@ -318,6 +318,7 @@ openssl x509 -noout -dates -in /etc/letsencrypt/live/xncoding.com/cert.pem
 ### 设置定时任务自动更新证书
 
 letsencrypt证书的有效期是90天，但是可以用脚本去更新。
+
 ```
 # 如果不需要返回的信息，可以用静默方式：
 ./certbot-auto renew --no-self-upgrade --quiet
@@ -354,8 +355,7 @@ cd /etc/ssl/private/
 openssl dhparam 2048 -out dhparam.pem
 ```
 
-`Perfect Forward Security（PFS)`是个什么东西，中文翻译成完美前向保密，一两句话也说不清楚，
-反正是这几年才提倡的加强安全性的技术。如果本地还没有生成这个键值，需要先执行生成的命令。
+`Perfect Forward Security（PFS)`是个什么东西，中文翻译成完美前向保密，一两句话也说不清楚， 反正是这几年才提倡的加强安全性的技术。如果本地还没有生成这个键值，需要先执行生成的命令。
 生成的过程还挺花时间的，喝杯咖啡歇会儿吧。
 
 配置nginx站点，例如`/etc/nginx/conf.d/api.enzhico.net.conf`，样例内容如下：
@@ -396,13 +396,11 @@ server {
 
 ### 大功告成
 
-在浏览器打开`http://api.enzhico.net`, 如果正常跳转到`https://api.enzhico.net`，就算成功了。
-如果是chrome浏览器，在地址栏点击小锁的图标，可以查看证书的详情。
+在浏览器打开`http://api.enzhico.net`, 如果正常跳转到`https://api.enzhico.net`，就算成功了。 如果是chrome浏览器，在地址栏点击小锁的图标，可以查看证书的详情。
 
 ## 国内SSL证书
 
-除了`Let's Encrypt`外，国内也有很多SLL证书产商，比如腾讯云、阿里云、七牛之类的，申请的过程也很简单。
-比如七牛的SSL证书就有免费版本的，只需要申请后填写资料完善后，一天就能申请通过了。
+除了`Let's Encrypt`外，国内也有很多SLL证书产商，比如腾讯云、阿里云、七牛之类的，申请的过程也很简单。 比如七牛的SSL证书就有免费版本的，只需要申请后填写资料完善后，一天就能申请通过了。
 
 七牛SSL证书申请地址：<https://developer.qiniu.com/ssl>
 
@@ -410,10 +408,10 @@ server {
 
 ### ssl_certificate没有配置
 
-今天为线上Nginx更换SSL证书的过程中遇到了一个诡异的错误，折腾了挺长时间，事后回想起来还是挺容易跳坑的，
-所以想记录下来，一是留作以后查看，二来也许可以帮助一帮跳坑的小伙伴。
+今天为线上Nginx更换SSL证书的过程中遇到了一个诡异的错误，折腾了挺长时间，事后回想起来还是挺容易跳坑的， 所以想记录下来，一是留作以后查看，二来也许可以帮助一帮跳坑的小伙伴。
 
 nginx错误日志如下：
+
 ```
 [error] 24267#0: *34 no "ssl_certificate" is defined in server listening on SSL port while SSL handshaking,
 [error] 24267#0: *35 no "ssl_certificate" is defined in server listening on SSL port while SSL handshaking,
@@ -424,9 +422,8 @@ nginx错误日志如下：
 看错误提示意思是ssl_certificate没有配置，可是检查nginx配置，ssl_certificate和ssl_certificate_key两个选项明明都已经配置了啊，
 再检查配置的证书路径、权限也都没有任何问题，真是百思不得其解啊。
 
-最后在网上搜了一通，终于在StackOverflow一个问题找到了答案（问题地址懒得找了，就不贴了哈），
-大概意思是说ssl_certificate必须在http段中先定义， 在server段才配置ssl_certificate已经来不及了，
-检查我的nginx配置，ssl_certificate确实只在server段定义，而在http段未定义，加到http段即可。
+最后在网上搜了一通，终于在StackOverflow一个问题找到了答案（问题地址懒得找了，就不贴了哈）， 大概意思是说ssl_certificate必须在http段中先定义，
+在server段才配置ssl_certificate已经来不及了， 检查我的nginx配置，ssl_certificate确实只在server段定义，而在http段未定义，加到http段即可。
 
 ### 找不到libpython2.7.so.1.0
 

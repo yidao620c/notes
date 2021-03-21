@@ -1,8 +1,6 @@
 # 小程序开发-webview
 
-最近要做一个项目需要在小程序中打开外链，小程序最近开放了web-view组件，
-可在里面内嵌自己写的H5页面，也就实现了打开外链的功能，但是有几个注意点。
-这里记录一下，希望将来小程序能放开更多限制。
+最近要做一个项目需要在小程序中打开外链，小程序最近开放了web-view组件， 可在里面内嵌自己写的H5页面，也就实现了打开外链的功能，但是有几个注意点。 这里记录一下，希望将来小程序能放开更多限制。
 
 ## 申请业务域名
 
@@ -14,8 +12,7 @@
 
 解决方案：
 
-对浏览器进行判断，如果是小程序webview（官方判断条件：`window.__wxjs_environment === 'miniprogram'`）就跳过授权登录。
-这样就规避了访问非授权业务域名问题。
+对浏览器进行判断，如果是小程序webview（官方判断条件：`window.__wxjs_environment === 'miniprogram'`）就跳过授权登录。 这样就规避了访问非授权业务域名问题。
 
 ## 打开网页条件
 
@@ -35,7 +32,7 @@
 
 <web-view/>网页中可使用JSSDK 1.3.0提供的接口返回小程序页面，支持的接口有：
 
-接口名	                    |                      | 说明最低版本
+接口名                        |                      | 说明最低版本
 ----------------------------|----------------------|---------------
 wx.miniProgram.navigateTo   | 参数与小程序接口一致  | 1.6.4
 wx.miniProgram.navigateBack | 参数与小程序接口一致  | 1.6.4
@@ -44,6 +41,7 @@ wx.miniProgram.reLaunch     | 参数与小程序接口一致  | 即将开放
 wx.miniProgram.redirectTo   | 参数与小程序接口一致  | 即将开放
 
 示例代码：
+
 ```html
 <!-- html -->
 <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.0.js"></script>

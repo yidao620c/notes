@@ -11,7 +11,8 @@ SpringMVC对RESTful风格的接口有着天然的支持，本篇将讲述如何�
 在讲述使用之前，想要理解SpringMVC的几个常用注解：
 
 1. @Controller：修饰class，用来创建处理http请求的对象
-1. @RestController：Spring4之后加入的注解，原来在@Controller中返回json需要@ResponseBody来配合，如果直接用@RestController替代@Controller就不需要再配置@ResponseBody，默认返回json格式。
+1.
+@RestController：Spring4之后加入的注解，原来在@Controller中返回json需要@ResponseBody来配合，如果直接用@RestController替代@Controller就不需要再配置@ResponseBody，默认返回json格式。
 1. @RequestMapping：配置url映射
 1. @PostMapping: 这个是@RequestMapping+POST方法的简写
 1. @RequestHeader: 请求Header参数
@@ -33,8 +34,7 @@ GET              | /users/{id}  | 根据id查询用户
 PUT              | /users/{id}  | 根据id更新用户
 DELTE            | /users/{id}  | 更加id删除用户
 
-RESTful架构有一些典型的设计误区，就是URI包含动词。因为"资源"表示一种实体，所以应该是名词，URI不应该有动词，动词应该放在HTTP协议中。
-上面设计的API的URI中都是名词。
+RESTful架构有一些典型的设计误区，就是URI包含动词。因为"资源"表示一种实体，所以应该是名词，URI不应该有动词，动词应该放在HTTP协议中。 上面设计的API的URI中都是名词。
 
 ## 实体定义
 

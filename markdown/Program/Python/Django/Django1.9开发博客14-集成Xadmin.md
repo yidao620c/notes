@@ -1,7 +1,6 @@
 # Django1.9开发博客14-集成Xadmin
 
-xadmin是一个django的管理后台实现，使用了更加灵活的架构设计及Bootstrap UI框架，
-目的是替换现有的admin，国人开发，有许多新的特性：
+xadmin是一个django的管理后台实现，使用了更加灵活的架构设计及Bootstrap UI框架， 目的是替换现有的admin，国人开发，有许多新的特性：
 
 * 兼容 Django Admin
 * 使用 Bootstrap 作为 UI 框架
@@ -21,9 +20,8 @@ xadmin是一个django的管理后台实现，使用了更加灵活的架构设�
 
 #### python2.7环境切换
 
-注意，前面的教程都是在python3.4环境下开放的。
-而目前为止xadmin还只能支持python2，所以我们要在此项目基础上新建一个分支py27，
-然后我们创建一个python2.7的virtual environment，切换到此环境下面即可。
+注意，前面的教程都是在python3.4环境下开放的。 而目前为止xadmin还只能支持python2，所以我们要在此项目基础上新建一个分支py27， 然后我们创建一个python2.7的virtual
+environment，切换到此环境下面即可。
 
 #### 添加依赖
 
@@ -38,6 +36,7 @@ git+https://github.com/sshwsfc/django-xadmin.git@django1.9
 #### 修改settings.py
 
 增加xadmin的配置如下
+
 ```python
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -122,8 +121,7 @@ xadmin.site.register(Category)
 # xadmin.site.register(Evaluate)
 ```
 
-在这里，我们将所有的model都注册到xadmin中去，这样后台就能自动管理它们了。
-并且自定义了后台的一些菜单、标题等等。具体的定制方法可以参考xadmin的官方文档。
+在这里，我们将所有的model都注册到xadmin中去，这样后台就能自动管理它们了。 并且自定义了后台的一些菜单、标题等等。具体的定制方法可以参考xadmin的官方文档。
 
 #### 添加管理后台链接
 
@@ -152,8 +150,7 @@ xadmin.site.register(Category)
 
 #### 自定义后台登陆页面
 
-新建`mysite/templates/registration/login.html`模板，将xadmin模块中的login.html复制过来，
-修改其内容，改成自己想要的形式即可
+新建`mysite/templates/registration/login.html`模板，将xadmin模块中的login.html复制过来， 修改其内容，改成自己想要的形式即可
 
 ```html
 @% load staticfiles %@

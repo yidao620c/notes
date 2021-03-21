@@ -1,7 +1,6 @@
 # CentOS7搭建ngrok服务器
 
-ngrok是一个反向代理，它能够让你本地的web服务或tcp服务通过公共的端口和外部建立一个安全的通道，
-使得外网可以访问本地的计算机服务。也就是说，我们提供的服务（比如web站点）无需搭建在外部服务器，
+ngrok是一个反向代理，它能够让你本地的web服务或tcp服务通过公共的端口和外部建立一个安全的通道， 使得外网可以访问本地的计算机服务。也就是说，我们提供的服务（比如web站点）无需搭建在外部服务器，
 只要通过ngrok把站点映射出去，别人即可直接访问到我们的服务。
 
 有做过微信公众号开发的人，对它应该不陌生。因为用户跟微信公众号产生的交互行为，微信会把用户的相关信息推送到我们自己的服务器，
@@ -11,7 +10,7 @@ ngrok是一个反向代理，它能够让你本地的web服务或tcp服务通过
 
 ngrok是开源的，官网地址：<https://github.com/inconshreveable/ngrok>
 
-下面，我们开始搭建ngrok服务。操作系统为CentOS 7.2 
+下面，我们开始搭建ngrok服务。操作系统为CentOS 7.2
 
 ## 准备工作
 
@@ -34,6 +33,7 @@ yum install golang
 ### 安装git
 
 默认的git版本太低了，需要升级到git2.5，具体步骤如下：
+
 ```bash
 sudo yum remove git
 sudo yum install epel-release
@@ -46,6 +46,7 @@ sudo yum install git2u
 ### 下载ngrok源码
 
 新建一个目录，并clone一份源码：
+
 ```bash
 mkdir ~/go/src/github.com/inconshreveable
 cd ~/go/src/github.com/inconshreveable
@@ -69,6 +70,7 @@ $ openssl x509 -req -in device.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateser
 ```
 
 执行完成以上命令后，在ngrok目录下，会新生成6个文件：
+
 ```
 -rw-r--r-- 1 root root   1001 Dec 29 11:53 device.crt
 -rw-r--r-- 1 root root    903 Dec 29 11:44 device.csr
@@ -78,8 +80,8 @@ $ openssl x509 -req -in device.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateser
 -rw-r--r-- 1 root root     17 Dec 29 11:53 rootCA.srl
 ```
 
-我们在编译可执行文件之前，需要把生成的证书分别替换到 `assets/client/tls`和`assets/server/tls`中，
-这两个目录分别存放着ngrok和ngrokd的默认证书。
+我们在编译可执行文件之前，需要把生成的证书分别替换到 `assets/client/tls`和`assets/server/tls`中， 这两个目录分别存放着ngrok和ngrokd的默认证书。
+
 ```bash
 $ cp rootCA.pem assets/client/tls/ngrokroot.crt
 $ cp device.crt assets/server/tls/snakeoil.crt
@@ -109,14 +111,14 @@ cp /etc/letsencrypt/live/xncoding.com/privkey.pem assets/server/tls/snakeoil.key
 首先需要知道，ngrokd 为服务端的执行文件，ngrok为客户端的执行文件。
 
 接下来我们来编译ngrokd，在ngrok目录下，执行如下命令：
+
 ```bash
 $ make release-server
 ```
 
 编译过程需要等待一会，因为需要通过git安装相关依赖包。如果提示没有权限，使用 sudo 命令来安装。
 
-由于客户端的平台版本较多，我们需要交叉编译来选择生成的平台。
-以windows、arm、linux版本编译，如下：
+由于客户端的平台版本较多，我们需要交叉编译来选择生成的平台。 以windows、arm、linux版本编译，如下：
 
 ```
 $ GOOS=linux GOARCH=amd64 make release-client
@@ -133,6 +135,7 @@ $ GOOS=linux GOARCH=arm make release-client
 ### 启动ngrokd服务器
 
 请将 bin/ngrokd 放入PATH环境变量中，启动命令：
+
 ```bash
 nohup ngrokd -domain=ngrok.xncoding.com -httpAddr=:5442 -httpsAddr=:5443 -tunnelAddr=":4443" &
 ```
@@ -149,6 +152,7 @@ firewall-cmd --reload
 ### Nginx配置80端口转发
 
 我们在微信开发时候不允许使用端口访问，那么最好使用nginx反向代理转发，首先申请一个`demo.ngrok.xncoding.com`的免费证书，然后修改nginx配置如下：
+
 ```nginx
 server {
     listen       80;
@@ -179,18 +183,20 @@ server {
 }
 ```
 
-但是！这里就有一个很烦躁的地方了，ngrokd 里面有一层自己的 Host 处理，于是 `proxy_set_header Host` 必须带上 ngrokd 所监听的端口，
-否则就算请求被转发到对应端口上， ngrokd 也不会正确的处理。
+但是！这里就有一个很烦躁的地方了，ngrokd 里面有一层自己的 Host 处理，于是 `proxy_set_header Host` 必须带上 ngrokd 所监听的端口， 否则就算请求被转发到对应端口上， ngrokd
+也不会正确的处理。
 
 ### 启用客户端
 
 在刚刚复制过来的ngrok.exe客户端文件夹中，新建一个客户端配置`ngrok.cfg`：
+
 ```
 server_addr: "ngrok.xncoding.com:4443"
 trust_host_root_certs: false
 ```
 
 本地启动一个SpringBoot的WEB工程，端口8092，然后通过下面命令启动客户端：
+
 ```
 ngrok.exe -subdomain demo -config=ngrok.cfg -log=log.txt 8092
 ```
@@ -207,16 +213,14 @@ ngrok.exe -subdomain demo -config=ngrok.cfg -log=log.txt 8092
 
 ## 烦恼的事情
 
-带上端口号又会导致了另一个操蛋的问题：你请求的时候是`demo.ngrok.xncoding.com`， 
-你在 web 应用中获取到的 Host 是 `demo.ngrok.xncoding.com:5442`，
-如果你的程序里面有基于 Request Host 的重定向，就会被重定向到 `demo.ngrok.xncoding.com:5442` 下面去。
+带上端口号又会导致了另一个操蛋的问题：你请求的时候是`demo.ngrok.xncoding.com`， 你在 web 应用中获取到的 Host 是 `demo.ngrok.xncoding.com:5442`， 如果你的程序里面有基于
+Request Host 的重定向，就会被重定向到 `demo.ngrok.xncoding.com:5442` 下面去。
 
 要完美的解决这个端口的问题，就需要让 ngrokd 直接监听 80 端口，或者使用Docker容器的端口映射来解决。
 
 ## 使用Docker
 
-上面我讲到自己手动搭建的时候出现的端口问题，没办法解决。
-一般80端口早就被占用了，不可能就给你ngrok使用，最完美的方式是使用Docker + Nginx的方式。
+上面我讲到自己手动搭建的时候出现的端口问题，没办法解决。 一般80端口早就被占用了，不可能就给你ngrok使用，最完美的方式是使用Docker + Nginx的方式。
 
 ### 安装docker
 
@@ -238,8 +242,8 @@ docker build -t hteen/ngrok .
 
 关于 https 的支持
 
-由于 ngrok 工作是通过分配 subdomain 的方式，所以我们实际使用到的域名都是 `ngrok.xncoding.com` 的子域名，
-如 `demo.ngrok.xncoding.com` 如果要对这个子域名启用 https 服务，那么至少需要三点支持：
+由于 ngrok 工作是通过分配 subdomain 的方式，所以我们实际使用到的域名都是 `ngrok.xncoding.com` 的子域名， 如 `demo.ngrok.xncoding.com` 如果要对这个子域名启用 https
+服务，那么至少需要三点支持：
 
 1. ngrok 支持 https， 这个默认就是开启的
 1. `demo.ngrok.xncoding.com` 也需要有证书或包含在一个泛域名证书中
@@ -287,6 +291,7 @@ server {
 ```
 -tlsKey=/etc/letsencrypt/live/ngrok.xncoding.com/privkey.pem -tlsCrt=/etc/letsencrypt/live/ngrok.xncoding.com/fullchain.pem
 ```
+
 也就是将之前的证书变量改成你实际的证书路径即可。
 
 然后运行：
@@ -323,16 +328,17 @@ systemctl restart firewalld
 
 ### 运行客户端
 
-在`/data/ngrok/bin/`目录下会生成客户端程序，每个平台的版本都有。以windows64位来说，
-在windows_amd64目录下，拷贝到自己的windows电脑上。
+在`/data/ngrok/bin/`目录下会生成客户端程序，每个平台的版本都有。以windows64位来说， 在windows_amd64目录下，拷贝到自己的windows电脑上。
 
 新建配置文件ngrok.cfg，跟ngrok.exe同级目录，里面的内容跟之前讲的一样：
+
 ```
 server_addr: "ngrok.xncoding.com:4443"
 trust_host_root_certs: false
 ```
 
 然后打开windows的命令行，cd到`ngrok.exe`所在的目录中，到这个运行：
+
 ```
 ngrok -config=ngrok.cfg -subdomain=demo -log=log.txt 8092
 ```
@@ -354,8 +360,7 @@ ngrok.exe -config=ngrok.cfg -subdomain=demo -log=log.txt 8092
 
 ## 国内免费的ngrok
 
-如果你自己没VPS，或者你机子上面80端口已经被nginx占用不想搞了，就直接使用免费的ngrok吧，
-我推荐你使用<https://www.ngrok.cc/>。
+如果你自己没VPS，或者你机子上面80端口已经被nginx占用不想搞了，就直接使用免费的ngrok吧， 我推荐你使用<https://www.ngrok.cc/>。
 
 比如我自己弄了个`yidao620.free.ngrok.cc`，启动本地客户端后，映射到本地的8092端口了，也还不错。
 

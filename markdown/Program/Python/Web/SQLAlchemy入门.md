@@ -1,10 +1,8 @@
 # SQLAlchemy入门
 
-SQLAlchemy是Python世界中最广泛使用的ORM工具之一，它采用了类似于Java里Hibernate的数据映射模型，
-而不是其他ORM框架采用的`Active Record`模型。
+SQLAlchemy是Python世界中最广泛使用的ORM工具之一，它采用了类似于Java里Hibernate的数据映射模型， 而不是其他ORM框架采用的`Active Record`模型。
 
-SQLAlchemy分为两个部分，一个是最常用的ORM对象映射，另一个是核心的`SQL expression`。
-第一个很好理解，纯粹的ORM，后面这个不是ORM，而是DBAPI的封装，通过一些sql表达式来避免了直接写sql。
+SQLAlchemy分为两个部分，一个是最常用的ORM对象映射，另一个是核心的`SQL expression`。 第一个很好理解，纯粹的ORM，后面这个不是ORM，而是DBAPI的封装，通过一些sql表达式来避免了直接写sql。
 
 使用`SQLAlchemy`则可以分为三种方式。
 
@@ -13,21 +11,24 @@ SQLAlchemy分为两个部分，一个是最常用的ORM对象映射，另一个�
 * 使用sql expression，通过SQLAlchemy的方法写sql表达式
 
 ### 安装
+
 最简单的方式是通过pip安装
+
 ```bash
 pip install SQLAlchemy
 ```
 
-一般来讲我们要对某个底层数据库需要安装相应的驱动，比如我使用了mysql，那么需要安装python的mysql驱动，有很多种选择，
-这里我选择了MySQLdb/MySQL-Python，这也是SQLAlchemy默认的。
+一般来讲我们要对某个底层数据库需要安装相应的驱动，比如我使用了mysql，那么需要安装python的mysql驱动，有很多种选择， 这里我选择了MySQLdb/MySQL-Python，这也是SQLAlchemy默认的。
 
 在centos上面安装MySQL-Python
+
 ```bash
 yum install mysql-devel
 pip install MySQL-python
 ```
 
 注意：MySQLdb仅仅支持python2，如果要支持python3，安装PyMySQL：
+
 ```bash
 pip install PyMySQL
 ```
@@ -35,7 +36,9 @@ pip install PyMySQL
 这里我使用python3.6版本来测试
 
 ### 定义映射
+
 这里我使用两个表来说明，一个用户表users，一个电子邮件表addresses，两者一对多的关系。我们先定义这两个映射：
+
 ```python
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
@@ -75,7 +78,9 @@ class User(Base):
 ```
 
 ### 连接到数据库
+
 通过`create_engine()`可以连接数据库，我使用的是PyMySQL，另外先要提前创建test这个测试数据库：
+
 ```python
 from sqlalchemy import create_engine
 
@@ -86,20 +91,26 @@ from sqlalchemy import create_engine
 # echo=True是开启调试，这样当我们执行文件的时候会提示相应的文字
 engine = create_engine('mysql+pymysql://root:mysql@127.0.0.1:3306/test', echo=True)
 ```
+
 现在我们只是定义了表映射，而数据库里面是没有真实表的，这里我们使用Base类的metadata来帮我们自动创建表：
+
 ```python
 Base.metadata.create_all(engine)
 ```
+
 现在数据库里面已经有我们的两个表了。下面我们对这两个表进行常规操作
 
 ### 增删改查
+
 对数据库的操作必须先创建一个session，增删改查操作都有这个session负责，首先我们先创建一个session工厂类，由它来负责后续的session创建
+
 ```python
 from sqlalchemy.orm import sessionmaker
 Session = sessionmaker(bind=engine)
 ```
 
 #### 添加用户
+
 ```python
 session = Session()  # 先使用工程类来创建一个session
 ed_user = User(name='ed', fullname='Ed Jones', password='edspassword')
@@ -114,7 +125,9 @@ session.commit()
 ```
 
 #### 查询
+
 在session上面调用`query()`方法会创建一个`Query`对象
+
 ```python
 for user in session.query(User).order_by(User.id):
     print(user.name, user.fullname)
@@ -129,20 +142,25 @@ for name in session.query(User.name).filter(User.fullname=='Ed Jones'):
 ```
 
 #### 删除
+
 ```python
 session.delete(ed_user)
 session.query(User).filter_by(name='ed').count()
 ```
 
 ### 一对多的关系映射
+
 sqlalchemy使用`ForeignKey`来指明一对多的关系，比如一个用户可有多个邮件地址，而一个邮件地址只属于一个用户。那么就是典型的一对多或多对一关系。
 
 在`Address`类中，我们定义外键，还有对应所属的user对象
+
 ```python
 user_id = Column(Integer, ForeignKey('users.id'))
 user = relationship("User", back_populates="addresses")
 ```
+
 而在`User`类中，我们定义`addresses`属性
+
 ```python
 addresses = relationship("Address", order_by=Address.id, back_populates="user")
 ```
@@ -150,6 +168,7 @@ addresses = relationship("Address", order_by=Address.id, back_populates="user")
 注意两个类中都通过`relationship()`方法指明相互关系。
 
 通过几个例子来操作一对多的关系映射
+
 ```python
 # 先添加一个用户，并且给这个用户增加两个邮件地址
 jack = User(name='jack', fullname='Jack Bean', password='gjffdd')
@@ -168,6 +187,7 @@ session.query(User).join(Address).filter(Address.email_address=='jack@google.com
 ```
 
 有时候我们不想使用懒加载，而是要强制一次性加载某个关联数据，那么可以使用`subqueryload`或者`joinedload`
+
 ```python
 from sqlalchemy.orm import subqueryload
 jack = session.query(User).options(subqueryload(User.addresses)).filter_by(name='jack').one()
