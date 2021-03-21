@@ -34,6 +34,7 @@
     * [Gitignore文件示例](markdown/General/Tools/Git/Gitignore文件示例.md)
     * [Centos7安装Gitlab8.8](markdown/General/Tools/Git/Centos7安装Gitlab8.8.md)
     * [GitHub的一些好玩的技巧](markdown/General/Tools/Git/GitHub的一些好玩的技巧.md)
+    * [Git常见问题FAQ](markdown/General/Tools/Git/Git常见问题FAQ.md)
 * IDEA开发工具
     * [IDEA工具使用技巧](markdown/General/Tools/IDEA/IDEA工具使用技巧.md)
     * [IDEA中多模块项目分组技巧](markdown/General/Tools/IDEA/IDEA中多模块项目分组技巧.md)
