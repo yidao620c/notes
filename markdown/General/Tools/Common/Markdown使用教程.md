@@ -1,4 +1,4 @@
-# Markdown语法详解
+# Markdown使用教程
 
 Markdown 是一种轻量级标记语言。它允许人们"使用易读易写的纯文本格式编写文档， 然后转换成有效的XHTML(或者HTML)文档"。这种语言吸收了很多在电子邮件中已有的纯文本标记的特性。
 
@@ -268,6 +268,26 @@ $$
 
 ## markdown编辑器
 
-目前有很多好用的md编辑器，基本都实现了所见即所得功能，比如简书，Atom，MarkdownPad等等。
+目前有很多好用的md编辑器，基本都实现了所见即所得功能，比如简书，Atom、MarkdownPad、Typora等等。小编在这里强烈推荐Typora。
 
 OK了，关于markdown的使用总结就差不多了。你大概花一天时间就能熟悉，然后就可以开始你的神奇之旅了。 还等什么赶紧开搞啊！~~
+
+## Markdown转换为Word
+经常有需要将Markdown转换成Word、PDF、HTML等其他格式。这里使用Typora+pandoc就可以实现这一切。
+
+首先，下载typora，一路安装即可。网址为: <https://typora.io/>
+
+然后再下载最新版本的pandoc，一路安装即可，网址为（注意，Windows选择pandoc-**-windows.msi这个版本即可）：
+<https://github.com/jgm/pandoc/tags>
+
+将pandoc可执行文件设置到PATH中去，一般来说，如果选择的是.msi这个版本会自动配置环境变量。
+
+重启typora。
+
+好了，万事俱备只欠东风了。接下来按照我图中的步骤来1、2步骤来将markdown文本转成word文本就可以了。
+
+1. 左下角有一个关闭源代码，这样可以展现你的markdown的具体格式是什么样。
+2. 文件——导出——word(.docx)——保存，即可。
+
+
+

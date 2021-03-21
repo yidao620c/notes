@@ -2,7 +2,7 @@
 
 * [简介](markdown/General/Tools/_readme.md)
 * 常见开发工具
-    * [Markdown语法详解](markdown/General/Tools/Common/Markdown语法详解.md)
+    * [Markdown使用教程](markdown/General/Tools/Common/Markdown使用教程.md)
     * [Mkdocs配置和使用](markdown/General/Tools/Common/Mkdocs配置和使用.md)
     * [Win10安装Cmder命令行工具](markdown/General/Tools/Common/Win10安装Cmder命令行工具.md)
     * [WireShark基本使用](markdown/General/Tools/Common/WireShark基本使用.md)
@@ -12,6 +12,7 @@
     * [使用hexo搭建github博客](markdown/General/Tools/Common/使用hexo搭建github博客.md)
     * [使用ReadtheDocs托管文档](markdown/General/Tools/Common/使用ReadtheDocs托管文档.md)
     * [使用Swagger生成RESTful文档](markdown/General/Tools/Common/使用Swagger生成RESTful文档.md)
+    * [使用smart-doc生成API文档](markdown/General/Tools/Common/使用smart-doc生成API文档.md)
     * [数据库文档生成工具screw](markdown/General/Tools/Common/数据库文档生成工具screw.md)
 * Maven
     * [Maven使用常见问题记录](markdown/General/Tools/Maven/Maven使用常见问题记录.md)
