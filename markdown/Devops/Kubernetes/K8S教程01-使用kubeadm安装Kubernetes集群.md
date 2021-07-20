@@ -1,4 +1,4 @@
-# K8S教程01-安装Kubernetes集群
+# K8S教程01-使用kubeadm安装Kubernetes集群
 
 在生产环境中都是使用集群方式来搭建K8S，这里记录一下如何通过kubeadm来部署K8S集群。 kubeadm是官方社区推出的一个用于快速部署kubernetes集群的工具。
 
