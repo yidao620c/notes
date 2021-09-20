@@ -1,6 +1,6 @@
 计算机网络
 
-* [网络简介](markdown/Devops/Network/_readme.md)
+* [简介](markdown/Devops/Network/_readme.md)
 * 网络配置
     * [光猫桥接模式连接路由器](markdown/Devops/Network/光猫桥接模式连接路由器.md)
 * 网络工具
