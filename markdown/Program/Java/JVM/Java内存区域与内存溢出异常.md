@@ -66,10 +66,10 @@ Direct Memory并不是虚拟机运行时数据区的一部分，也不是Java虚
 在JDK1.7以及其前期的JDK版本中，堆内存通常被分为三块区域：Young Generation、Old Generation、
 Permanent Generation for VM Matedata。
 
-![img.png](images/img-2021071101.png)
+![img.png](../Core/images/img-2021071101.png)
 
 在JDK1.8中把存放元数据中的永久内存从堆内存中移到了本地内存中，JDK1.8中JVM堆内存结构就变成了如下：
-![img.png](images/img-2021071102.png)
+![img.png](../Core/images/img-2021071102.png)
 
 ## OOM异常示例
 

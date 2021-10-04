@@ -6,10 +6,8 @@ Java编程语言
     * [Fastjson对Date的处理](markdown/Program/Java/Core/Fastjson对Date的处理.md)
     * [Java8中的lambda表达式](markdown/Program/Java/Core/Java8中的lambda表达式.md)
     * [Java中的回调函数](markdown/Program/Java/Core/Java中的回调函数.md)
-    * [Java内存区域与内存溢出异常](markdown/Program/Java/Core/Java内存区域与内存溢出异常.md)
     * [Java几种常用JSON库性能比较](markdown/Program/Java/Core/Java几种常用JSON库性能比较.md)
     * [Java微基准测试框架JMH](markdown/Program/Java/Core/Java微基准测试框架JMH.md)
-    * [JVM性能分析工具jstack介绍](markdown/Program/Java/Core/JVM性能分析工具jstack介绍.md)
     * [Logback配置示例](markdown/Program/Java/Core/Logback配置示例.md)
     * [NIO笔记-缓存器细节](markdown/Program/Java/Core/NIO笔记-缓存器细节.md)
     * [OSGi简易教程](markdown/Program/Java/Core/OSGi简易教程.md)
@@ -17,8 +15,9 @@ Java编程语言
     * [使用WatchService监听文件变化](markdown/Program/Java/Core/使用WatchService监听文件变化.md)
     * [聊聊Java中的几种IO模型](markdown/Program/Java/Core/聊聊Java中的几种IO模型.md)
     * [聊聊Reactor的IO模型](markdown/Program/Java/Core/聊聊Reactor的IO模型.md)
-* Spring框架
-    * [Spring集成Axis2](markdown/Program/Java/Spring/Spring集成Axis2.md)
+* JVM性能调优
+    * [Java内存区域与内存溢出异常](markdown/Program/Java/JVM/Java内存区域与内存溢出异常.md)
+    * [JVM性能分析工具jstack介绍](markdown/Program/Java/JVM/JVM性能分析工具jstack介绍.md)
 * SpringBoot框架
     * [SpringBoot2单元测试](markdown/Program/Java/SpringBoot/SpringBoot2单元测试.md)
     * [SpringBoot2配置文件加载顺序](markdown/Program/Java/SpringBoot/SpringBoot2配置文件加载顺序.md)
@@ -46,5 +45,4 @@ Java编程语言
     * [SpringBoot系列-集成Thymeleaf](markdown/Program/Java/SpringBoot/SpringBoot系列-集成Thymeleaf.md)
     * [SpringBoot系列-集成WebSocket实时通信](markdown/Program/Java/SpringBoot/SpringBoot系列-集成WebSocket实时通信.md)
     * [SpringBoot配置文件加载优先级](markdown/Program/Java/SpringBoot/SpringBoot配置文件加载优先级.md)
-* SpringCloud框架
-    * [下一代SpringCloud技术栈md](markdown/Program/Java/SpringCloud/下一代SpringCloud技术栈.md)
+    * [下一代SpringCloud技术栈md](markdown/Program/Java/SpringBoot/下一代SpringCloud技术栈.md)
