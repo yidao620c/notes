@@ -1,20 +1,21 @@
-# JVM性能分析工具jstack介绍
+# JDK自带的JVM性能监控工具
 
-JDK本身提供了很多方便的JVM性能调优监控工具，除了集成式的VisualVM和jConsole外， 还有jps、jstack、jmap、jhat、jstat、hprof等小巧的工具，每一种工具都有其自身的特点，
-用户可以根据你需要检测的应用或者程序片段的状况，适当的选择相应的工具进行检测， 先通过一个表格形式简要介绍下这几个命令的作用和使用方法。本文重点介绍jstack的使用方法。
+JDK本身提供了很多方便的JVM性能调优监控工具，除了集成式的VisualVM和jConsole外， 还有jps、jstack、jmap、jhat、jstat、hprof等小巧的工具，
+每一种工具都有其自身的特点， 用户可以根据你需要检测的应用或者程序片段的状况，适当的选择相应的工具进行检测，
+先通过一个表格形式简要介绍下这几个命令的作用和使用方法。
 
 命令         | 作用
----------|---------------------------------------
-jps         | 基础工具
-jstack     | 查看某个Java进程内的线程堆栈信息
-jmap     | jmap导出堆内存，然后使用jhat来进行分析
-jhat     | jmap导出堆内存，然后使用jhat来进行分析
-jstat     | JVM统计监测工具
-hprof     | hprof能够展现CPU使用率，统计堆内存使用情况
+------------|---------------------------------------
+jps         | JVM进程ID查询工具
+jstat       | JVM统计信息监测工具
+jstack      | 查看某个Java进程内的线程堆栈信息
+jmap        | jmap导出堆内存，然后使用jhat来进行分析
+jhat        | jmap导出堆内存，然后使用jhat来进行分析
+hprof       | hprof能够展现CPU使用率，统计堆内存使用情况
 
-## jps使用
+## jps：JVM进程ID查询工具
 
-可以列出本机所有java进程的pid
+可以列出本机所有java进程的pid，很多工具的输入依赖这个pid。
 
 选项
 
@@ -30,19 +31,75 @@ hprof     | hprof能够展现CPU使用率，统计堆内存使用情况
 ```bash
 [root@CZT-FS1 board-api]# jps -lvm
 67136 board-api-1.0.0-SNAPSHOT.jar --spring.config.location=application.yml -Xms1024m -Xmx1024m
-100547 board-web-1.0.0-SNAPSHOT.jar --spring.config.location=application.yml -Xms512m
-8819 app-manage-api-1.0.0-SNAPSHOT.jar --spring.config.location=application.yml -Xms512m
-120226 adm-web-1.0.0-SNAPSHOT.jar --spring.config.location=file:./application.yml -Xms512m
 105268 wechat-api-1.0.0-SNAPSHOT.jar --spring.config.location=application.yml -Xms512m
-89172 sun.tools.jps.Jps -lvm -Denv.class.path=.:/usr/local/jdk/lib/dt.jar:/usr/local/jdk/lib/tools.jar:/usr/local/jdk/jre/lib -Dapplication.home=/usr/local/jdk -Xms8m
-44921 app-manage-1.0.0-SNAPSHOT.jar --spring.config.location=file:./application.yml -Xms512m -Xmx1024m
+89172 sun.tools.jps.Jps -lvm -Denv.class.path=.:/usr/local/jdk/lib/dt.jar -Dapplication.home=/usr/local/jdk -Xms8m
 ```
 
 我们选取PID=67136的Java进程作为后续研究对象。
 
-## top使用
+## jstat：JVM统计信息监测工具
+jstat用于监视JVM各种运行状态信息，可显示本地或远程（需要开启RMI支持）虚拟机进程中的类加载、内存、垃圾收集、JIT等运行时数据。
+在控制台环境下，它是运行期定位虚拟机性能问题的常用工具。
 
-除了常用的打印所有进程使用资源外，还可以对单独的进程，打印线程资源排行榜，按T键可对TIME倒序排列， 也就是CPU运行时间。TIME列就是各个Java线程耗费的CPU时间，我们线程pid为67163的线程作为后续线程研究对象
+jstat命令格式：
+```
+jstat [option vmid [interval] [count]]
+```
+参数interval和count代表查询间隔和次数，如果省略则只查询一次。比如如果要每隔200ms查询一次进程1223垃圾收集状态，一共查询10次。则
+```
+jstat -gc 1223 200 10
+```
+
+jstat主要选项如下
+
+选项               |  作用
+------------------|------------------------------------------------------------------------------------
+-class            | 监视类加载、卸载数量、总空间以及类装载耗费时间
+-gc               | 监视Java堆状况，包括Eden区、2个Suervivor区、老年代、永久代等容量，已用空间，GC合计时间等。
+-gccapacity       | 监视内容跟gc基本相同，但主要关注Java堆各个区域使用到的最大、最小空间。
+-gcutil           | 监视内容跟gc基本相同，但主要关注已使用空间占总空间百分比。
+-gccause          | 监视内容跟gcutil基本相同，但会额外输出导致上一次GC原因。
+-gcnew            | 监视新生代GC状态
+-gcnewcapacity    | 监视内容跟gcnew基本相同，输出主要关注使用到的最大、最小空间。
+-gcold            | 监视老年代GC状态
+-gcoldcapacity    | 监视内容跟gcold基本相同，输出主要关注使用到的最大、最小空间。
+-gcpermcapacity   | 监视永久代使用到的最大、最小空间。
+-compiler         | 输出JIT编译过的方法、耗时信息
+-printcompilation | 输出已经被JIT编译的方法
+
+jstat执行样例：
+```
+jstat -gcutil 12592
+S0     S1     E      O      M     CCS    YGC   YGCT    FGC    FGCT    CGC    CGCT     GCT
+0.00  92.02   0.00  17.37  97.60  94.52   5    0.027     0    0.000     2    0.007    0.033
+```
+
+## jmap：Java内存映像工具
+jmap命令用于生成堆转储快照，一般称为heapdump或dump文件。
+
+命令格式：`jmap [option] vmid`
+
+option的几个主要选项如下
+
+选项               |  作用
+------------------|----------------------------------------------------------------------------------
+-dump             | 生成dump文件，格式为-dump:[live,]format=b,file=<filename>，其中live表示是否只dump存活对象
+-finalizerinfo    | 显示在F-Queue中等待finalizer线程执行finalize方法的对象
+-heap             | 显示堆详细信息，比如使用的回收器、参数配置、分代情况
+-histo            | 显示堆中对象统计信息，包括类、实例数量、合计容量
+-pemstat          | 以ClassLoader为统计口径显示永久代内存状态
+-F                | 强制生成dump快照，这个在-dump选项没有响应时使用
+
+使用jmap的样例
+```
+C:\Users\xiongneng>jmap -dump:format=b,file=test.dump 12592
+Dumping heap to C:\Users\xiongneng\test.dump ...
+Heap dump file created [29413292 bytes in 0.089 secs]
+```
+
+## top使用
+除了常用的打印所有进程使用资源外，还可以对单独的进程，打印线程资源排行榜，按T键可对TIME倒序排列，也就是CPU运行时间。
+TIME列就是各个Java线程耗费的CPU时间，我们线程pid为67163的线程作为后续线程研究对象
 
 ```bash
 [root@CZT-FS1 board-api]# top -Hp 67136
@@ -55,19 +112,6 @@ Swap:  8175612k total,   461868k used,  7713744k free,  7831512k cached
    PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND
  67163 root      20   0 6825m 867m  14m S  2.0  5.4  16:22.87 java
  67136 root      20   0 6825m 867m  14m S  0.0  5.4   0:00.00 java
- 67137 root      20   0 6825m 867m  14m S  0.0  5.4   0:10.82 java
- 67138 root      20   0 6825m 867m  14m S  0.0  5.4   0:00.32 java
- 67139 root      20   0 6825m 867m  14m S  0.0  5.4   0:00.32 java
- 67140 root      20   0 6825m 867m  14m S  0.0  5.4   0:00.31 java
- 67141 root      20   0 6825m 867m  14m S  0.0  5.4   0:00.35 java
- 67142 root      20   0 6825m 867m  14m S  0.0  5.4   0:00.35 java
- 67143 root      20   0 6825m 867m  14m S  0.0  5.4   0:00.36 java
- 67144 root      20   0 6825m 867m  14m S  0.0  5.4   0:00.33 java
- 67145 root      20   0 6825m 867m  14m S  0.0  5.4   0:00.31 java
- 67146 root      20   0 6825m 867m  14m S  0.0  5.4   0:08.29 java
- 67147 root      20   0 6825m 867m  14m S  0.0  5.4   0:00.02 java
- 67148 root      20   0 6825m 867m  14m S  0.0  5.4   0:00.35 java
- 67149 root      20   0 6825m 867m  14m S  0.0  5.4   0:00.00 java
  67150 root      20   0 6825m 867m  14m S  0.0  5.4   0:25.08 java
 ```
 
