@@ -1,6 +1,6 @@
-# JDK自带的JVM性能监控工具
+# JVM工具-基础监控工具
 
-JDK本身提供了很多方便的JVM性能调优监控工具，除了集成式的VisualVM和jConsole外， 还有jps、jstack、jmap、jhat、jstat、hprof等小巧的工具，
+JDK本身提供了很多方便的JVM性能调优监控工具，除了集成式的VisualVM和jConsole外，还有jps、jstack、jmap、jhat、jstat、hprof等小巧的工具，
 每一种工具都有其自身的特点， 用户可以根据你需要检测的应用或者程序片段的状况，适当的选择相应的工具进行检测，
 先通过一个表格形式简要介绍下这几个命令的作用和使用方法。
 
@@ -75,7 +75,7 @@ S0     S1     E      O      M     CCS    YGC   YGCT    FGC    FGCT    CGC    CGC
 ```
 
 ## jmap：Java内存映像工具
-jmap命令用于生成堆转储快照，一般称为heapdump或dump文件。
+jmap命令用于生成堆转储快照，一般称为heapdump或dump文件，该工具在JDK9中集成到了JHSDB中。
 
 命令格式：`jmap [option] vmid`
 
@@ -115,18 +115,25 @@ Swap:  8175612k total,   461868k used,  7713744k free,  7831512k cached
  67150 root      20   0 6825m 867m  14m S  0.0  5.4   0:25.08 java
 ```
 
-## jstack使用
+## jstack：堆栈跟踪工具
 
-jstack主要用来查看某个Java进程内的线程堆栈信息。语法格式如下：
+jstack主要用来查看某个Java进程内的线程堆栈信息，生成的文件一般称为threaddump或javacore文件。
+线程快照就是当前虚拟机内每一条线程正在执行的方法堆栈集合，生成线程快照目的通常是定位线程出现停顿原因。
+比如线程死锁、死循环、请求外部资源导致长时间挂起等。
+
+该工具在JDK9中已集成到了JHSDB中。
+
+语法格式如下：
 
 ```bash
-jstack [option] pid
+jstack [option] vmid
 ```
 
-参数如下：
-
-1. -l long listings，会打印出额外的锁信息，在发生死锁时可以用jstack -l pid来观察锁持有情况
-2. -m mixed mode，不仅会输出Java堆栈信息，还会输出C/C++堆栈信息（比如Native方法）
+选项            |  作用
+---------------|-------------------------------------------
+-F             | 正常输出的请求不被响应时，强制输出线程堆栈
+-l             | 除了堆栈外，还会输出关于锁的附加信息
+-m             | 如果调用本地方法，可显示C/C++堆栈信息
 
 ```bash
 [root@CZT-FS1 board-api]# jstack -l 67136 | more
@@ -135,11 +142,6 @@ Full thread dump Java HotSpot(TM) 64-Bit Server VM (25.161-b12 mixed mode):
 "Thread-12126" #12389 daemon prio=6 os_prio=0 tid=0x00007f3190075800 nid=0x15d08 runnable [0x00007f31f43c4000]
    java.lang.Thread.State: RUNNABLE
 	at java.net.SocketInputStream.socketRead0(Native Method)
-	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
-	at java.net.SocketInputStream.read(SocketInputStream.java:171)
-	at java.net.SocketInputStream.read(SocketInputStream.java:141)
-	at java.io.BufferedInputStream.read1(BufferedInputStream.java:284)
-	at java.io.BufferedInputStream.read(BufferedInputStream.java:345)
 	- locked <0x00000000f49e3158> (a java.io.BufferedInputStream)
 	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
 	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
@@ -150,16 +152,9 @@ Full thread dump Java HotSpot(TM) 64-Bit Server VM (25.161-b12 mixed mode):
 
    Locked ownable synchronizers:
 	- None
-
-"Thread-12125" #12388 daemon prio=6 os_prio=0 tid=0x00007f31c4602000 nid=0x15cf2 runnable [0x00007f31f4bcc000]
-   java.lang.Thread.State: RUNNABLE
-	at java.net.SocketInputStream.socketRead0(Native Method)
-	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
-	at java.net.SocketInputStream.read(SocketInputStream.java:171)
-
 ```
 
-使用`printf "%x\n"`，获得线程ID=的十六进制值。
+如果想要查看某个线程的堆栈，先使用上面的top命令查看到线程ID号，然后使用`printf "%x\n"`，获得该线程ID的十六进制值。
 
 ```bash
 [root@CZT-FS1 board-api]# printf "%x\n" 67163
@@ -167,7 +162,6 @@ Full thread dump Java HotSpot(TM) 64-Bit Server VM (25.161-b12 mixed mode):
 ```
 
 查看该线程的堆栈：
-
 ```bash
 [root@CZT-FS1 board-api]# jstack -l 67136 | grep 1065b -A20
 "System Clock" #17 daemon prio=5 os_prio=0 tid=0x00007f322d089000 nid=0x1065b runnable [0x00007f320487c000]
@@ -175,19 +169,8 @@ Full thread dump Java HotSpot(TM) 64-Bit Server VM (25.161-b12 mixed mode):
 	at sun.misc.Unsafe.park(Native Method)
 	- parking to wait for  <0x00000000c19c8d18> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
 	at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
-	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
-	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
-	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
-	at java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
 	at java.lang.Thread.run(Thread.java:748)
 
    Locked ownable synchronizers:
 	- None
-
-"Druid-ConnectionPool-Destroy-1390913202" #16 daemon prio=5 os_prio=0 tid=0x00007f322ea27800 nid=0x1065a waiting on condition [0x00007f320497d000]
-   java.lang.Thread.State: TIMED_WAITING (sleeping)
-	at java.lang.Thread.sleep(Native Method)
-	at com.alibaba.druid.pool.DruidDataSource$DestroyConnectionThread.run(DruidDataSource.java:2538)
 ```
