@@ -37,7 +37,8 @@ Method Area与Java堆一样，是各个线程共享的内存区域，它用于�
 
 **运行时常量池**
 
-Runtime Constant Pool是方法区的一部分。用于存放编译器生成的各种字面量和符号引用，这部分内容将在类加载后存放到方法区的运行时常量池中。 当常量池无法再申请到内存时会抛出OutOfMemoryError异常。
+Runtime Constant Pool是方法区的一部分。用于存放编译器生成的各种字面量和符号引用，这部分内容将在类加载后存放到方法区的运行时常量池中。
+当常量池无法再申请到内存时会抛出OutOfMemoryError异常。
 
 **直接内存**
 
@@ -46,7 +47,7 @@ Direct Memory并不是虚拟机运行时数据区的一部分，也不是Java虚
 
 ## PermGen（永久代）
 方法区是JVM的规范，而永久代是方法区的一种实现，并且只有HotSpot才有PermGen space，
-而对于其他类型的虚拟机并没有PermGen space。 在JDK1.8中，HotSpot已经没有PermGen space这个区间了，取而代之是Metaspace（元空间）。
+而对于其他类型的虚拟机并没有PermGen space。在JDK1.8中，HotSpot已经没有PermGen space这个区间了，取而代之是Metaspace（元空间）。
 
 ## Metaspace（元空间）
 在JDK1.8中，永久代已经不存在，存储的类信息、编译后的代码数据等已经移动到了MetaSpace（元空间）中，
@@ -75,7 +76,8 @@ Permanent Generation for VM Matedata。
 
 ### Java堆溢出
 
-Java堆用于存储对象实例，我们只要不断创建对象，并且保证GC Roots到对象之间有可达路径来避免GC清除这些对象，就会在对象数量到达最大堆的容量限制后产生内存溢出异常。
+Java堆用于存储对象实例，我们只要不断创建对象，并且保证GC Roots到对象之间有可达路径来避免GC清除这些对象，
+就会在对象数量到达最大堆的容量限制后产生内存溢出异常。
 
 ```
 VM Args: -Xms10m -Xmx10m -XX:+HeapDumpOnOutOfMemoryError
@@ -122,9 +124,11 @@ at com.baoxian.HeapOOM.main(HeapOOM.java:22)
 
 注：出现Java堆内存溢出时，异常堆栈信息 java.lang.OutOfMemoryError 后面会紧跟着 Java heap space。
 
-要解决这个异常，一般手段是首先通过内存映像分析工具比如Eclipse Memory Analyzer对dump出来的堆转储快照进行分析，重点是确认内存中对象是否是必要的，也就是要弄清楚到底是出现了内存泄露 Memory Leak还是内存溢出
-Memory Overflow。 如果是内存泄露，可进一步通过工具查看泄露对象到GC Roots的引用链。于是就能找到泄露对象时通过怎样的路径与GC Roots相关联并导致垃圾收集器无法自动回收它们。掌握了泄露对象的类型信息，以及GC
-Roots引用链的信息，就可以比较准确的定位出泄露代码的位置了。 如果不存在泄露，那么就该修改-Xms 和 -Xms堆参数看能否加大点。
+要解决这个异常，一般手段是首先通过内存映像分析工具比如Eclipse Memory Analyzer对dump出来的堆转储快照进行分析，
+重点是确认内存中对象是否是必要的，也就是要弄清楚到底是出现了内存泄露 Memory Leak还是内存溢出
+Memory Overflow。 如果是内存泄露，可进一步通过工具查看泄露对象到GC Roots的引用链。
+于是就能找到泄露对象时通过怎样的路径与GC Roots相关联并导致垃圾收集器无法自动回收它们。掌握了泄露对象的类型信息，
+以及GC Roots引用链的信息，就可以比较准确的定位出泄露代码的位置了。 如果不存在泄露，那么就该修改-Xms 和 -Xms堆参数看能否加大点。
 
 ### 虚拟机栈和本地方法栈溢出
 
@@ -205,8 +209,10 @@ at com.baoxian.RuntimeConstantPoolOOM.main(RuntimeConstantPoolOOM.java:18)
 
 ### 方法区溢出
 
-方法区用于存放Class的相关信息，如类名、访问修饰符、常量池、字段描述符、方法描述等。对于这个区域的测试，基本的思路是运行时产生大量的类去填满方法区，直到溢出。比如动态代理会生成动态类。
-使用CGLib技术直接操作字节码运行，生成大量的动态类。当前很多主流框架如Spring和Hibernate对类进行增强都会使用CGLib这类字节码技术，增强的类越多，就需要越大的方法区来保证动态生成的Class可以加载入内存。
+方法区用于存放Class的相关信息，如类名、访问修饰符、常量池、字段描述符、方法描述等。对于这个区域的测试，
+基本的思路是运行时产生大量的类去填满方法区，直到溢出。比如动态代理会生成动态类。
+使用CGLib技术直接操作字节码运行，生成大量的动态类。当前很多主流框架如Spring和Hibernate对类进行增强都会使用CGLib这类字节码技术，
+增强的类越多，就需要越大的方法区来保证动态生成的Class可以加载入内存。
 
 异常：
 
@@ -216,7 +222,8 @@ at java.lang.String.intern(Native Method)
 ```
 
 同样，跟常量池一样，都是PermGen space字符串出现。
-方法区溢出也是一种常见的内存溢出异常，一个类如果要被垃圾收集器回收，判定条件是非常苛刻的。在经常动态生成大量Class的应用中，需要特别注意类的回收状况。这类场景除了上面提到的程序使用GCLib字节码技术外，常见的还有：
+方法区溢出也是一种常见的内存溢出异常，一个类如果要被垃圾收集器回收，判定条件是非常苛刻的。在经常动态生成大量Class的应用中，
+需要特别注意类的回收状况。这类场景除了上面提到的程序使用GCLib字节码技术外，常见的还有：
 大量JSP或动态产生的JSP文件的应用（JSP第一次运行时需要编译为Java类）、基于OSGi应用等。
 
 ### 本机直接内存溢出
