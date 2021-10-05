@@ -1,6 +1,6 @@
 # JVM工具-基础监控工具
 
-JDK本身提供了很多方便的JVM性能调优监控工具，除了集成式的VisualVM和jConsole外，还有jps、jstack、jmap、jhat、jstat、hprof等小巧的工具，
+JDK本身提供了很多方便的JVM性能调优监控工具，除了集成式的VisualVM和JConsole外，还有jps、jstack、jmap、jhat、jstat、hprof等小巧的工具，
 每一种工具都有其自身的特点， 用户可以根据你需要检测的应用或者程序片段的状况，适当的选择相应的工具进行检测，
 先通过一个表格形式简要介绍下这几个命令的作用和使用方法。
 
