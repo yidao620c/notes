@@ -1,0 +1,42 @@
+#vcomments .vheader .vnick {
+    width: 30%;
+    border: 2px solid #dedede;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px
+}
+
+#vcomments .vheader .vmail {
+    width: 31%;
+    border: 2px solid #dedede;
+    margin-left: 34px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px
+}
+
+#vcomments .vheader .vlink {
+    width: 31%;
+    border: 2px solid #dedede;
+    margin-left: 34px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px
+}
+
+#vcomments .vcards .vcard {
+    padding: 15px 20px 0 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 0 4px 1px rgba(0, 0, 0, .12);
+    transition: all .3s
+}
+
+#vcomments .vcards .vcard:hover {
+    box-shadow: 0 0 8px 3px rgba(0, 0, 0, .12)
+}
+
+#vcomments .vcards .vcard .vh .vcard {
+    border: none;
+    box-shadow: none;
+}
