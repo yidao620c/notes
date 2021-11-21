@@ -1,4 +1,4 @@
-# OpenSSl自签名证书
+# 证书操作工具OpenSSL
 
 ## 环境配置
 
@@ -95,12 +95,12 @@ Email Address            | emailAddress | 证书持有者的通信邮箱        
 
 5.查看证书内容
 
-``` bash
-#查看证书内容，下面的-text参数也可以是-text|issuer|subject|serial|dates
+查看证书内容，下面的`-text参数`也可以是`-text|issuer|subject|serial|dates`
+```bash
 openssl x509 -in root.crt -noout -text
 ```
 
-证书格式转换
+6.证书格式转换
 
 ```bash
 #转换可以将一种类型的编码证书存入另一种。（即PEM到DER转换）
@@ -109,54 +109,48 @@ openssl x509 -in cert.crt -outform der-out cert.der
 openssl x509 -in cert.crt -inform der -outform pem -out cert.pem
 ```
 
-6.仅导出根证书为PKCS12信任证书库（无私钥）
+7.仅导出根证书为PKCS12信任证书库（无私钥）
 
 为了安全起见，给客户端使用的都应该是这种不带私钥的信任证书库。
 
-18.从PKCS12证书库中删除证书
-
-``` bash
-# 往信任证书库添加证书
-keytool -import -noprompt -trustcacerts -alias caroot -file root.crt -keystore root.p12 -storetype PKCS12 -storepass ${root_p12_password}
+```bash
 openssl pkcs12 -export -nokeys -out root.p12 -in root.crt -certfile root.crt -passout pass:${root_p12_password} -certpbe AES-256-CBC
+```
+
+8.查看证书库的详情
+```bash
 openssl pkcs12 -info -in root.p12 -nodes -passin pass:${root_p12_password}
-# 从PKCS12信任证书库中删除证书
-keytool -delete -alias xxx -keystore root.p12 -storepass ${root_p12_password}
-# 使用keytool工具查看PKCS12格式证书
-keytool -list -v -keystore root.p12 -storepass ${root_p12_password}
-# 使用openssl工具查看PKCS12格式证书
-openssl pkcs12 -in root.p12 -nodes -passin pass:${root_p12_password}
 ```
 
 ## 签发服务证书
 
-7.生成Server私钥
+9.生成Server私钥
 
 生成RSA私钥(使用aes256加密)
 
-``` bash
+```bash
 (umask 077; openssl genrsa -aes256 -passout pass:${server_key_password} -out private/server.key 3072)
 ```
 
 从私钥导出公钥文件（可选）
 
-``` bash
+```bash
 openssl rsa -in private/server.key -passin pass:${server_key_password} -pubout -out server.pub
 ```
 
-8.生成Server证书请求
+10.生成Server证书请求
 
 使用RSA私钥生成CSR签名请求
 
-``` bash
+```bash
 openssl req -new -extensions v3_server_client -key private/server.key -passin pass:${server_key_password} -out csr/server.csr \
 -subj "/C=CN/ST=SX/L=XA/O=xncoding/OU=DC/CN=testserver/emailAddress=test@xncoding.com" \
 -config /etc/pki/tls/openssl.cnf
 ```
 
-9.生成服务的X509证书
+11.生成服务的X509证书
 
-``` bash
+```bash
 openssl x509 -req -extensions v3_server_client -days 3650 -sha256 -CAcreateserial -CA root.crt \
 -CAkey private/root.key -passin pass:${root_key_password} -in csr/server.csr -out certs/server.crt \
 -extfile /etc/pki/tls/openssl.cnf
@@ -164,25 +158,25 @@ openssl x509 -req -extensions v3_server_client -days 3650 -sha256 -CAcreateseria
 
 注`-CAcreateserial`会在本地创建一个`cacert.srl`文件，此后会依据这个文件中的序列号对证书进行序列号递增。
 
-10.利用CA根证书校验证书
+12.利用CA根证书校验证书
 
-``` bash
+```bash
 openssl verify -verbose -CAfile root.crt certs/server.crt
 ```
 
 备注：如果有中间证书，则`root.crt`就是CA证书链，也就是需要把中间CA证书放到`root.crt`中，`server.crt`不需要证书链。
 
-11.查询证书序列号
+13.查询证书序列号
 
-``` bash
+```bash
 openssl x509 -in certs/server.crt -noout -serial | awk -F= '{print $2}'
 ```
 
 查询出来的结果应该跟`root.srl`中的内容一样。
 
-12.导出服务证书为PKCS12证书链
+14.导出服务证书为PKCS12证书链
 
-``` bash
+```bash
 # 导出包含根证书的证书链
 openssl pkcs12 -export -inkey private/server.key -passin pass:${server_key_password} \
 -in certs/server.crt -chain -CAfile root.crt -out certs/server.p12 -password pass:${server_p12_password} 
@@ -197,9 +191,9 @@ openssl pkcs12 -export -inkey private/server.key -passin pass:${server_key_passw
 -in certs/server.crt -chain -CAfile chain.crt -out certs/server.p12 -password pass:${server_p12_password} 
 ```
 
-13.直接拼接证书为证书链
+15.直接拼接证书为证书链
 
-``` bash
+```bash
 cat certs/server.crt root.crt > certs/server_chain.crt
 ```
 
@@ -211,7 +205,7 @@ cat certs/server.crt middle.crt root.crt > certs/server_chain.crt
 
 ## 证书吊销
 
-首先获取到需要吊销的证书序列号
+16.获取到需要吊销的证书序列号
 
 ```bash
 openssl x509 -in certs/server.crt -noout -serial -subject
@@ -224,7 +218,7 @@ serial=85E94566A3335C975
 subject= /C=CN/ST=SX/L=XA/O=xncoding/OU=DC/CN=testserver/emailAddress=test@xncoding.com
 ```
 
-14.执行吊销命令
+17.执行吊销命令
 
 检查确认后，的确是要被吊销的证书，则执行吊销命令。
 
@@ -233,7 +227,7 @@ openssl ca -revoke certs/server.crt -keyfile private/root.key -passin pass:${roo
 -cert root.crt -config /etc/pki/tls/openssl.cnf
 ```
 
-15.更新吊销列表
+18.更新吊销列表
 
 ```bash
 echo "85E94566A3335C975" > crlnumber #这个只需要在第一次更新证书吊销列表前，才需要执行
@@ -241,9 +235,9 @@ openssl ca -gencrl -keyfile private/root.key -passin pass:${root_key_password} \
 -cert root.crt -out crl/crl.crt -config /etc/pki/tls/openssl.cnf
 ```
 
-16.查看吊销列表：
+19.查看吊销列表：
 
-``` bash
+```bash
 # 如果CRL是DER格式的，则需要先转换成PEM格式
 openssl crl -in xxx.der -inform der -outform pem -out xxx.crl
 openssl crl -in crl/crl.crt -noout -text
@@ -255,11 +249,11 @@ openssl crl -in xxx.der -inform der -outform pem | openssl crl -noout -text
 
 ## 证书导入/导出
 
-17.导出PKCS12证书
+20.导出PKCS12证书
 
 `-export`表示导出PKCS12证书，`-inkey` 指定了私钥文件，`-passin` 为私钥口令(nodes为无加密)，`-password`指定p12文件口令(导入导出)
 
-``` bash
+```bash
 openssl pkcs12 -export -inkey private/server.key -passin pass:${server_key_password} \
 -in server.crt -password pass:${server_p12_password} -out certs/server.p12
 ```
@@ -271,30 +265,9 @@ openssl pkcs12 -export -inkey private/server.key -passin pass:${server_key_passw
 -in certs/server.crt -chain -CAfile root.crt -out certs/server.p12 -password pass:${server_p12_password} 
 ```
 
-18.PKCS12和JKS格式之间转换
-
-从PKCS12文件导出JKS证书
+21.PKCS12格式中的证书提取
 
 ```bash
-# 整个证书库导出
-keytool -importkeystore -srckeystore certs/server.p12 -srcstoretype pkcs12 -srcstorepass ${server_p12_password} \
--destkeystore certs/server.jks -deststoretype jks -deststorepass ${server_jks_password}
-# 只导出某个别名证书
-keytool -importkeystore -srckeystore certs/server.p12 -srcstoretype pkcs12 -srcstorepass ${server_p12_password} \
--destkeystore certs/server.jks -deststoretype jks -deststorepass ${server_jks_password} -srcalias 1 -destalias client
-```
-
-从JKS文件导出PKCS12证书
-
-```bash
-# 整个证书库导出
-keytool -importkeystore -srckeystore certs/server.jks -srcstoretype JKS -srcstorepass ${server_p12_password} \
--destkeystore certs/server.p12 -deststoretype PKCS12 -deststorepass ${server_jks_password}
-```
-
-19.PKCS12提取
-
-``` bash
 #提取PEM文件(含私钥)
 openssl pkcs12 -in server.p12 -password pass:${server_p12_password} -passout pass:${server_key_password} -out server.key
 #仅提取私钥
@@ -311,13 +284,12 @@ openssl pkcs12 -in server-all.p12 -password pass:${server_p12_password} -nokeys 
 openssl pkcs12 -in server-all.p12 -password pass:${server_p12_password} -nokeys -clcerts -out server.crt
 ```
 
-20.查看Keystore的内容
+22.查看证书库中的内容
 
-``` bash
+```bash
 openssl pkcs12 -in certs/server.p12 -nodes -passin pass:${server_p12_password}
 openssl pkcs12 -in certs/server.p12 -nodes -passin pass:${server_p12_password} | openssl x509 -noout -text
 openssl pkcs12 -in certs/server.p12 -password pass:${server_p12_password} -nokeys | openssl x509 -noout -enddate
-keytool -list -v -keystore root.jks -storepass ${root_p12_password}
 ```
 
 ## 演示root.12校验server.p12
@@ -336,3 +308,9 @@ openssl verify -CAfile root.crt server.crt
 默认的PKCS12和KeyStore算法都很旧了，需要升级到安全的算法。 参考<https://bugs.openjdk.java.net/browse/JDK-8228481>。 经测试，在OpenJDK
 15版本上面修改配置后是可以的，也就是通过KeyTool工具来生成信任库即可。 预计等下个补丁版发布，所有的版本都默认支持了。
 
+## 使用openssl查询服务端的证书链信息
+
+```bash
+openssl s_client -showcerts -connect HostIP:443
+openssl s_client -showcerts -connect HostIP:443 </dev/null 2>/dev/null|openssl x509 -outform PEM >ca.crt
+```
