@@ -31,3 +31,8 @@ https://yidao620c.github.io/notes
 > An alert of type 'tip' using alert specific style 'flat' which overrides global style 'callout'.
 > In addition, this alert uses an own heading and hides specific icon.
 ```
+
+## GIF动图制作
+
+推荐一款开源小工具：<https://mathewsachin.github.io/Captura>
+
