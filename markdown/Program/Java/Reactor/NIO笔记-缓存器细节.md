@@ -2,20 +2,20 @@
 
 Buffer由数据和可以高效访问以及操纵这些数据的四个索引组成，这四个索引是：mark、position、limit、capacity。 下表是用于设置和复位索引以及查询它们的方法：
 
-方法                |说明
---------------------|----------------------------------------
-capacity()            |返回缓存区容量
-clear()                |清空缓存区，position=0，limit=capacity，此方法可覆写缓存区
-flip()                |limit=position，position=0，用于准备从缓存区读取已经写入的数据
-limit()                |返回limit的值
-limit(int lim)        |设置limit的值
-mark()                |将mark设置为position
-position()            |返回position的值
-position(int pos)    |设置position的值
-remaining()            |返回(limit - position)
-hasRemaining()        |若有介于position和limit之间的元素，返回true
-reset()                |将position设置为mark
-rewind()            |将position设置为0，也就是缓存区的开始位置
+| 方法                 | 说明                                          |
+|--------------------|---------------------------------------------|
+| capacity()         | 返回缓存区容量                                     |
+| clear()            | 清空缓存区，position=0，limit=capacity，此方法可覆写缓存区   |
+| flip()             | limit=position，position=0，用于准备从缓存区读取已经写入的数据 |
+| limit()            | 返回limit的值                                   |
+| limit(int lim)     | 设置limit的值                                   |
+| mark()             | 将mark设置为position                            |
+| position()         | 返回position的值                                |
+| position(int pos)  | 设置position的值                                |
+| remaining()        | 返回(limit - position)                        |
+| hasRemaining()     | 若有介于position和limit之间的元素，返回true              |
+| reset()            | 将position设置为mark                            |
+| rewind()           | 将position设置为0，也就是缓存区的开始位置                   |
 
 在缓存区中插入和提取数据的方法会更新这些索引，用于反映所发生的变化。
 
