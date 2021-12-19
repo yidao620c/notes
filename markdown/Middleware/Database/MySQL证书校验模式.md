@@ -52,7 +52,7 @@ ssl-key=client-key.pem
 
 ![](https://xnstatic-1253397658.file.myqcloud.com/20201118_mysql01.png)
 
-```java
+``` java
 // SSL Mode
 properties.put("sslMode",SSLModeType.VERIFY_CA.name());
 

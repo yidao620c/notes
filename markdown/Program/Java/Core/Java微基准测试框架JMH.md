@@ -46,7 +46,7 @@ Java的基准测试需要注意的几个点：
 
 接下来我写一个比较字符串连接操作的时候，直接使用字符串相加和使用StringBuilder的append方式的性能比较测试：
 
-```java
+``` java
 /**
  * 比较字符串直接相加和StringBuilder的效率
  *
@@ -102,7 +102,7 @@ java -jar target/benchmarks.jar
 
 另外如果对于一些小的测试，比如我写的上面这个小例子，在IDE里面就可以完成了，丢到linux上去太麻烦。 这时候可以在里面添加一个main函数如下：
 
-```java
+``` java
 public static void main(String[] args) throws RunnerException {
     Options options = new OptionsBuilder()
             .include(StringBuilderBenchmark.class.getSimpleName())
@@ -312,7 +312,7 @@ State 用于声明某个类是一个"状态"，然后接受一个 Scope 参数�
 
 首先定义一个表示这两种实现的接口：
 
-```java
+``` java
 /**
  * Calculator
  *
@@ -343,7 +343,7 @@ public interface Calculator {
 
 进行 benchmark 的代码如下：
 
-```java
+``` java
 /**
  * 自然数求和的串行和并行算法性能测试
  *

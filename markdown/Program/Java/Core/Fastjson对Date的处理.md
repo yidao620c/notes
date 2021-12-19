@@ -4,14 +4,14 @@ fastjson对日期的序列化方式
 
 一种方法是通过注解
 
-```java
+``` java
 @JSONField (format="yyyy-MM-dd HH:mm:ss")
 public Date birthday;
 ```
 
 另一种是通过SerializeConfig：
 
-```java
+``` java
 private static SerializeConfig mapping = new SerializeConfig();
 private static String dateFormat;
 static {
@@ -22,13 +22,13 @@ static {
 
 json字符串中使用单引号：
 
-```java
+``` java
 String text = JSON.toJSONString(object, SerializerFeature.UseSingleQuotes);
 ```
 
 字段显示不同的key：
 
-```java
+``` java
 public class User {
     @JSONField(name="ID")
     public int getId() { ... }
@@ -40,28 +40,28 @@ JSON.toJSONString(user); // {"ID":001}
 
 类的反序列化 JavaBean：
 
-```java
+``` java
 String text = ...; // {"r":255,"g":0,"b":0,"alpha":255}
 Color color = JSON.parseObject(text, Color.class);
 ```
 
 数组：
 
-```java
+``` java
 String text = ...; // [{ ... }, { ... }]
 List<User> users = JSON.parseArray(text, User.class);
 ```
 
 泛型：
 
-```java
+``` java
 String text = ...; // {"name":{"name":"ljw",age:18} }
 Map<String, User> userMap = JSON.parseObject(text, new TypeReference<Map<String, User>>() {});
 ```
 
 ### 自定义序列化代码示例
 
-```java
+``` java
 public class JsonUtil {
     private static SerializeConfig mapping = new SerializeConfig();
     private static String dateFormat;
@@ -97,7 +97,7 @@ public class JsonUtil {
 
 先自定义一个日期解析类：
 
-```java
+``` java
 public class MyDateFormatDeserializer extends DateFormatDeserializer {
 
         private String myFormat;
@@ -131,7 +131,7 @@ public class MyDateFormatDeserializer extends DateFormatDeserializer {
 
 User类
 
-```java
+``` java
 public class User {
 
     public String name;
@@ -149,7 +149,7 @@ public class User {
 
 测试如下：
 
-```java
+``` java
 /**
  * @param args
  * @throws IOException

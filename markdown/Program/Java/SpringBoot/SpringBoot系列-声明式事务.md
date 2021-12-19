@@ -138,7 +138,7 @@ mybatis-plus:
 
 增加实体类User：
 
-```java
+``` java
 @TableName(value = "t_user")
 public class User extends Model<User> {
     /**
@@ -176,14 +176,14 @@ public class User extends Model<User> {
 
 增加UserMapper类：
 
-```java
+``` java
 public interface UserMapper extends BaseMapper<User> {
 }
 ```
 
 增加Mybatis配置类：
 
-```java
+``` java
 @Configuration
 @EnableTransactionManagement(order = 2)
 @MapperScan(basePackages = {"com.xncoding.trans.dao.repository"})
@@ -206,7 +206,7 @@ public class MybatisPlusConfig {
 
 定义Service，并注入UserMapper：
 
-```java
+``` java
 @Service
 public class UserService {
     @Resource
@@ -216,7 +216,7 @@ public class UserService {
 
 增加Controller，注入Service，定义几个url来做测试用：
 
-```java
+``` java
 @RestController
 public class UserController {
     @Resource
@@ -232,7 +232,7 @@ public class UserController {
 
 先实验一个抛出异常会回滚的方法：
 
-```java
+``` java
  /**
   * 增删改要写 ReadOnly=false 为可写
   * @param user 用户
@@ -251,7 +251,7 @@ public class UserController {
 
 然后在Controller里面添加一个url调用此方法：
 
-```java
+``` java
 @RequestMapping("/errorUpdate")
     public Object first() {
         User user = new User();
@@ -282,7 +282,7 @@ Caused by: java.lang.RuntimeException: runtime
 
 你还可以指定特定异常不回滚，比如自定义一个MyException，抛出这个异常不回滚。
 
-```java
+``` java
 public class MyException extends RuntimeException {
     public MyException() {
         super();
@@ -295,7 +295,7 @@ public class MyException extends RuntimeException {
 
 然后通过指定这个异常不回滚：
 
-```java
+``` java
 @Transactional(readOnly = false, noRollbackFor = {MyException.class})
 public void updateUserError2(User user) {
     userMapper.updateById(user);
@@ -310,7 +310,7 @@ private void errMethod2() {
 
 然后再定义一个url来验证：
 
-```java
+``` java
 @RequestMapping("/errorUpdate2")
 public Object second() {
     User user = new User();

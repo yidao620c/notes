@@ -87,7 +87,7 @@ Authentication指的是确定这个用户的身份，Authorization是确定该�
 
 这个在shiro一节讲过如果创建角色权限表，添加用户Service来执行查找用户操作，这里就不多讲具体实现了，只列出关键代码：
 
-```java
+``` java
 /**
  * 通过名称查找用户
  *
@@ -105,7 +105,7 @@ public ManagerInfo findByUsername(String username) {
 
 用户信息类：
 
-```java
+``` java
 public class ManagerInfo implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
@@ -134,7 +134,7 @@ public class ManagerInfo implements Serializable {
 
 我们写一个简单的JWT加密，校验工具，并且使用用户自己的密码充当加密密钥， 这样保证了token 即使被他人截获也无法破解。并且我们在token中附带了username信息，并且设置密钥5分钟就会过期。
 
-```java
+``` java
 public class JWTUtil {
 
     private static final Logger log = LoggerFactory.getLogger(JWTUtil.class);
@@ -192,7 +192,7 @@ public class JWTUtil {
 
 为了让用户登录的时候获取到正确的JWT Token，需要实现登录接口，这里我编写一个`LoginController.java`：
 
-```java
+``` java
 /**
  * 登录接口类
  */
@@ -231,7 +231,7 @@ public class LoginController {
 
 先编写一个通用的接口返回类：
 
-```java
+``` java
 /**
  * API接口的基础返回类
  *
@@ -269,7 +269,7 @@ public class BaseResponse<T> {
 
 通过SpringMVC实现RESTful接口，这里我只写一个示例方法：
 
-```java
+``` java
 /**
  * 机具管理API接口类
  */
@@ -300,7 +300,7 @@ public class PublicController {
 
 为了实现我自己能够手动抛出异常，我自己写了一个`UnauthorizedException.java`
 
-```java
+``` java
 public class UnauthorizedException extends RuntimeException {
     public UnauthorizedException(String msg) {
         super(msg);
@@ -317,7 +317,7 @@ public class UnauthorizedException extends RuntimeException {
 之前说过restful要统一返回的格式，所以我们也要全局处理Spring Boot的抛出异常。利用@RestControllerAdvice能很好的实现。
 注意这个统一异常处理器只对认证过的用户调用接口中的异常有作用，对AuthenticationException没有用
 
-```java
+``` java
 @RestControllerAdvice
 public class ExceptionController {
 
@@ -361,7 +361,7 @@ public class ExceptionController {
 JWTToken差不多就是Shiro用户名密码的载体。因为我们是前后端分离，服务器无需保存用户状态，所以不需要RememberMe这类功能，
 我们简单的实现下AuthenticationToken接口即可。因为token自己已经包含了用户名等信息，所以这里我就弄了一个字段。 如果你喜欢钻研，可以看看官方的UsernamePasswordToken是如何实现的。
 
-```java
+``` java
 public class JWTToken implements AuthenticationToken {
 
     // 密钥
@@ -387,7 +387,7 @@ public class JWTToken implements AuthenticationToken {
 
 realm的用于处理用户是否合法的这一块，需要我们自己实现。
 
-```java
+``` java
 /**
  * Description  : 身份校验核心类
  */
@@ -500,7 +500,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 
 代码的执行流程`preHandle->isAccessAllowed->isLoginAttempt->executeLogin`
 
-```java
+``` java
 public class JWTFilter extends BasicHttpAuthenticationFilter {
 
     private Logger LOGGER = LoggerFactory.getLogger(this.getClass());
@@ -587,7 +587,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
 
 这里我还增加了EhCache缓存管理支持，不需要每次都调用数据库做授权。
 
-```java
+``` java
 @Configuration
 @Order(1)
 public class ShiroConfig {

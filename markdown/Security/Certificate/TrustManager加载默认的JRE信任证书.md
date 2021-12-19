@@ -6,7 +6,7 @@ Essentially, get hold of the default trust manager, create a second trust manage
 them both in a custom trust manager implementation that delegates call to both (falling back on the other when one
 fails).
 
-```java
+``` java
 TrustManagerFactory tmf = TrustManagerFactory
     .getInstance(TrustManagerFactory.getDefaultAlgorithm());
 // Using null here initialises the TMF with the default trust store.

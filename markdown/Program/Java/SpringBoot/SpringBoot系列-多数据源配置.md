@@ -167,7 +167,7 @@ biz:
 
 多数据源的常量类：
 
-```java
+``` java
 public interface DSEnum {
     String DATA_SOURCE_CORE = "dataSourceCore";         //核心数据源
     String DATA_SOURCE_BIZ = "dataSourceBiz";            //其他业务的数据源
@@ -176,7 +176,7 @@ public interface DSEnum {
 
 datasource的上下文，用来存储当前线程的数据源类型：
 
-```java
+``` java
 public class DataSourceContextHolder {
 
     private static final ThreadLocal<String> contextHolder = new ThreadLocal<String>();
@@ -207,7 +207,7 @@ public class DataSourceContextHolder {
 
 定义动态数据源，继承`AbstractRoutingDataSource` ：
 
-```java
+``` java
 public class DynamicDataSource extends AbstractRoutingDataSource {
 
     @Override
@@ -219,7 +219,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
 
 接下来自定义一个注解，用来在Service方法上面注解使用哪个数据源：
 
-```java
+``` java
 /**
  * 多数据源标识
  *
@@ -235,7 +235,7 @@ public @interface DataSource {
 
 最后，最核心的AOP类定义：
 
-```java
+``` java
 /**
  * 多数据源切换的aop
  *
@@ -307,7 +307,7 @@ public class MultiSourceExAop implements Ordered {
 
 然后定义配置类：
 
-```java
+``` java
 @Configuration
 @EnableTransactionManagement(order = 2)
 @MapperScan(basePackages = {"com.xncoding.pos.common.dao.repository"})
@@ -381,7 +381,7 @@ public class MybatisPlusConfig {
 
 ## 实体类
 
-```java
+``` java
 @TableName(value = "t_user")
 public class User extends Model<User> {
 
@@ -434,7 +434,7 @@ private static final long serialVersionUID = 1L;
 
 ## 定义DAO
 
-```java
+``` java
 public interface UserMapper extends BaseMapper<User> {
 
 }
@@ -442,7 +442,7 @@ public interface UserMapper extends BaseMapper<User> {
 
 ## 定义Service
 
-```java
+``` java
 @Service
 public class UserService {
 
@@ -503,7 +503,7 @@ public class UserService {
 
 最后编写一个简单的测试，我只测试`findById()`方法和`findById1()`方法，看它们是否访问的是不同的数据源。
 
-```java
+``` java
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ApplicationTests {

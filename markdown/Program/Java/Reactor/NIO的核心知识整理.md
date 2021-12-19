@@ -38,7 +38,7 @@
 6. 通过调用`mark()`方法标记Buffer中的一个特定position。之后可以通过调用`reset()`方法恢复到这个position。
 
 准备一个text.txt文档，输入内容`Test`。然后我们用一段代码来验证position、limit和capacity这三个值的变化过程，代码如下。
-```java
+``` java
 package com.xncoding.netty.nio.buffer;
 
 import java.io.FileInputStream;
@@ -140,7 +140,7 @@ capacity: 10, position: 0, limit: 10
 内存映射是一种读和写文件数据的方法，可以比常规的基于流或者基于通道的I/O快得多。内存映射文件I/O通过使文件中的数据表现为内存数组的内容来完成，
 这初听起来似乎不过就是将整个文件读到内存中，但事实上并不是这样的。一般来说，只有文件中实际读取或写入的部分才会映射到内存中。来看下面的示例代码
 
-```java
+``` java
 package com.xncoding.netty.nio.buffer;
 
 import java.io.*;
@@ -285,7 +285,7 @@ NIO提供了多种通道对象，所有的通道对象都实现了Channel接口�
 3. 将数据从Channel读取到Buffer中。
 
 下面是一个简单的使用NIO从文件中读取数据的例子。
-```java
+``` java
 /**
  * 读文件
  *
@@ -317,7 +317,7 @@ public class FileInputDemo {
 2. 创建Buffer。
 3. 将数据从Channel写入Buffer。
 
-```java
+``` java
 /**
  * 写文件
  *

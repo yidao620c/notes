@@ -124,7 +124,7 @@ spring:
 
 article表对应的实体类如下：
 
-```java
+``` java
 @Entity
 @Table(name = "articles")
 public class Article implements Serializable {
@@ -146,7 +146,7 @@ public class Article implements Serializable {
 
 先创建一个DAO的接口类：
 
-```java
+``` java
 public interface IArticleDAO {
     List<Article> getAllArticles();
 
@@ -164,7 +164,7 @@ public interface IArticleDAO {
 
 然后写一个实现类，在这类中注入`EntityManager`
 
-```java
+``` java
 @Repository
 public class ArticleDAO implements IArticleDAO {
     @PersistenceContext
@@ -214,7 +214,7 @@ public class ArticleDAO implements IArticleDAO {
 
 编写业务逻辑Service类，注入DAO类：
 
-```java
+``` java
 @Service
 public class ArticleService {
 
@@ -253,7 +253,7 @@ public class ArticleService {
 
 OK，一切写完后，就来编写我们的测试用例：
 
-```java
+``` java
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ApplicationTests {

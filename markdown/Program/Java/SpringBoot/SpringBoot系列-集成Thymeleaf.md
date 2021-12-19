@@ -106,7 +106,7 @@ Thymeleaf 3的详细语法规则请参考 [官网教程](http://www.thymeleaf.or
 
 接下来编写控制器类，将URL `/` 和 `/index` 都返回index.html页面：
 
-```java
+``` java
 @Controller
 public class IndexController {
     private static final Logger _logger = LoggerFactory.getLogger(IndexController.class);

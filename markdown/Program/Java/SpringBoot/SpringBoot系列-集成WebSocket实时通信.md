@@ -43,7 +43,7 @@ STOMP：即`Simple Text Orientated Messaging Protocol`，它是一个简单的�
 
 ## 配置类
 
-```java
+``` java
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
@@ -71,7 +71,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
 ## 请求消息类
 
-```java
+``` java
 public class RequestMessage {
     private String name;
 
@@ -83,7 +83,7 @@ public class RequestMessage {
 
 ## 响应消息类
 
-```java
+``` java
 public class ResponseMessage {
     private String responseMessage;
 
@@ -99,7 +99,7 @@ public class ResponseMessage {
 
 ## SpringMVC控制器
 
-```java
+``` java
 @Controller
 public class WsController {
 

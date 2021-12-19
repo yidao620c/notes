@@ -22,7 +22,7 @@ SQL注入攻击（SQL Injection），简称注入攻击，是Web开发中最常�
 
 我们的处理里面的SQL可能是这样的：
 
-```java
+``` java
 String username = request.get("username");
 String password = request.get("password");
 String sql = "SELECT * FROM user WHERE username='"+username+"' AND password='"+password+"'";

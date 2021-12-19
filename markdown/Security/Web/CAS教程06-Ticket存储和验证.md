@@ -49,7 +49,7 @@ cas可供调用的接口列表如下，通过这些接口可实现票据操作�
 
 ### 获取TGT
 
-```java
+``` java
 String getTicketGrantingTicket(String Server, String username, String password);
 ```
 
@@ -61,13 +61,13 @@ String getTicketGrantingTicket(String Server, String username, String password);
 
 示例：
 
-```java
+``` java
 String tgt = casService.getTicketGrantingTicket("https://cas.hisign.com.cn:8443/cas", "casuser", "Mellon");
 ```
 
 ### 根据TGT获取ST
 
-```java
+``` java
 String getServiceTicket(String Server, String ticketGrantingTicket, String service);
 ```
 
@@ -79,13 +79,13 @@ String getServiceTicket(String Server, String ticketGrantingTicket, String servi
 
 示例：
 
-```java
+``` java
 String st = casService.getTicketGrantingTicket("https://cas.hisign.com.cn:8443/cas", "TGT-2-6eT-cas01.example.org", "https://app.xx.com:8443/app1");
 ```
 
 ### 判别ST是否有效
 
-```java
+``` java
 String verifySeviceTicket(String server, String serviceTicket, String service);
 ```
 
@@ -97,13 +97,13 @@ String verifySeviceTicket(String server, String serviceTicket, String service);
 
 示例：
 
-```java
+``` java
 boolean String = casService.verifyServiceTicket("https://cas.hisign.com.cn:8443/cas", "ST-2-5kE-cas01.example.org", "https://app.xx.com:8443/app1");
 ```
 
 ### 删除TGT(相当于在CAS Server端注销)
 
-```java
+``` java
 boolean deleteTicketGrantingTicket(String Server, String ticketGrantingTicket);
 ```
 
@@ -114,7 +114,7 @@ boolean deleteTicketGrantingTicket(String Server, String ticketGrantingTicket);
 
 示例：
 
-```java
+``` java
 boolean bool = casService.deleteTicketGrantingTicket("https://cas.hisign.com.cn:8443/cas", "TGT-2-6eT-cas01.example.org");
 ```
 
@@ -140,7 +140,7 @@ boolean bool = casService.deleteTicketGrantingTicket("https://cas.hisign.com.cn:
 
 编写API接口访问工具类：
 
-```java
+``` java
 /**
  * 首先客户端提交用户名、密码、及Service三个参数，
  * 如果验证成功便返回用户的TGT(Ticket Granting Ticket)至客户端,

@@ -85,7 +85,7 @@ VM Args: -Xms10m -Xmx10m -XX:+HeapDumpOnOutOfMemoryError
 
 `XX:+HeapDumpOnOutOfMemoryError`这个参数可以让虚拟机在出现内存溢出异常时Dump出当前的内存堆转储快照以便事后进行分析。
 
-```java
+``` java
 import java.util.ArrayList;
 import java.util.List;
 
@@ -134,7 +134,7 @@ Memory Overflow。 如果是内存泄露，可进一步通过工具查看泄露�
 
 -Xoss参数设置本地方法栈大小，对于HotSpot没用。栈容量只由-Xss参数设定
 
-```java
+``` java
 /**
  * VM Args: -Xss128k
  * @author Administrator
@@ -175,7 +175,7 @@ at com.baoxian.JavaVMStackSOF.stackLeak(JavaVMStackSOF.java:12)。。。。
 
 运行时常量池分配在方法区内，可以通过 -XX:PermSize和 -XX:MaxPermSize限制方法区大小，从而间接限制其中常量池的容量。
 
-```java
+``` java
 import java.util.ArrayList;
 import java.util.List;
 
@@ -230,7 +230,7 @@ at java.lang.String.intern(Native Method)
 
 DirectMemory容量可以通过-XX:MaxDirectMemorySize指定，如果不指定，则默认与Java堆的最大值-Xmx指定一样。
 
-```java
+``` java
 /**
  * VM Args: -Xmx20M -XX:MaxDirectMemorySize=10M
  * @author Administrator

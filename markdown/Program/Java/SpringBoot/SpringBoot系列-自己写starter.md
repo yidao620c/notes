@@ -67,7 +67,7 @@ Spring官方建议非官方Starter命名应遵循`{name}-spring-boot-starter`的
 
 ## 编写Service
 
-```java
+``` java
 public class ExampleService {
 
     private String prefix;
@@ -85,7 +85,7 @@ public class ExampleService {
 
 ## 编写属性类
 
-```java
+``` java
 @ConfigurationProperties("example.service")
 public class ExampleServiceProperties {
     private String prefix;
@@ -111,7 +111,7 @@ public class ExampleServiceProperties {
 
 ## 编写自动配置类
 
-```java
+``` java
 @Configuration
 @ConditionalOnClass(ExampleService.class)
 @EnableConfigurationProperties(ExampleServiceProperties.class)
@@ -178,7 +178,7 @@ example.service:
 
 测试类：
 
-```java
+``` java
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ApplicationTests {

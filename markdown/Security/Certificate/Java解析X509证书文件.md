@@ -2,7 +2,7 @@
 
 ## 通过PKCS12格式的证书库文件获取证书对象
 
-```java
+``` java
 InputStream inStream=new FileInputStream("c:/certificate.p12");
 
         KeyStore ks=KeyStore.getInstance("PKCS12");
@@ -15,14 +15,14 @@ InputStream inStream=new FileInputStream("c:/certificate.p12");
 
 ## 通过pem文件获取证书对象
 
-```java
+``` java
 CertificateFactory fact=CertificateFactory.getInstance("X.509");
         X509Certificate certificate=(X509Certificate)fact.generateCertificate(new FileInputStream("conf/server.crt"));
 ```
 
 ## 获取证书的公钥
 
-```java
+``` java
 PublicKey pk=certificate.getPublicKey();
 ```
 

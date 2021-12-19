@@ -429,7 +429,7 @@ com:
 
 然后在Service中直接注入`RestTemplate`类即可。
 
-```java
+``` java
 @Autowired
 private RestTemplate restTemplate;
 ```

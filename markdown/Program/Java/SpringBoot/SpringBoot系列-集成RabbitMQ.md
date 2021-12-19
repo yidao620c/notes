@@ -127,7 +127,7 @@ spring:
 
 这里我声明了一个Direct类型的交换机，并通过路由键绑定到一个队列中来测试Direct模式， 另外还声明了Fanout类型的交换机，并绑定到2个队列来测试广播模式。
 
-```java
+``` java
 @Configuration
 public class RabbitConfig {
     @Resource
@@ -266,7 +266,7 @@ public class RabbitConfig {
 
 接下来编写消息队列的监听器类，监听队列消息并做相应的处理，并通过Ack机制确认处理完成：
 
-```java
+``` java
 /**
  * 消息监听器
  *
@@ -322,7 +322,7 @@ public class Receiver {
 
 再写一个消息发送服务，用来向交换机发送消息：
 
-```java
+``` java
 /**
  * 消息发送服务
  */
@@ -361,7 +361,7 @@ public class SenderService {
 
 代码写完后当然要写个测试用例测一下嘛。
 
-```java
+``` java
 /**
  * SenderServiceTest
  *

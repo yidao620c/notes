@@ -25,7 +25,7 @@ Spring Boot构建RESTful API极为简单，实际就是Spring MVC。
 
 比如我的机具管理API如下，提供了3个接口：
 
-```java
+``` java
 @RestController
 @RequestMapping("/traffic")
 public class TrafficController {
@@ -112,7 +112,7 @@ maven依赖：
 通过`@Configuration`注解，表明它是一个配置类，`@EnableSwagger2` 注解开启swagger2。
 `apiInfo()` 方法配置一些基本的信息。`createRestApi()` 方法指定扫描的包会生成文档， 默认是显示所有接口,可以用`@ApiIgnore`注解标识该接口不显示。
 
-```java
+``` java
 @Configuration
 @EnableSwagger2
 public class Swagger2Config {
@@ -154,7 +154,7 @@ public class Swagger2Config {
 
 通过在接口上面添加注解方式可配置丰富接口的信息，先看一个例子：
 
-```java
+``` java
 @Api(value = "交警业务接口类", tags = "交警6合1业务接口", description = "主要任务和交警的专网通信")
 @ApiResponses(value = {
         @ApiResponse(code = 200, message = "请求正常完成"),
@@ -227,7 +227,7 @@ Swagger2提供了一些注解来丰富接口的信息,常用的有:
 
 注意如果Spring Boot使用过Shiro或Spring Security框架，需要将相应的URL访问权限放开，以Shiro为例，添加匿名访问过滤器：
 
-```java
+``` java
 filterChainDefinitionMap.put("/api/v1/**", "anon"); //API接口
 
 // swagger接口文档
@@ -287,7 +287,7 @@ filterChainDefinitionMap.put("/swagger-ui.html", "anon");
 
 原理是通过SpringBoot的MockMvc启动后访问`/v2/api-docs`，这个是Swagger的接口数据，然后保存为`swagger.json`，
 
-```java
+``` java
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

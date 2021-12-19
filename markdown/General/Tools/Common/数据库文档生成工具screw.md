@@ -45,7 +45,7 @@
 
 ### 代码方式
 
-```java
+``` java
 public class BuildDatabaseDoc {
     /**
      * 文档生成

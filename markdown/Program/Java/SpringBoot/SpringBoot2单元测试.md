@@ -68,7 +68,7 @@ logging:
 
 ## 定义Application入口类
 
-```java
+``` java
 
 @ActiveProfiles("test")
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, MultipartAutoConfiguration.class})
@@ -87,7 +87,7 @@ public class Application4Test extends SpringBootServletInitializer {
 
 ## 抽象测试父类
 
-```java
+``` java
 
 @RunWith(PowerMockRunner.class)
 @PowerMockRunnerDelegate(SpringRunner.class)
@@ -107,7 +107,7 @@ public abstract class AbstractSpringTest {
 
 如果yml文件中的配置项需要覆盖，可实现`ApplicationContextInitializer`
 
-```java
+``` java
 public class ApplicationInitializer4Test implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
     private static final Logger logger = LoggerFactory.getLogger(ApplicationInitializer4Test.class);
@@ -138,7 +138,7 @@ public class ApplicationInitializer4Test implements ApplicationContextInitialize
 
 ## 实际单元测试用例
 
-```java
+``` java
 
 @PrepareForTest({SecurityContextHolder.class, ClientContextHolder.class})
 public class ApiOperationLogServiceTest extends AbstractSpringTest {
@@ -205,7 +205,7 @@ public class ApiOperationLogServiceTest extends AbstractSpringTest {
 
 ## 调用Controller接口测试
 
-```java
+``` java
 public class RestTemplateTest extends AbstractSpringTest {
 
     @LocalServerPort
@@ -260,13 +260,13 @@ Mockito.doReturn(info).when(obj).domethod(param1, param2);
 
 抛出期望的异常：
 
-```java
+``` java
 doThrow(RuntimeException.class).when(daoMock).updateEmail(any(Customer.class),any(String.class));
 ```
 
 指定void的执行过程：
 
-```java
+``` java
 doAnswer((Answer<Void>)invocation->{
         Object[]args=invocation.getArguments();
         System.out.println("restTemplate.exchange called with arguments: "+Arrays.toString(args));

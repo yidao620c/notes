@@ -21,7 +21,7 @@ Buffer由数据和可以高效访问以及操纵这些数据的四个索引组�
 
 下面的示例用到一个很简单的算法 - 交换相邻字符，以对CharBuffer中的字符进行编码和译码
 
-```java
+``` java
 public class UsingBuffers {
 	private static void symmetricScramble(CharBuffer buffer) {
 		while (buffer.hasRemaining()) {
@@ -66,7 +66,7 @@ while循环最后，position指向缓存区的末尾了。如果要打印缓存�
 
 先看一个瞬间创建一个128M的大文件的例子：
 
-```java
+``` java
 public class LargeMappedFiles {
   static int length = 0x8FFFFFF; // 128 MB
   public static void main(String[] args) throws Exception {
@@ -93,7 +93,7 @@ public class LargeMappedFiles {
 
 Java的文件加锁直接映射到了本地操作系统的加锁工具上，因此文件锁对于其他操作系统进程是可见的。
 
-```java
+``` java
 public class FileLocking {
   public static void main(String[] args) throws Exception {
     FileOutputStream fos= new FileOutputStream("file.txt");
@@ -116,7 +116,7 @@ Released Lock
 
 文件映射通常应用于极大文件，我们可能需要对这种巨大文件进行部分加锁，其他进程可以修改文件中未被加锁的部分。例如数据库文件就是这样。
 
-```java
+``` java
 public class LockingMappedFiles {
   static final int LENGTH = 0x8FFFFFF; // 128 MB
   static FileChannel fc;

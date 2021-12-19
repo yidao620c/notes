@@ -10,19 +10,19 @@
 
 要使用WatchService，首先必须创建一个实例，使用 ` java.nio.file.FileSystems` 类：
 
-```java
+``` java
 WatchService watchService = FileSystems.getDefault().newWatchService();
 ```
 
 接下来，我们初始化一个被监控文件夹的Path类：
 
-```java
+``` java
 Path path = Paths.get("pathToDir");
 ```
 
 然后，将这个Path注册到 `WatchService` 中去：
 
-```java
+``` java
 WatchKey watchKey = path.register(
   watchService, StandardWatchEventKinds...);
 ```
@@ -40,7 +40,7 @@ WatchKey watchKey = path.register(
 
 `WatchKey` 类代表了这个监听服务的注册，可以用它来获取事件的各个属性。一般来讲我们会通过如下方法获取这个类实例：
 
-```java
+``` java
 WatchKey watchKey = watchService.take();
 ```
 
@@ -48,7 +48,7 @@ WatchKey watchKey = watchService.take();
 
 有一点非常重要的需要记住，一旦 `WatchKey` 实例通过poll或take返回后，它再也不会捕获任何事件，触发你调用reset方法：
 
-```java
+``` java
 watchKey.reset();
 ```
 
@@ -56,7 +56,7 @@ watchKey.reset();
 
 所以一般来讲这个服务代码形式会写成如下形式：
 
-```java
+``` java
 WatchKey key;
 while ((key = watchService.take()) != null) {
     for (WatchEvent<?> event : key.pollEvents()) {
@@ -74,7 +74,7 @@ while ((key = watchService.take()) != null) {
 
 下面通过一个完整例子演示WatchService的用法，我们监听用户家目录的文件变动，打印相应的信息。
 
-```java
+``` java
 public class DirectoryWatcherExample {
  
     public static void main(String[] args) {

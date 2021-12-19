@@ -9,7 +9,7 @@ JHSDB是一款基于服务性代理实现的进程外调试工具。可以在一
 接下来通过一个实验来演示JHSDB使用方法，
 实验目的是为了找出如下代码中staticObj、instanceObj、localObj三个变量存放的内存地址在哪。
 
-```java
+``` java
 /**
  * staticObj、instanceObj、localObj存放在哪里？
  */

@@ -106,7 +106,7 @@ node("master") {
 
 另外，如果单元测试不通过，构建就会失败，修改一下单元测试，
 
-```java
+``` java
 @Test
 public void testIndex() {
     assertEquals("www", "www1");

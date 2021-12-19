@@ -27,20 +27,20 @@ Filter实现这个需求。
 
 Filter接口包含了三个跟生命周期有关的方法，并且由Servlet容器来管理。它们分别是：
 
-```java
+``` java
 void init(FilterConfig paramFilterConfig)
 ```
 
 当容器初始化这个Filter的时候被调用，并且只会被调用一次。因此在这个方法里面我们可以初始化一些资源。 FilterConfig会被容器用来给Filter提供初始化参数以及Servlet Context对象。
 我们可以在这个方法中抛出ServletException异常。
 
-```java
+``` java
 doFilter(ServletRequest paramServletRequest, ServletResponse paramServletResponse, FilterChain paramFilterChain)
 ```
 
 这个方法在每次执行过滤的时候被调用，request和response被作为参数传递进来，FilterChain表示过滤器链，这是典型的责任链模式的实现例子。
 
-```java
+``` java
 void destroy()
 ```
 
@@ -102,7 +102,7 @@ Password: <input type="password" name="pwd">
 
 LoginServlet负责验证客户端是否已经登录：
 
-```java LoginServlet.java
+``` java LoginServlet.java
 package com.journaldev.servlet.session;
   
 import java.io.IOException;
@@ -222,7 +222,7 @@ for(Cookie cookie : cookies){
 
 LogoutServlet在用户点击退出按钮时执行：
 
-```java LogoutServlet.java
+``` java LogoutServlet.java
 package com.journaldev.servlet.session;
   
 import java.io.IOException;
@@ -267,7 +267,7 @@ public class LogoutServlet extends HttpServlet {
 
 现在我们来创建日志和登录认证的两个filter：
 
-```java RequestLoggingFilter.java
+``` java RequestLoggingFilter.java
 package com.journaldev.servlet.filters;
 
 import java.io.IOException;
@@ -325,7 +325,7 @@ public class RequestLoggingFilter implements Filter {
 
 然后是另一个Filter：
 
-```java AuthenticationFilter.java
+``` java AuthenticationFilter.java
 package com.journaldev.servlet.filters;
   
 import java.io.IOException;

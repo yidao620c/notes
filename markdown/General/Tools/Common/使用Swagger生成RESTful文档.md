@@ -73,7 +73,7 @@ swagger2markup用来将我们手写的或自动生成的swagger.yaml或swagger.j
 
 转换本地的yaml文件方法：
 
-```java
+``` java
 import io.github.swagger2markup.GroupBy;
 import io.github.swagger2markup.Language;
 import io.github.swagger2markup.Swagger2MarkupConfig;

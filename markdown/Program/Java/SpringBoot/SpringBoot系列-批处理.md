@@ -48,7 +48,7 @@ Spring Batch框架的JobRepository支持主流的数据库：DB2、Derby、H2、
 
 JobLauncher是任务启动器，该接口只有一个run方法：
 
-```java
+``` java
 public interface JobLauncher {
     JobExecution run(Job job, JobParameters jobParameters);
 }
@@ -77,7 +77,7 @@ Job代表着一个任务，一个Job与一个或者多个JobInstance相关联，
 
 ItemReader代表着读操作，其接口如下：
 
-```java
+``` java
 public interface ItemReader<T> {
     T read();
 }
@@ -89,7 +89,7 @@ public interface ItemReader<T> {
 
 ItemReader代表着处理操作，其接口如下：
 
-```java
+``` java
 public interface ItemProcessor<I, O> {
     O process(I item) throws Exception;
 }
@@ -101,7 +101,7 @@ process方法的形参传入I类型的对象，通过处理后返回O型的对�
 
 ItemReader代表着写操作，其接口如下：
 
-```java
+``` java
 public interface ItemWriter<T> {
     void write(List<? extends T> items) throws Exception;
 }
@@ -113,7 +113,7 @@ public interface ItemWriter<T> {
 
 还可以自定义任务监听器，在任务启动和完成之后进行相应的通知和响应。
 
-```java
+``` java
 /**
  * 监听器实现JobExecutionListener接口，并重写其beforeJob，afterJob方法即可
  */
@@ -136,7 +136,7 @@ public class MyJobListener implements JobExecutionListener {
 
 首先让我们的ItemProcessor实现ValidatingItemProcessor接口：
 
-```java
+``` java
 public class MyItemProcessor extends ValidatingItemProcessor<User> {
     @Override
     public User process(User item) throws ValidationException {
@@ -148,7 +148,7 @@ public class MyItemProcessor extends ValidatingItemProcessor<User> {
 
 然后定义自己的校验器，实现的Validator接口来自于Spring，我们将使用JSR-303的Validator来校验：
 
-```java
+``` java
 public class MyBeanValidator<T> implements Validator<T>,InitializingBean {
     private Validator validator;
 
@@ -164,7 +164,7 @@ public class MyBeanValidator<T> implements Validator<T>,InitializingBean {
 
 在定义我们的MyItemProcessor时必须将MyBeanValidator设置进去，代码如下：
 
-```java
+``` java
 @Bean
 public ItemProcessor<User,User> processor(){
     //新建ItemProcessor接口的实现类返回
@@ -289,7 +289,7 @@ CREATE TABLE "ADM_REAL"."NT_BSC_BUDGETVTOLL" (
 
 ### 领域模型类
 
-```java
+``` java
 public class BudgetVtoll {
     private String id;
     private String year;
@@ -319,7 +319,7 @@ public class BudgetVtoll {
 
 定义处理器
 
-```java
+``` java
 public class CsvItemProcessor extends ValidatingItemProcessor<BudgetVtoll> {
     @Override
     public BudgetVtoll process(BudgetVtoll item) throws ValidationException {
@@ -337,7 +337,7 @@ public class CsvItemProcessor extends ValidatingItemProcessor<BudgetVtoll> {
 
 校验器定义：
 
-```java
+``` java
 public class CsvBeanValidator<T> implements Validator<T>, InitializingBean {
     private javax.validation.Validator validator;
 
@@ -369,7 +369,7 @@ public class CsvBeanValidator<T> implements Validator<T>, InitializingBean {
 
 ### 任务监听器
 
-```java
+``` java
 public class CsvJobListener implements JobExecutionListener {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private long startTime;
@@ -391,7 +391,7 @@ public class CsvJobListener implements JobExecutionListener {
 
 ### 配置类
 
-```java
+``` java
 @Configuration
 @EnableBatchProcessing
 public class CsvBatchConfig {
@@ -558,7 +558,7 @@ public class CsvBatchConfig {
 
 最后再让我们写个测试类看看能不能成功：
 
-```java
+``` java
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 public class BatchServiceTest {
@@ -610,7 +610,7 @@ ThreadPoolTaskExecutor   | 线程池任务执行器                             
 
 配置线程池执行Job：
 
-```java
+``` java
 @Bean
 public ThreadPoolTaskExecutor taskExecutor() {
     ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
@@ -636,7 +636,7 @@ public SimpleJobLauncher jobLauncher(ThreadPoolTaskExecutor taskExecutor, DruidD
 
 如果你还想对单个Job执行逻辑采用多线程，可以再Step配置中加入线程池支持，不过需要保证你所有的Step都是线程安全的：
 
-```java
+``` java
 return stepBuilderFactory
     .get("logStep1")
     //设置每个Job通过并发方式执行，一般来讲一个Job就让它串行完成的好
@@ -670,7 +670,7 @@ CREATE TABLE Z_TEST_APP (
 
 创建一个App类：
 
-```java
+``` java
 public class App {
     private int appid;
     private String zname;
@@ -680,7 +680,7 @@ public class App {
 
 然后创建一个AppConfig类配置任务：
 
-```java
+``` java
 @Configuration
 public class AppConfig {
     /**
@@ -723,7 +723,7 @@ public class AppConfig {
 
 比如定义Job：
 
-```java
+``` java
 @Bean(name = "zappJob")
 public Job zappJob(JobBuilderFactory jobBuilderFactory, @Qualifier("zappStep1") Step s1) {
     return jobBuilderFactory.get("zappJob")
@@ -739,7 +739,7 @@ public Job zappJob(JobBuilderFactory jobBuilderFactory, @Qualifier("zappStep1") 
 
 好了，定义完成之后开始写测试方法：
 
-```java
+``` java
 @Test
 public void testTwoJobs() throws Exception {
     JobParameters jobParameters1 = new JobParametersBuilder()
@@ -783,7 +783,7 @@ public void testTwoJobs() throws Exception {
 
 这个在Step的定义中配置：
 
-```java
+``` java
 return stepBuilderFactory
     .get("logStep1")
     .<Log, Log>chunk(5000)//批处理每次提交5000条数据
@@ -825,7 +825,7 @@ return stepBuilderFactory
 
 测试代码：
 
-```java
+``` java
 /**
  * 测试一个配置类，可同时运行多个任务
  * @throws Exception 异常
@@ -884,7 +884,7 @@ The default is ISOLATION_SERIALIZABLE, which prevents accidental concurrent exec
 
 解决方案就是修改`JobRepositoryFactoryBean`的定义，加一个配置：
 
-```java
+``` java
 jobRepositoryFactoryBean.setIsolationLevelForCreate("ISOLATION_READ_COMMITTED");
 ```
 

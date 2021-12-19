@@ -48,7 +48,7 @@
 
 先定义一个简单的用户类User：
 
-```java
+``` java
 package com.xncoding.webservice.model;
 
 public class User {
@@ -73,7 +73,7 @@ public class User {
 
 创建一个简单的服务接口，定义了两个方法，一个返回字符串，一个返回一个实体类User：
 
-```java
+``` java
 package com.xncoding.webservice.service;
 
 import com.xncoding.webservice.model.User;
@@ -98,7 +98,7 @@ public interface ICommonService {
 
 接下来实现这个接口，编写相应的业务逻辑：
 
-```java
+``` java
 package com.xncoding.webservice.service.impl;
 
 import com.xncoding.webservice.model.User;
@@ -130,7 +130,7 @@ public class CommonServiceImpl implements ICommonService {
 
 接下来编写cxf的配置类：
 
-```java
+``` java
 @Configuration
 public class CxfConfig {
     @Autowired
@@ -168,7 +168,7 @@ cxf:
 
 这种方式需要拿到对方的接口
 
-```java
+``` java
 @Test
 public void cl1() {
     try {
@@ -194,7 +194,7 @@ public void cl1() {
 
 ### 动态调用方式
 
-```java
+``` java
 @Test
 public void cl2() {
     // 创建动态客户端
@@ -269,7 +269,7 @@ wsimport -encoding utf-8 -p com.xncoding.webservice.client -keep http://xxx?wsdl
 
 客户端使用例子：
 
-```java
+``` java
 CommonService_Service c = new CommonService_Service();
 com.xncoding.webservice.client.User user = c.getCommonServiceImplPort().getUser("Tom");
 assertThat(user.getName(), is("Tom"));

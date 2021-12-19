@@ -40,7 +40,7 @@ OSGi容器的开源实现现在主要有三种：Knopflerfish, Equinox 和 Apach
 
 打开Activator.java这个类，应该类似下面这样：
 
-```java
+``` java
 package com.javaworld.sample.helloworld;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -115,7 +115,7 @@ OSGi协议允许你将应用切分为多个子模块，然后各自管理自己�
 
 然后创建好后我们在HelloService这个bundle里面新建一个`com.javaworld.sample.service.HelloService.java`接口
 
-```java
+``` java
 public interface HelloService {
     public String sayHello();
 }
@@ -123,7 +123,7 @@ public interface HelloService {
 
 再创建一个实现了这个接口的类`com.javaworld.sample.service.impl.HelloServiceImpl.java`
 
-```java
+``` java
 public class HelloServiceImpl implements HelloService{
     public String sayHello() {
         System.out.println("Inside HelloServiceImple.sayHello()");
@@ -157,7 +157,7 @@ OSGi很适合用来开发面向服务的应用程序，因为它会把接口和�
 
 在服务bundle里面新建一个`com.javaworld.sample.service.impl.HelloServiceActivator.java`
 
-```java
+``` java
 public class HelloServiceActivator implements BundleActivator  {
     ServiceRegistration helloServiceRegistration;
     public void start(BundleContext context) throws Exception {
@@ -186,7 +186,7 @@ Bundle-Activator: com.javaworld.sample.service.impl.HelloServiceActivator
 
 这一步我们修改HelloWorld的程序，开始导入我们刚刚创建的服务并实际使用它。修改`Activator`类
 
-```java
+``` java
 public class Activator implements BundleActivator {
     ServiceReference helloServiceReference;
     public void start(BundleContext context) throws Exception {
@@ -211,7 +211,7 @@ public class Activator implements BundleActivator {
 上一节我们在服务bundle里面创建了一个`HelloServiceImpl`对象，任何其他bundle导入的时候都会返回这个同样的对象。要是我们想对每个bundle返回不同对象要在呢么做呢？
 解决方法是创建一个实现了`ServiceFactory`接口的类，然后注册这个工厂类的对象，而不是实际的服务对象。
 
-```java
+``` java
 public class HelloServiceFactory implements ServiceFactory{
     private int usageCounter = 0;
     public Object getService(Bundle bundle, ServiceRegistration registration) {
@@ -231,7 +231,7 @@ public class HelloServiceFactory implements ServiceFactory{
 
 修改`HelloServiceActivator.java`中的`start()`方法
 
-```java
+``` java
 public class HelloServiceActivator implements BundleActivator  {
     ServiceRegistration helloServiceRegistration;
     public void start(BundleContext context) throws Exception {
@@ -250,7 +250,7 @@ public class HelloServiceActivator implements BundleActivator  {
 
 有时候你需要跟踪某个服务什么时候被注册，被卸载之类的。这时候你可以使用`ServiceTracker`类，我们在HelloWorld里面新建一个类
 
-```java HelloServiceTracker.java
+``` java HelloServiceTracker.java
 public class HelloServiceTracker extends ServiceTracker {
     public HelloServiceTracker(BundleContext context) {
         super(context, HelloService.class.getName(),null);
@@ -276,7 +276,7 @@ Import-Package: com.javaworld.sample.service,
 
 然后修改`Activator.java`，让它使用这个`HelloServiceTracker`来获取真正的Service类
 
-```java
+``` java
 public class Activator implements BundleActivator {
     HelloServiceTracker helloServiceTracker;
     public void start(BundleContext context) throws Exception {

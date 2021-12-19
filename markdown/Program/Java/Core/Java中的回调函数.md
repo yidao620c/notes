@@ -8,7 +8,7 @@
 
 假设有一个老师Teacher对象，平时的工作是上课，周末的工作在家干农活（乡村老师大部分都这样），方法名都是work，但功能都不一样，可以用内部类实现这种需求：
 
-```java
+``` java
 public class Teacher {
 	// 正常的工作
 	public void work() {
@@ -46,7 +46,7 @@ public class Teacher {
 
 Swing中响应按钮点击事件，使用匿名内部类，各个不同的控件发生事件后可以回调外部类中对应的处理方法。
 
-```java
+``` java
 public class ButtonFrame extends JFrame {
 	// 红色按钮
 	private JButton redButton = new JButton("Red Button");

@@ -62,7 +62,7 @@ spring:
 
 这里只是为了测试，我就定义一个简单的客户类：
 
-```java
+``` java
 @Document(collection = "customer")
 public class Customer {
     @Id
@@ -97,7 +97,7 @@ public class Customer {
 
 这里可继承`MongoRepository`，这样一些通用操作的方法，比如增删改查你就不用写了，只需要添加你自己自定义的其他方法：
 
-```java
+``` java
 public interface CustomerRepository extends MongoRepository<Customer, String> {
 
     Customer findByFirstName(String firstName);
@@ -113,7 +113,7 @@ public interface CustomerRepository extends MongoRepository<Customer, String> {
 
 接下来编写核心的业务服务类 `CustomerService`
 
-```java
+``` java
 @Service
 public class CustomerService {
     @Resource
@@ -166,7 +166,7 @@ public class CustomerService {
 
 OK，一切准备妥当之后，我们来编写测试用例：
 
-```java
+``` java
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ApplicationTests {

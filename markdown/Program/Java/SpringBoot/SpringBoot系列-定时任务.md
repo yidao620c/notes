@@ -29,7 +29,7 @@ task简化定时任务功能的实现。
 
 如果有多个耗时任务，最好使用线程池来执行，添加一个配置类专门用来配置定时任务执行的线程池：
 
-```java
+``` java
 @Configuration
 @EnableScheduling
 public class ScheduleConfig implements SchedulingConfigurer {
@@ -47,7 +47,7 @@ public class ScheduleConfig implements SchedulingConfigurer {
 
 ## 添加执行任务类
 
-```java
+``` java
 @Component
 public class MyJob {
     private Logger logger = LoggerFactory.getLogger(MyJob.class);

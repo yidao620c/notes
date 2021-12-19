@@ -106,7 +106,7 @@ json-lib最开始的也是应用最广泛的json解析工具，json-lib 不好�
 
 ### 四个库的工具类
 
-```java FastJsonUtil.java
+``` java FastJsonUtil.java
 public class FastJsonUtil {
     public static String bean2Json(Object obj) {
         return JSON.toJSONString(obj);
@@ -118,7 +118,7 @@ public class FastJsonUtil {
 }
 ```
 
-```java GsonUtil.java
+``` java GsonUtil.java
 public class GsonUtil {
     private static Gson gson = new GsonBuilder().create();
 
@@ -139,7 +139,7 @@ public class GsonUtil {
 }
 ```
 
-```java JacksonUtil.java
+``` java JacksonUtil.java
 public class JacksonUtil {
     private static ObjectMapper mapper = new ObjectMapper();
 
@@ -163,7 +163,7 @@ public class JacksonUtil {
 }
 ```
 
-```java JsonLibUtil.java
+``` java JsonLibUtil.java
 public class JsonLibUtil {
 
     public static String bean2Json(Object obj) {
@@ -182,7 +182,7 @@ public class JsonLibUtil {
 
 这里我写一个简单的Person类，同时属性有Date、List、Map和自定义的类FullName，最大程度模拟真实场景。
 
-```java
+``` java
 public class Person {
     private String name;
     private FullName fullName;
@@ -211,7 +211,7 @@ public class Person {
 }
 ```
 
-```java
+``` java
 public class FullName {
     private String firstName;
     private String middleName;
@@ -238,7 +238,7 @@ public class FullName {
 
 ### JSON序列化性能基准测试
 
-```java
+``` java
 @BenchmarkMode(Mode.SingleShotTime)
 @OutputTimeUnit(TimeUnit.SECONDS)
 @State(Scope.Benchmark)
@@ -326,7 +326,7 @@ public class JsonSerializeBenchmark {
 
 说明一下，上面的代码中
 
-```java
+``` java
 ResultExporter.exportResult("JSON序列化性能", results, "count", "秒");
 ```
 
@@ -341,7 +341,7 @@ ResultExporter.exportResult("JSON序列化性能", results, "count", "秒");
 
 ### JSON反序列化性能基准测试
 
-```java
+``` java
 @BenchmarkMode(Mode.SingleShotTime)
 @OutputTimeUnit(TimeUnit.SECONDS)
 @State(Scope.Benchmark)

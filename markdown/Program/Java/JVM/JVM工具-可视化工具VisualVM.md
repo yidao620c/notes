@@ -56,7 +56,7 @@ BTrace是一个很神奇的VisualVM插件，它本身也是一个可运行的独
 ![img.png](images/img-2021100516.png)
 
 比如我的演示程序的API接口中会调用如下的代码
-```java
+``` java
 private void sleep(int time) {
     try {
         System.out.println("start to do task");
@@ -67,7 +67,7 @@ private void sleep(int time) {
 }
 ```
 现在我想知道传入的参数time的值是什么。下面是TracingScript脚本代码
-```java
+``` java
 /* BTrace Script Template */
 import org.openjdk.btrace.core.annotations.*;
 import static org.openjdk.btrace.core.BTraceUtils.*;
@@ -432,7 +432,7 @@ Visual VM不仅支持在OQL控制台上执行OQL查询语言，也可以通过�
 这里以分析Tomcat堆溢出文件为例，展示程序化OQL带来的便利。 对于给定的Tomcat堆溢出Dump文件，
 这里将展示如何通过程序，计算Tomcat平均每秒产生的session数量，代码如下：
 
-```java
+``` java
 public class AveLoadTomcatOOM {
     public static final String dumpFilePath = "d:/tmp/tomcat_oom/tomcat.hprof";
 

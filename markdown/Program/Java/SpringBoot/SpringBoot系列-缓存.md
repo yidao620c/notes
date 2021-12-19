@@ -23,7 +23,7 @@ RedisCacheManager              | 使用Redis作为缓存技术
 
 在我们使用任意一个实现的CacheManager的时候，需要注册实现Bean：
 
-```java
+``` java
 /**
  * EhCache的配置
  */
@@ -106,7 +106,7 @@ spring:
 
 重新配置`RedisCacheManager`，使用新的自定义配置值：
 
-```java
+``` java
 @Configuration
 @EnableCaching
 public class RedisCacheConfig {
@@ -151,7 +151,7 @@ public class RedisCacheConfig {
 
 在`RedisCacheConfig`配置类中添加我自定义的KeyGenerator：
 
-```java
+``` java
 /**
  * 自定义缓存key的生成类实现
  */
@@ -214,7 +214,7 @@ sync         | 多线程同时访问时候进行同步
 
 在service中定义增删改的几个常见方法，通过注解实现缓存：
 
-```java
+``` java
 @Service
 @Transactional
 public class UserService {
@@ -289,7 +289,7 @@ public class UserService {
 
 然后写个测试类：
 
-```java
+``` java
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @Transactional

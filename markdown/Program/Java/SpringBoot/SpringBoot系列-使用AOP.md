@@ -74,7 +74,7 @@ server.port: 8092
 
 没有结果返回的示例：
 
-```java
+``` java
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -97,7 +97,7 @@ public class UserController {
 
 ## 创建切面类
 
-```java
+``` java
 /**
  * 日志切面
  */
@@ -218,7 +218,7 @@ JoinPoint里包含了类名、被切面的方法名，参数等属性，可供�
 
 @AfterThrowing方法里，可以加throwing = "XXX"，读取异常信息，如本例中可以改为：
 
-```java
+``` java
     //后置异常通知
     @AfterThrowing(throwing = "ex", pointcut = "webLog()")
     public void throwss(JoinPoint jp, Exception ex){
@@ -264,7 +264,7 @@ execution(方法修饰符(可选)  返回类型  方法名  参数  异常模式
 
 一般多用于某些特定的功能，我们来自定义一个注解：
 
-```java
+``` java
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UserAccess {
@@ -274,7 +274,7 @@ public @interface UserAccess {
 
 在Controller里加个方法：
 
-```java
+``` java
 @RequestMapping("/second")
 @UserAccess(desc = "second")
 public Object second() {
@@ -284,7 +284,7 @@ public Object second() {
 
 创建一个新的切面类：
 
-```java
+``` java
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;

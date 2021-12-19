@@ -62,7 +62,7 @@ Reactor模式又分为三种实现方式
 
 最简单的Reactor模式实现代码如下所示
 
-```java
+``` java
 public class NIOServer {
   private static final Logger LOGGER = LoggerFactory.getLogger(NIOServer.class);
   public static void main(String[] args) throws IOException {
@@ -116,7 +116,7 @@ selector.select()是阻塞的，当有至少一个通道可用时该方法返回
 
 多线程Reactor模式示例代码如下所示：
 
-```java
+``` java
 public class NIOServer {
   private static final Logger LOGGER = LoggerFactory.getLogger(NIOServer.class);
   public static void main(String[] args) throws IOException {
@@ -156,7 +156,7 @@ public class NIOServer {
 具体的读请求处理在如下所示的Processor类中。该类中设置了一个静态的线程池处理所有请求。而process方法并不直接处理I/O请求，
 而是把该I/O操作提交给上述线程池去处理，这样就充分利用了多线程的优势，同时将对新连接的处理和读/写操作的处理放在了不同的线程中， 读/写操作不再阻塞对新连接请求的处理。
 
-```java
+``` java
 public class Processor {
   private static final Logger LOGGER = LoggerFactory.getLogger(Processor.class);
   private static final ExecutorService service = Executors.newFixedThreadPool(16);
@@ -192,7 +192,7 @@ Netty中使用的Reactor模式，引入了多Reactor，也即一个主Reactor负
 
 多Reactor示例代码如下所示：
 
-```java
+``` java
 public class NIOServer {
   private static final Logger LOGGER = LoggerFactory.getLogger(NIOServer.class);
   public static void main(String[] args) throws IOException {
@@ -230,7 +230,7 @@ public class NIOServer {
 
 子Reactor对SocketChannel的处理如下所示：
 
-```java
+``` java
 public class Processor {
   private static final Logger LOGGER = LoggerFactory.getLogger(Processor.class);
   private static final ExecutorService service =

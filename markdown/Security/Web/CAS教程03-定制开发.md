@@ -227,7 +227,7 @@ cas:
 
 加密的类，必须实现`org.springframework.security.crypto.password.PasswordEncoder`，因为验证的时候，cas就是调用接口，然后验证是否正确。 现在自己写一个实现了这个接口的类：
 
-```java
+``` java
 package com.xncoding.cas;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -347,7 +347,7 @@ REST认证流程是这样的，当用户点击登录后，cas会发送post请求
 
 用户类
 
-```java
+``` java
 @TableName(value = "sys_user")
 public class User extends Model<User> {
 
@@ -400,7 +400,7 @@ private static final long serialVersionUID = 1L;
 
 接口类：
 
-```java
+``` java
 @RestController
 @RequestMapping("/user")
 public class SysUserController {

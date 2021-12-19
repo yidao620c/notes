@@ -163,7 +163,7 @@ server:
 
 这里我不再多讲怎么集成，我只贴一下监听方法：
 
-```java
+``` java
 /**
  * 保存客户端传来的图片数据
  *
@@ -191,7 +191,7 @@ Echarts可以到处非常多类型的图表，每个图表初始化需要一个�
 
 接下来编写对外开放的图片导出RESTful API接口：
 
-```java
+``` java
 /**
  * 对外API接口类
  */
@@ -219,7 +219,7 @@ public class PublicController {
 
 上面的pushMsg方法定义：
 
-```java
+``` java
 /**
  * 服务器主动推送消息
  *
@@ -361,7 +361,7 @@ public void pushMsg(String msgType, String jsonData) {
 
 编写测试类：
 
-````java
+```` java
 public class ApplicationTests {
     @Test
     public void testOption() throws Exception {

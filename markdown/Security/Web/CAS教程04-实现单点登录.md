@@ -89,7 +89,7 @@ cas.logout.followServiceRedirects=true
 
 CasClientConfig.java是CAS 客户端配置类，这个最重要。
 
-```java
+``` java
 @Configuration
 public class CasClientConfig {
 
@@ -228,7 +228,7 @@ public class CasClientConfig {
 
 URL拦截匹配规则类：
 
-```java
+``` java
 public class SimpleUrlPatternMatcherStrategy implements UrlPatternMatcherStrategy {
 
     /**
@@ -276,7 +276,7 @@ public class SimpleUrlPatternMatcherStrategy implements UrlPatternMatcherStrateg
 
 Cas的一些配置项，这里我写成常量了，其实作为Properties配置文件才是最好：
 
-```java
+``` java
 public class CasConfig {
 
     /**

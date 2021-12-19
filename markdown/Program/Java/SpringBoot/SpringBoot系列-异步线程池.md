@@ -19,7 +19,7 @@ Spring 已经实现的异常线程池：
 SpringBoot中开启异步支持非常简单，只需要在配置类上面加上注解`@EnableAsync`，同时定义自己的线程池即可。
 也可以不定义自己的线程池，则使用系统默认的线程池。这个注解可以放在Application启动类上，但是更推荐放在配置类上面。
 
-```java
+``` java
 @Configuration
 @EnableAsync
 public class AsyncConfig implements AsyncConfigurer {
@@ -33,7 +33,7 @@ public class AsyncConfig implements AsyncConfigurer {
 
 没有结果返回的示例：
 
-```java
+``` java
 @Component
 public class AsyncTask {
     @Async
@@ -53,7 +53,7 @@ public class AsyncTask {
 
 异步调用返回数据，Future表示在未来某个点获取执行结果，返回数据类型可以自定义
 
-```java
+``` java
 @Async
 public Future<String> dealHaveReturnTask(int i) {
     log.info("asyncInvokeReturnFuture, parementer=" + i);
@@ -70,7 +70,7 @@ public Future<String> dealHaveReturnTask(int i) {
 
 以上的异步方法和普通的方法调用相同：
 
-```java
+``` java
 Future<String> future = asyncDemo.asyncInvokeReturnFuture(100);
 System.out.println(future.get());
 ```
@@ -81,7 +81,7 @@ System.out.println(future.get());
 
 在方法getAsyncExecutor()中创建线程池的时候，必须使用 `executor.initialize()`，不然在调用时会报线程池未初始化的异常。
 
-```java
+``` java
 @Configuration
 @EnableAsync
 public class AsyncConfig implements AsyncConfigurer {
@@ -107,7 +107,7 @@ public class AsyncConfig implements AsyncConfigurer {
 
 异步异常处理类：
 
-```java
+``` java
 public class AsyncExceptionHandler implements AsyncUncaughtExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(AsyncExceptionHandler.class);
     
@@ -127,7 +127,7 @@ public class AsyncExceptionHandler implements AsyncUncaughtExceptionHandler {
 
 异步处理异常类：
 
-```java
+``` java
 public class AsyncException extends Exception {
     private int code;
     private String msg;
@@ -159,7 +159,7 @@ public class AsyncException extends Exception {
 
 最后写个测试代码看看是否跟预期一致：
 
-```java
+``` java
 /**
  * 测试异步任务
  */
@@ -198,7 +198,7 @@ INFO 4180 --- [       Thread-4] com.alibaba.druid.pool.DruidDataSource   : {data
 
 实际运行中，还出现过一个问题，一个Service中的方法调用自己的另一个方法，然后我将这个方法加上@Async注解，然而并不起作用。 异步方法都应该放到单独的异步任务Bean里面去，然后将这个Bean注入到Service中即可。
 
-```java
+``` java
 @Service
 public class DeviceService {
 

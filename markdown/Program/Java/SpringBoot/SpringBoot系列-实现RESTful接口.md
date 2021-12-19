@@ -38,7 +38,7 @@ RESTful架构有一些典型的设计误区，就是URI包含动词。因为"资
 
 ## 实体定义
 
-```java
+``` java
 public class User {
     private Long id;
     private String name;
@@ -51,7 +51,7 @@ public class User {
 
 接下来就可以编写RestController了，这里为了演示，会将数据保存到内存Map中，实际使用肯定是保存到数据库中。
 
-```java
+``` java
 /**
  * 接口类
  */
@@ -113,7 +113,7 @@ public class UserController {
 
 先写一个json和对象之间相互转化的工具类，使用Jackson库：
 
-```java
+``` java
 public class JacksonUtil {
     private static ObjectMapper mapper = new ObjectMapper();
 
@@ -139,7 +139,7 @@ public class JacksonUtil {
 
 然后再编写单元测试：
 
-```java
+``` java
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

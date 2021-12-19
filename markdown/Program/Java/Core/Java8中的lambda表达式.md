@@ -20,7 +20,7 @@
 
 ### 传统的外部迭代处理代码
 
-```java
+``` java
 List<Student> students = ...
 double highestScore = 0.0;
 for (Student s : students) {
@@ -40,7 +40,7 @@ for (Student s : students) {
 
 ### 基于Inner Classes的内部迭代
 
-```java
+``` java
 List<Student> students = ...
 double highestScore = students.
         filter(new Predicate<Student>() {
@@ -71,7 +71,7 @@ double highestScore = students.
 
 ### 基于Lambdas的内部迭代
 
-```java
+``` java
 SomeList<Student> students = ...
 double highestScore = students.
         filter(Student s -> s.getGradYear() == 2011).
@@ -104,7 +104,7 @@ Lambda表达式的类型：
 
 几个函数式接口的例子：
 
-```java
+``` java
 interface Comparator<T> { boolean compare(T x, T y); }
 interface FileFilter { boolean accept(File x); }
 interface Runnable { void run(); }
@@ -118,7 +118,7 @@ Lambda表达式可以引用上下文中的final等效局部变量。
 
 final等效指的是变量的用法是final的，而不必声明为final，比如变量只赋值一次，那么它就是final等效的。
 
-```java
+``` java
 void expire(File root, long before) {
     root.listFiles(File p -> p.lastModified() <= before);
 }
@@ -128,7 +128,7 @@ void expire(File root, long before) {
 
 Lambda表达式中的this指的是包含这个Lambda的外部对象，而不是Lambda本身。 永远记住，Lambda表达式类型其实就是一个函数式接口。
 
-```java
+``` java
 class SessionManager {
     long before = ...;
     void expire(File root) {
@@ -143,20 +143,20 @@ class SessionManager {
 
 很多情况下，编译器都可以根据目标函数式接口的方法签名来推断参数类型。 在Collections接口中有个sort接口：
 
-```java
+``` java
 static T void sort(List<T> l, Comparator<? super T> c);
 ```
 
 正常来讲，应该这么写：
 
-```java
+``` java
 List<String> list = getList();
 Collections.sort(list, (String x, String y) -> x.length() - y.length());
 ```
 
 借助类型推断，可以简化为：
 
-```java
+``` java
 List<String> list = getList();
 Collections.sort(list, (x, y) -> x.length() - y.length());
 ```
@@ -167,19 +167,19 @@ Collections.sort(list, (x, y) -> x.length() - y.length());
 
 比如，java.io.FileFilter作为一个函数式接口，仅有一个方法：
 
-```java
+``` java
 boolean accept(File pathname);
 ```
 
 正常的Lambda表达式用法：
 
-```java
+``` java
 FileFilter x = File f -> f.canRead();
 ```
 
 通过方法引用，可以简化为：
 
-```java
+``` java
 FileFilter x = File::canRead;
 ```
 
@@ -206,13 +206,13 @@ ClassName::instanceMethod
 
 正常的Lambda表达式的构造器示例：
 
-```java
+``` java
 Factory<List<String>> f = () -> return new ArrayList<String>();
 ```
 
 通过构造器引用，可以简化为：
 
-```java
+``` java
 Factory<List<String>> f = ArrayList<String>::new;
 ```
 
@@ -220,7 +220,7 @@ Factory<List<String>> f = ArrayList<String>::new;
 
 在Java中，接口是不能随便新增方法的，因为接口中一旦增加方法，那么所以实现类都必须重写。 可以在Interface中使用default关键字来增加一个新的接口方法，并提供一个默认实现。 接口的实现类可以不用管，也可以覆盖这个方法。
 
-```java
+``` java
 interface Collection<E> {
     default Stream<E> stream() {
         return StreamSupport.stream(spliterator());
@@ -265,7 +265,7 @@ Stream管道包含三部分，缺一不可：
 * 零个或多个中间操作
 * 一个终止操作，产生一个结果或者一个副作用
 
-```java
+``` java
 int sum = transactions.stream().
         filter(t -> t.getBuyer().getCity().equals("London")).
         mapToInt(Transaction::getPrice).
@@ -280,7 +280,7 @@ sum() -> 产生结果
 
 剖析Stream通用语法，再来看一个例子：
 
-```java
+``` java
 //Lists是Guava中的一个工具类
 List<Integer> nums = Lists.newArrayList(1,null,3,4,null,6);
 nums.stream().filter(num -> num != null).count();
@@ -304,7 +304,7 @@ nums.stream().filter(num -> num != null).count();
 
 1\. 从集合和数组产生：
 
-```java
+``` java
 Collection.stream()  //接口default方法
 Collection.parallelStream()  //接口default方法
 Arrays.stream(T array) or Stream.of()  // 接口default方法或者是静态方法
@@ -312,7 +312,7 @@ Arrays.stream(T array) or Stream.of()  // 接口default方法或者是静态方�
 
 2\. 静态工厂方法：
 
-```java
+``` java
 IntStream.range()
 Files.walk()
 ```
@@ -321,14 +321,14 @@ Files.walk()
 
 1) of方法：有两个overload方法，一个接受变长参数，一个接口单一值
 
-```java
+``` java
 Stream<Integer> integerStream = Stream.of(1, 2, 3, 5);
 Stream<String> stringStream = Stream.of("taobao");
 ```
 
 2) generator方法：生成一个无限长度的Stream， 其元素的生成是通过给定的Supplier（这个接口可以看成一个对象的工厂，每次调用返回一个给定类型的对象）
 
-```java
+``` java
 Stream.generate(new Supplier<Double>() {
     @Override
     public Double get() {
@@ -346,7 +346,7 @@ Stream.generate(Math::random);
 
 和generator不同的是，其元素的生成是重复对给定的种子值(seed)调用用户指定函数来生成的。 其中包含的元素可以认为是：seed，f(seed),f(f(seed))无限循环
 
-```java
+``` java
 Stream.iterate(1, item -> item + 1).limit(10).forEach(System.out::println);
 ```
 
@@ -379,7 +379,7 @@ Stream.iterate(1, item -> item + 1).limit(10).forEach(System.out::println);
 
 通用的collect方法的定义（还有其他override方法）：
 
-```java
+``` java
 <R> R collect(Supplier<R> supplier,
         BiConsumer<R, ? super T> accumulator,
         BiConsumer<R, R> combiner);
@@ -390,7 +390,7 @@ combiner还是一个函数，用来把中间状态的多个结果容器合并成
 
 还有好消息，Java8还给我们提供了Collector的工具类–[Collectors]
 
-```java
+``` java
 List<Integer> numsWithoutNull = nums.stream().filter(num -> num != null).
        collect(Collectors.toList());
 ```
@@ -399,13 +399,13 @@ List<Integer> numsWithoutNull = nums.stream().filter(num -> num != null).
 
 reduce方法：reduce方法非常的通用，后面介绍的count，sum等都可以使用其实现。 reduce方法有三个override的方法，本文介绍两个最常用的， 先来看reduce方法的第一种形式，其方法定义如下：
 
-```java
+``` java
 Optional<T> reduce(BinaryOperator<T> accumulator);
 ```
 
 接受一个BinaryOperator类型的参数，在使用的时候我们可以用lambda表达式来。
 
-```java
+``` java
 List<Integer> ints = Lists.newArrayList(1,2,3,4,5,6,7,8,9,10);
 System.out.println("ints sum is:" + ints.stream().reduce((sum, item) -> sum + item).get());
 ```
@@ -414,7 +414,7 @@ System.out.println("ints sum is:" + ints.stream().reduce((sum, item) -> sum + it
 
 reduce方法还有一个很常用的变种：
 
-```java
+``` java
 T reduce(T identity, BinaryOperator<T> accumulator);
 ```
 
@@ -432,13 +432,13 @@ T reduce(T identity, BinaryOperator<T> accumulator);
 
 Optional防止空指针异常，考虑一个常见的嵌套调用：
 
-```java
+``` java
 String version = computer.getSoundcard().getUSB().getVersion();
 ```
 
 在之前的Java中，我们对于空指针需要这么做：
 
-```java
+``` java
 String version = "UNKNOWN";
 if(computer != null){
     Soundcard soundcard = computer.getSoundcard();
@@ -459,7 +459,7 @@ String version = computer?.getSoundcard()?.getUSB()?.getVersion() ?: "UNKNOWN";
 
 当然了，Java8不能示弱啊，所以就有了Optional：
 
-```java
+``` java
 Optional computer = Optional.ofNullable(computer);
 String name = computer.map(Computer::getSoundcard)
         .map(Soundcard::getUSB)

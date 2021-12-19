@@ -23,7 +23,7 @@ RestTemplate包含以下几个部分：
 
 直接使用方式很简单：
 
-```java
+``` java
 public class RestTemplateTest {
 	public static void main(String[] args) {
 		RestTemplate restT = new RestTemplate();
@@ -37,7 +37,7 @@ public class RestTemplateTest {
 
 ## 发送GET请求
 
-```java
+``` java
 // 1-getForObject()
 User user1 = this.restTemplate.getForObject(uri, User.class);
 
@@ -55,7 +55,7 @@ User user3 = responseEntity2.getBody();
 
 ## 发送POST请求
 
-```java
+``` java
 // 1-postForObject()
 User user1 = this.restTemplate.postForObject(uri, user, User.class);
 
@@ -69,7 +69,7 @@ ResponseEntity<User> responseEntity2 = this.restTemplate.exchange(requestEntity,
 
 ## 设置HTTP Header
 
-```java
+``` java
 // 1-Content-Type
 RequestEntity<User> requestEntity = RequestEntity
         .post(new URI(uri))
@@ -93,7 +93,7 @@ RequestEntity<User> requestEntity = RequestEntity
 
 捕获`HttpServerErrorException`
 
-```java
+``` java
 try {
     responseEntity = restTemplate.exchange(requestEntity, String.class);
 } catch (HttpServerErrorException e) {
@@ -103,7 +103,7 @@ try {
 
 ## 自定义异常处理器
 
-```java
+``` java
 public class CustomErrorHandler extends DefaultResponseErrorHandler {
     @Override
     public void handleError(ClientHttpResponse response) throws IOException {
@@ -114,7 +114,7 @@ public class CustomErrorHandler extends DefaultResponseErrorHandler {
 
 然后设置下异常处理器：
 
-```java
+``` java
 @Configuration
 public class RestClientConfig {
     @Bean
@@ -130,7 +130,7 @@ public class RestClientConfig {
 
 创建`HttpClientConfig`类，设置连接池大小、超时时间、重试机制等。配置如下：
 
-```java
+``` java
 /**
  * - Supports both HTTP and HTTPS
  * - Uses a connection pool to re-use connections and save overhead of creating connections.
@@ -250,7 +250,7 @@ public class HttpClientConfig {
 
 然后再配置RestTemplateConfig类，使用之前配置好的CloseableHttpClient类注入，同时配置一些默认的消息转换器：
 
-```java
+``` java
 /**
  * RestTemplate客户端连接池配置
  *
@@ -300,7 +300,7 @@ public class RestTemplateConfig {
 
 ## 发送文件
 
-```java
+``` java
 MultiValueMap<String, Object> multiPartBody = new LinkedMultiValueMap<>();
 multiPartBody.add("file", new ClassPathResource("/tmp/user.txt"));
 RequestEntity<MultiValueMap<String, Object>> requestEntity = RequestEntity
@@ -311,7 +311,7 @@ RequestEntity<MultiValueMap<String, Object>> requestEntity = RequestEntity
 
 ## 下载文件
 
-```java
+``` java
 // 小文件
 RequestEntity requestEntity = RequestEntity.get(uri).build();
 ResponseEntity<byte[]> responseEntity = restTemplate.exchange(requestEntity, byte[].class);
@@ -331,7 +331,7 @@ File getFile = this.restTemplate.execute(targetUri, HttpMethod.GET, null, respon
 
 ## Service注入
 
-```java
+``` java
 @Service
 public class DeviceService {
     private static final Logger logger = LoggerFactory.getLogger(DeviceService.class);
@@ -343,7 +343,7 @@ public class DeviceService {
 
 ## 实际使用例子
 
-```java
+``` java
 // 开始推送消息
 logger.info("解绑成功后推送消息给对应的POS机");
 LoginParam loginParam = new LoginParam();

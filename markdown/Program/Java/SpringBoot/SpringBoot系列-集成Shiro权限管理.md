@@ -117,7 +117,7 @@ Maven依赖：
 
 新建一个配置类`ShiroConfig.java`，内容如下：
 
-```java
+``` java
 /**
  * Description  : Apache Shiro 核心通过 Filter 来实现，就好像SpringMvc 通过DispachServlet 来主控制一样。
  * 既然是使用 Filter 一般也就能猜到，是通过URL规则来进行过滤和权限校验，所以我们需要定义一系列关于URL的规则和访问权限。
@@ -324,7 +324,7 @@ public class ShiroConfig {
 
 `MyShiroRealm.java`的内容如下：
 
-```java
+``` java
 public class MyShiroRealm extends AuthorizingRealm {
 
     private static final Logger _logger = LoggerFactory.getLogger(MyShiroRealm.class);
@@ -426,7 +426,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 
 自定义异常处理类`MyExceptionResolver.java` :
 
-```java
+``` java
 public class MyExceptionResolver implements HandlerExceptionResolver {
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
@@ -443,7 +443,7 @@ public class MyExceptionResolver implements HandlerExceptionResolver {
 
 配置好了Shiro后就可以通过注解方式来限制某些接口调用需要相应的角色或权限了：
 
-```java
+``` java
 @RequestMapping(value = "/index")
 @RequiresRoles("admin")
 public String index(HttpServletRequest request, Model model) {
@@ -470,7 +470,7 @@ maven中添加依赖，这个前面已经有了：
 
 在ShiroConfig中添加一个Bean配置：
 
-```java
+``` java
 @Bean(name = "shiroDialect")
 public ShiroDialect shiroDialect() {
     return new ShiroDialect();
@@ -522,7 +522,7 @@ public ShiroDialect shiroDialect() {
 
 然后我们通过MyBatis实现`ManagerInfoService`，
 
-```java
+``` java
 /**
  * 后台用户管理
  */
@@ -581,7 +581,7 @@ public class ManagerInfoService {
 
 `ManagerInfo.java`如下：
 
-```java
+``` java
 public class ManagerInfo extends Manager implements Serializable {
 
     private static final long serialVersionUID = 1L;

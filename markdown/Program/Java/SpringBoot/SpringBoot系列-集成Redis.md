@@ -147,7 +147,7 @@ spring:
 
 这里自定义RedisTemplate的配置类，主要是想使用Jackson替换默认的序列化机制：
 
-```java
+``` java
 @Configuration
 public class RedisConfig {
     /**
@@ -182,7 +182,7 @@ public class RedisConfig {
 
 MyBatis实现的DAO层，以及User实体类我就不贴在这里了，只贴Service核心增删改查操作：
 
-```java
+``` java
 @Service
 @Transactional
 public class UserService {
@@ -280,7 +280,7 @@ Redis 操作视图接口类用的是 ValueOperations，对应的是 Redis String
 
 然后写个测试类测试运行看看效果：
 
-```java
+``` java
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @Transactional

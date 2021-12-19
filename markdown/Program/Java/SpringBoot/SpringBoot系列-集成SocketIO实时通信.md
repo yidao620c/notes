@@ -46,7 +46,7 @@ Socket.IO 主要使用WebSocket协议。但是如果需要的话，Socket.io可�
 
 先来服务端程序爽一把，话不多说，先上代码：
 
-```java
+``` java
 public class NamespaceSocketServer {
     private static final Logger logger = LoggerFactory.getLogger(NamespaceSocketServer.class);
 
@@ -127,7 +127,7 @@ public class NamespaceSocketServer {
 
 老规矩，先上代码爽爽
 
-```java
+``` java
 public class SocketClient {
     private static Socket socket;
     private static final Logger logger = LoggerFactory.getLogger(SocketClient.class);
@@ -218,7 +218,7 @@ ms后也产生断线事件。
 
 客户端代码：
 
-```java
+``` java
 .on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
     @Override
     public void call(Object... args) {
@@ -242,7 +242,7 @@ SocketClient - Socket.EVENT_CONNECT_ERROR
 
 服务器端代码：
 
-```java
+``` java
 server.addDisconnectListener(new DisconnectListener() {
     @Override
     public void onDisconnect(SocketIOClient client) {
@@ -286,7 +286,7 @@ xncoding:
 
 然后增加一个SocketServer的Bean配置：
 
-```java
+``` java
 @Configuration
 public class NettySocketConfig {
 
@@ -353,7 +353,7 @@ public class NettySocketConfig {
 
 预先定义好客户端和服务器端直接传递的消息类型，使用简单的JavaBean即可，比如
 
-```java
+``` java
 public class ReportParam {
     /**
      * IMEI码
@@ -386,7 +386,7 @@ public class ReportParam {
 
 这里才是最核心的接口处理类，所有接口处理逻辑都应该写在这里面，我只举了一个例子，就是POS上传位置接口：
 
-```java
+``` java
 /**
  * 消息事件处理器
  *
@@ -490,7 +490,7 @@ public class MessageEventHandler {
 
 还有一个步骤就是添加启动器，在SpringBoot启动之后立马执行：
 
-```java
+``` java
 /**
  * SpringBoot启动之后执行
  *

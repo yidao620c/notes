@@ -125,7 +125,7 @@ spring:
 
 由于使用到的Druid连接池的配置项非常多，可先定义一个`DruidProperties`属性类，具体的数据源配置我就不贴了。 然后再定义`MybatisPlusConfig`如下：
 
-```java
+``` java
 @Configuration
 @EnableTransactionManagement(order = 2)
 @MapperScan(basePackages = {
@@ -166,7 +166,7 @@ public class MybatisPlusConfig {
 
 ## 实体类
 
-```java
+``` java
 @TableName(value = "t_user")
 public class User extends Model<User> {
 
@@ -221,7 +221,7 @@ private static final long serialVersionUID = 1L;
 
 接下来定义DAO操作类：
 
-```java
+``` java
 public interface UserMapper extends BaseMapper<User> {
 
 }
@@ -235,7 +235,7 @@ public interface UserMapper extends BaseMapper<User> {
 
 接下来定义业务逻辑处理类，并将DAO类注入进去：
 
-```java
+``` java
 @Service
 public class UserService {
 
@@ -282,7 +282,7 @@ public class UserService {
 
 一切搞定后，接下来开始编写测试用例试试看：
 
-```java
+``` java
 /**
  * 测试
  */
