@@ -1,3 +1,4 @@
+* [算法](markdown/Algorithm/_readme.md)
 * [信息安全](markdown/Security/_readme.md)
 * 编程开发
   * [Java](markdown/Program/Java/_readme.md)
@@ -20,5 +21,5 @@
   * [开发工具](markdown/General/Tools/_readme.md)
   * [架构设计](markdown/General/Architecture/_readme.md)
   * [其他技术](markdown/General/Other/_readme.md)
-* [算法](markdown/Algorithm/_readme.md)
 
+  
