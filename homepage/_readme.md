@@ -25,7 +25,7 @@
 2019年开通个人微信公众号”飞污熊”，分享个人学习笔记与心得。分享Python编程语言和架构设计相关干货。
 大道至简，帮助更多的小白从入门拿到跑路。有兴趣的可以扫码关注。
 
-![img.png](../static/images/wuxiong.png) 
+![img.png](/static/images/wuxiong.png) 
 
 ## 🔖 愿景
 
@@ -33,5 +33,5 @@
 
 期待将来有一天这里应有尽有，想找的东西在这里都能搜到。
 
-![](../static/images/img2021112801.gif)
+![](/static/images/img2021112801.gif)
 
