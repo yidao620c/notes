@@ -10,4 +10,4 @@
 - 算法、开发工具和架构设计的一些思考...
 
 [GitHub](https://github.com/yidao620c)
-[Get Started](#notes)
+[Get Started](README.md)

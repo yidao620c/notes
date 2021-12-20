@@ -1,4 +1,4 @@
-# notes
+# readme
 
 > Programming notes
 >
