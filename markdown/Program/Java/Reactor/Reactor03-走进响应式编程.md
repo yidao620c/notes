@@ -39,3 +39,38 @@ reactor3 优势特点：
 这种场景用在哪呢？比如一个日志监控系统，我们的前端页面将不再需要通过“命令式”的轮询的方式不断向服务器请求数据然后进行更新，
 而是在建立好通道之后，数据流从系统源源不断流向页面，从而展现实时的指标变化曲线；再比如一个社交平台，朋友的动态、点赞和留言不是手动刷出来的，
 而是当后台数据变化的时候自动体现到界面上的。
+
+## 学习准备
+
+官网：https://projectreactor.io/docs/core/release/reference/
+
+创建maven项目，引入如下依赖
+
+``` xml
+<dependency>
+    <groupId>io.projectreactor</groupId>
+    <artifactId>reactor-tools</artifactId>
+    <version>3.4.12</version>
+</dependency>
+<dependency>
+    <groupId>io.projectreactor.addons</groupId>
+    <artifactId>reactor-extra</artifactId>
+    <version>3.4.12</version>
+</dependency>
+<dependency>
+    <groupId>io.projectreactor</groupId>
+    <artifactId>reactor-test</artifactId>
+    <scope>test</scope>
+    <version>3.4.12</version>
+</dependency>
+<dependency>
+  <groupId>org.junit.jupiter</groupId>
+  <artifactId>junit-jupiter</artifactId>
+  <version>5.7.2</version>
+</dependency>
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <version>1.18.22</version>
+</dependency>
+```
