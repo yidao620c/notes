@@ -44,6 +44,8 @@ reactor3 优势特点：
 
 官网：https://projectreactor.io/docs/core/release/reference/
 
+中文参考文档：https://htmlpreview.github.io/?https://github.com/get-set/reactor-core/blob/master-zh/src/docs/index.html
+
 创建maven项目，引入如下依赖
 
 ``` xml

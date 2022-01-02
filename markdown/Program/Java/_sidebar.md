@@ -26,6 +26,7 @@ Java编程语言
     * [Reactor03-走进响应式编程](markdown/Program/Java/Reactor/Reactor03-走进响应式编程.md)
     * [Reactor04-创建Mono和Flux](markdown/Program/Java/Reactor/Reactor04-创建Mono和Flux.md)
     * [Reactor05-监控与doOn系列方法](markdown/Program/Java/Reactor/Reactor05-监控与doOn系列方法.md)
+    * [Reactor06-处理错误](markdown/Program/Java/Reactor/Reactor06-处理错误.md)
 * SpringBoot框架
     * [SpringBoot2单元测试](markdown/Program/Java/SpringBoot/SpringBoot2单元测试.md)
     * [SpringBoot2配置文件加载顺序](markdown/Program/Java/SpringBoot/SpringBoot2配置文件加载顺序.md)
