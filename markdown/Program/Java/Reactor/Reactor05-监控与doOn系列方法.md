@@ -1,7 +1,7 @@
 # Reactor05-监控与doOn系列方法
 
-在Publisher使用`subscribe()`方法的时候，Subscriber触发回触发一系列的on方法，如`onSubscribe()`；为了更好的监控以及观测异步序列的传递情况，
-设置了一系列的doOn方法，在触发on方法的时候作behavior的副作用发生用于监控行为的运行情况
+在Publisher使用`subscribe()`方法的时候，Subscriber通过一系列的on方法触发事件响应，如`onSubscribe()`；为了更好的监控以及观测异步序列的传递情况，
+Publisher对象设置了一系列的doOn方法，用于在Subscriber触发on方法的时候进行监控。
 
 常见的doOn方法如下，以Flux举例：
 
