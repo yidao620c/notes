@@ -3,11 +3,13 @@
 在Publisher使用`subscribe()`方法的时候，Subscriber通过一系列的on方法触发事件响应，如`onSubscribe()`；为了更好的监控以及观测异步序列的传递情况，
 Publisher对象设置了一系列的doOn方法，用于在Subscriber触发on方法的时候进行监控。
 
+注doOnXXX方法是“偷窥式”或者“监控式”的方法，没有副作用，不会消费数据流。
+
 常见的doOn方法如下，以Flux举例：
 
 ## doOnSubscribe()
 
-用以监控onSubscribe()方法的执行，也就是下游订阅上游事件的时候触发。
+用以监控`Subscriber#onSubscribe`方法的执行，也就是下游订阅上游事件的时候触发。
 
 ![img.png](images/img010.png)
 
@@ -30,7 +32,7 @@ public final Flux<T> doOnSubscribe(Consumer<? super Subscription> onSubscribe) {
 
 ## doOnRequest()
 
-对request调用产生副作用。
+监控`request()`方法的执行。
 
 ![img.png](images/img011.png)
 
@@ -57,7 +59,7 @@ public final Flux<T> doOnRequest(LongConsumer consumer) {
 
 ## doOnEach()
 
-对Publisher发布的每一个元素产生副作用。这个跟下面要讲的`doOnNext()`方法作用基本上一样。唯一区别是这个方法支持错误和完成事件的传播。
+监控Publisher发布的每一个数据元素。这个跟下面要讲的`doOnNext()`方法作用基本上一样。唯一区别是这个方法支持错误和完成事件的传播。
 
 ![img.png](images/img012.png)
 
@@ -87,7 +89,7 @@ public final Flux<T> doOnEach(Consumer<? super Signal<T>> signalConsumer) {
 
 ## doOnNext()
 
-对Publisher发布的每一个元素产生副作用。这个方法不支持事件的传播
+监控Publisher发布的每一个数据元素，这个方法不支持事件的传播。
 
 ![img.png](images/img013.png)
 
@@ -116,7 +118,7 @@ public final Flux<T> doOnNext(Consumer<? super T> onNext) {
 
 ## doOnError()
 
-出现error时的副作用，用于监控报错，可以通过错误类型进行筛选。注意主要出现错误整个流就结束了。
+用于监控错误事件，可以通过错误类型进行筛选。注意主要出现错误整个流就结束了。
 
 ![img.png](images/img014.png)
 
@@ -162,7 +164,7 @@ public final Flux<T> doOnError(Consumer<? super Throwable> onError) {
 
 ## doOnCancel()
 
-取消流的时候回触发。
+取消流的时候会触发。
 
 ![img.png](images/img016.png)
 
@@ -269,7 +271,3 @@ INFO com.xncoding.reactor.doon.DoOnTest$DemoSubsriber - onComplete
 ```
 
 总结一句话：doOn系列方法是publisher的同步钩子方法，在subscriber触发一系列事件的时候触发。
-
-
-
-
