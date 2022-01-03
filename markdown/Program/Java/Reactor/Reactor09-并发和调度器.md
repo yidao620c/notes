@@ -151,8 +151,7 @@ public void subscribeAndPublishOn() throws InterruptedException {
 
 解释如下：
 
-* 优先触发subscribeOn，使用parallel覆盖之后所有过程
-* 当执行完map1后
-* 触发了publishOn，因此该publishOn之后的所有都更换了Schedulers
-* 因此之后的map2,map3都是publishOn的single
-
+* 优先触发subscribeOn，使用最后一个subscribeOn设置的parallel覆盖后续所有过程。
+* 当在parallel执行完map1后。
+* 触发了publishOn，因此该publishOn之后的所有都更换了Schedulers。
+* 因此之后的map2,map3都是publishOn的single。
