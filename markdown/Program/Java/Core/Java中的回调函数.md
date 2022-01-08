@@ -10,35 +10,35 @@
 
 ``` java
 public class Teacher {
-	// 正常的工作
-	public void work() {
-		System.out.println("平常我在给学生教课");
-	}
+    // 正常的工作
+    public void work() {
+        System.out.println("平常我在给学生教课");
+    }
 
-	// 业余的工作
-	public void farming() {
-		System.out.println("周末我在农田忙活");
-	}
+    // 业余的工作
+    public void farming() {
+        System.out.println("周末我在农田忙活");
+    }
 
-	private class Farmer {
-		// 非静态内部类回调外部类实现work方法，
+    private class Farmer {
+        // 非静态内部类回调外部类实现work方法，
                 // 非静态内部类引用的作用仅仅是向客户提供一个回调外部类的途径
-		public void work() {
-			farming();
-		}
-	}
+        public void work() {
+            farming();
+        }
+    }
 
-	public Farmer getCallbackReference() {
-		return new Farmer();
-	}
+    public Farmer getCallbackReference() {
+        return new Farmer();
+    }
 
-	public static void main(String[] args) {
-		Teacher t = new Teacher();
-		// 直接调用work
-		t.work();
-		// 表面上调用的是Farmer的work方法，实际上是回调Teacher的farming方法
-		t.getCallbackReference().work();
-	}
+    public static void main(String[] args) {
+        Teacher t = new Teacher();
+        // 直接调用work
+        t.work();
+        // 表面上调用的是Farmer的work方法，实际上是回调Teacher的farming方法
+        t.getCallbackReference().work();
+    }
 }
 ```
 
@@ -48,42 +48,42 @@ Swing中响应按钮点击事件，使用匿名内部类，各个不同的控件
 
 ``` java
 public class ButtonFrame extends JFrame {
-	// 红色按钮
-	private JButton redButton = new JButton("Red Button");
-	// 蓝色按钮
-	private JButton blueButton = new JButton("Blue Button");
+    // 红色按钮
+    private JButton redButton = new JButton("Red Button");
+    // 蓝色按钮
+    private JButton blueButton = new JButton("Blue Button");
 
-	// 处理红色按钮的方法
-	private void processRedButton() {
-		System.out.println("红色按钮被点击了");
-	}
+    // 处理红色按钮的方法
+    private void processRedButton() {
+        System.out.println("红色按钮被点击了");
+    }
 
-	// 处理蓝色按钮的方法
-	private void processBlueButton() {
-		System.out.println("蓝色按钮被点击了");
-	}
+    // 处理蓝色按钮的方法
+    private void processBlueButton() {
+        System.out.println("蓝色按钮被点击了");
+    }
 
-	public ButtonFrame() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		redButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// 回调ButtonFrame中处理红色按钮的方法
-				processRedButton();
-			}
-		});
-		blueButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// 回调ButtonFrame中处理蓝色按钮的方法
-				processBlueButton();
-			}
-		});
-		getContentPane().add(redButton);
-		getContentPane().add(redButton);
-	}
+    public ButtonFrame() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        redButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // 回调ButtonFrame中处理红色按钮的方法
+                processRedButton();
+            }
+        });
+        blueButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // 回调ButtonFrame中处理蓝色按钮的方法
+                processBlueButton();
+            }
+        });
+        getContentPane().add(redButton);
+        getContentPane().add(redButton);
+    }
 
-	public static void main(String[] args) {
-		new ButtonFrame().setVisible(true);
-	}
+    public static void main(String[] args) {
+        new ButtonFrame().setVisible(true);
+    }
 }
 ```
 
@@ -104,13 +104,13 @@ public class ButtonFrame extends JFrame {
 
 /*类型无关的链表查找*/
 Node * search_list() (Node *node, void const *value,
-	int (*compare) (void const *, void const *)) {
-		while (node != NULL) {
-			if (compare( &node->value, value) == 0) {
-				break;
-			}
-			node = node->link;
-		}
-		return node;
-	}
+    int (*compare) (void const *, void const *)) {
+        while (node != NULL) {
+            if (compare( &node->value, value) == 0) {
+                break;
+            }
+            node = node->link;
+        }
+        return node;
+    }
 ```

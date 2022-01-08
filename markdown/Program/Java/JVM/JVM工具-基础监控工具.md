@@ -141,17 +141,17 @@ Full thread dump Java HotSpot(TM) 64-Bit Server VM (25.161-b12 mixed mode):
 
 "Thread-12126" #12389 daemon prio=6 os_prio=0 tid=0x00007f3190075800 nid=0x15d08 runnable [0x00007f31f43c4000]
    java.lang.Thread.State: RUNNABLE
-	at java.net.SocketInputStream.socketRead0(Native Method)
-	- locked <0x00000000f49e3158> (a java.io.BufferedInputStream)
-	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
-	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
-	- locked <0x00000000f49e51a8> (a org.apache.commons.net.telnet.TelnetInputStream)
-	at org.apache.commons.net.telnet.TelnetInputStream.__read(TelnetInputStream.java:132)
-	at org.apache.commons.net.telnet.TelnetInputStream.run(TelnetInputStream.java:603)
-	at java.lang.Thread.run(Thread.java:748)
+    at java.net.SocketInputStream.socketRead0(Native Method)
+    - locked <0x00000000f49e3158> (a java.io.BufferedInputStream)
+    at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+    at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+    - locked <0x00000000f49e51a8> (a org.apache.commons.net.telnet.TelnetInputStream)
+    at org.apache.commons.net.telnet.TelnetInputStream.__read(TelnetInputStream.java:132)
+    at org.apache.commons.net.telnet.TelnetInputStream.run(TelnetInputStream.java:603)
+    at java.lang.Thread.run(Thread.java:748)
 
    Locked ownable synchronizers:
-	- None
+    - None
 ```
 
 如果想要查看某个线程的堆栈，先使用上面的top命令查看到线程ID号，然后使用`printf "%x\n"`，获得该线程ID的十六进制值。
@@ -166,11 +166,11 @@ Full thread dump Java HotSpot(TM) 64-Bit Server VM (25.161-b12 mixed mode):
 [root@CZT-FS1 board-api]# jstack -l 67136 | grep 1065b -A20
 "System Clock" #17 daemon prio=5 os_prio=0 tid=0x00007f322d089000 nid=0x1065b runnable [0x00007f320487c000]
    java.lang.Thread.State: TIMED_WAITING (parking)
-	at sun.misc.Unsafe.park(Native Method)
-	- parking to wait for  <0x00000000c19c8d18> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
-	at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
-	at java.lang.Thread.run(Thread.java:748)
+    at sun.misc.Unsafe.park(Native Method)
+    - parking to wait for  <0x00000000c19c8d18> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+    at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+    at java.lang.Thread.run(Thread.java:748)
 
    Locked ownable synchronizers:
-	- None
+    - None
 ```

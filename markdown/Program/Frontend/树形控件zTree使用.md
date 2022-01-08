@@ -33,7 +33,7 @@
         var setting = {
             view: {
                 selectedMulti: false,
-				showLine: false
+                showLine: false
             },
             check: {
                 enable: true

@@ -25,13 +25,13 @@ RestTemplate包含以下几个部分：
 
 ``` java
 public class RestTemplateTest {
-	public static void main(String[] args) {
-		RestTemplate restT = new RestTemplate();
-		//通过Jackson JSON processing library直接将返回值绑定到对象
-		Quote quote = restT.getForObject("http://gturnquist-quoters.cfapps.io/api/random", Quote.class);
-		String quoteString = restT.getForObject("http://gturnquist-quoters.cfapps.io/api/random", String.class);
-		System.out.println(quoteString);
-	}
+    public static void main(String[] args) {
+        RestTemplate restT = new RestTemplate();
+        //通过Jackson JSON processing library直接将返回值绑定到对象
+        Quote quote = restT.getForObject("http://gturnquist-quoters.cfapps.io/api/random", Quote.class);
+        String quoteString = restT.getForObject("http://gturnquist-quoters.cfapps.io/api/random", String.class);
+        System.out.println(quoteString);
+    }
 }
 ```
 

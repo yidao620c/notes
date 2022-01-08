@@ -95,19 +95,19 @@ import java.util.List;
  *
  */
 public class HeapOOM {
-	static class OOMObject{
-		private String name;
-		public OOMObject(String name) {
-			this.name = name;
-		}
-	}
-	public static void main(String[] args) {
-		List<OOMObject> list = new ArrayList<OOMObject>();
-		long i = 1;
-		while(true) {
-			list.add(new OOMObject("IpConfig..." + i++));
-		}
-	}
+    static class OOMObject{
+        private String name;
+        public OOMObject(String name) {
+            this.name = name;
+        }
+    }
+    public static void main(String[] args) {
+        List<OOMObject> list = new ArrayList<OOMObject>();
+        long i = 1;
+        while(true) {
+            list.add(new OOMObject("IpConfig..." + i++));
+        }
+    }
 }
 ```
 
@@ -141,21 +141,21 @@ Memory Overflow。 如果是内存泄露，可进一步通过工具查看泄露�
  *
  */
 public class JavaVMStackSOF {
-	private int stackLength = 1;
-	public void stackLeak() {
-		stackLength++;
-		stackLeak();
-	}
-	public static void main(String[] args) throws Throwable{
-		JavaVMStackSOF oom = new JavaVMStackSOF();
-		try {
-			oom.stackLeak();
-		} catch (Throwable e) {
-			System.out.println("stack length: " + oom.stackLength);
-			throw e;
-		}
+    private int stackLength = 1;
+    public void stackLeak() {
+        stackLength++;
+        stackLeak();
+    }
+    public static void main(String[] args) throws Throwable{
+        JavaVMStackSOF oom = new JavaVMStackSOF();
+        try {
+            oom.stackLeak();
+        } catch (Throwable e) {
+            System.out.println("stack length: " + oom.stackLength);
+            throw e;
+        }
 
-	}
+    }
 
 }
 ```
@@ -185,15 +185,15 @@ import java.util.List;
  *
  */
 public class RuntimeConstantPoolOOM {
-	public static void main(String[] args) {
-		// 使用List保持着常量池引用，避免Full GC回收常量池行为
-		List<String> list = new ArrayList<String>();
-		// 10MB的PermSize在integer范围内足够产生OOM了
-		int i = 0;
-		while (true) {
-			list.add(String.valueOf(i++).intern());
-		}
-	}
+    public static void main(String[] args) {
+        // 使用List保持着常量池引用，避免Full GC回收常量池行为
+        List<String> list = new ArrayList<String>();
+        // 10MB的PermSize在integer范围内足够产生OOM了
+        int i = 0;
+        while (true) {
+            list.add(String.valueOf(i++).intern());
+        }
+    }
 }
 ```
 
@@ -237,15 +237,15 @@ DirectMemory容量可以通过-XX:MaxDirectMemorySize指定，如果不指定，
  *
  */
 public class DirectMemoryOOM {
-	private static final int _1MB = 1024 * 1024;
-	public static void main(String[] args) {
-		Field unsafeField = Unsafe.class.getDeclaredFields()[0];
-		unsafeField.setAccessible(true);
-		Unsafe unsafe = (Unsafe) unsafeField.get(null);
-		while(true) {
-			unsafe.allocateMemory(_1MB);
-		}
-	}
+    private static final int _1MB = 1024 * 1024;
+    public static void main(String[] args) {
+        Field unsafeField = Unsafe.class.getDeclaredFields()[0];
+        unsafeField.setAccessible(true);
+        Unsafe unsafe = (Unsafe) unsafeField.get(null);
+        while(true) {
+            unsafe.allocateMemory(_1MB);
+        }
+    }
 }
 ```
 
