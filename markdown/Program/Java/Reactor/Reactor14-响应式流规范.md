@@ -35,7 +35,7 @@ public interface Publisher<T> {
 }
 ```
 
-## Subscriber
+### Subscriber
 2、Subscriber是接收元素并做出响应的订阅者。
 ``` java
 public interface Subscriber<T> {
@@ -57,7 +57,7 @@ public interface Subscriber<T> {
 
 Publisher和Subscriber融合了迭代器模式和观察者模式。
 
-## Subscription
+### Subscription
 3、Subscription是Publisher和Subscriber的中间人。
 ``` java
 public interface Subscription {
@@ -70,7 +70,7 @@ public interface Subscription {
 之后订阅者就可以使用这个Subscription对象的request方法向发布者“要”数据了。回压机制正是基于此来实现的，
 因此第4个特点也能够实现了。
 
-## Processor
+### Processor
 4、Processor集Publisher和Subscriber于一身。
 ``` java
 public interface Processor<T, R> extends Subscriber<T>, Publisher<R> {
