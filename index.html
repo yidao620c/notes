@@ -11,12 +11,12 @@
     <!-- 设置浏览器图标 -->
     <link rel="icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/themes/vue.css">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/themes/vue.css">
+    <link rel="stylesheet" href="static/css/sidebar-folder.min.css"/>
     <link rel="stylesheet" href="static/css/style.min.css">
     <link rel="stylesheet" href="static/css/style.search.css">
     <link rel="stylesheet" href="static/css/style.body.css">
-    <link rel="stylesheet" href="static/css/Valine.css">
+<!--    <link rel="stylesheet" href="static/css/Valine.css">-->
 </head>
 <body>
 <!-- 定义加载时候的动作 -->
@@ -60,10 +60,13 @@
         },
         // 封面支持，默认加载的是项目根目录下的_coverpage.md文件
         coverpage: true,
-        // 最大支持渲染的标题层级
+        // 控制着左侧的菜单的总层级
         maxLevel: 2,
-        // 自定义侧边栏后默认不会再生成目录，设置生成目录的最大层级，建议配置为1或者2
+        // 表示由文档内容中的标题自动生成菜单的级别
         subMaxLevel: 2,
+        // set sidebar display level
+        // sidebarDisplayLevel: 1,
+        // URL改变后是否自动滚动到顶部
         auto2top: true,
         search: {
             maxAge: 86400000,
@@ -103,23 +106,23 @@
             style: 'text-align: right;',
             class: 'className',
         },
-        // docsify-valine
-        Valine: {
-            appId: 'TYvPuPg890y2bAb7eiLz7BW9-gzGzoHsz',
-            appKey: 'alpgKuOxo9Ibpr1YDDU1g3Dy'
-        }
+        // // docsify-valine
+        // Valine: {
+        //     appId: 'TYvPuPg890y2bAb7eiLz7BW9-gzGzoHsz',
+        //     appKey: 'alpgKuOxo9Ibpr1YDDU1g3Dy'
+        // }
     }
 </script>
 <!-- docsify的js依赖 -->
-<script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+<!-- 搜索功能支持 -->
+<script src="//cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+<!-- 侧边栏折叠 -->
+<script src="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
 <!-- emoji表情支持 -->
 <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/emoji.min.js"></script>
 <!-- 图片放大缩小支持 -->
 <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
-<!-- 搜索功能支持 -->
-<script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
-<!-- 侧边栏折叠 -->
-<script src="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
 <!-- 分页插件 -->
 <script src="static/js/docsify-pagination.min.js"></script>
 <!-- 面包屑提示 -->
@@ -129,8 +132,8 @@
 <!-- 跳转至Top插件 -->
 <script src="static/js/docsify-scroll-to-top.min.js"></script>
 <!-- valine评论系统 -->
-<script src='static/js/Valine.min.js'></script>
-<script src="//unpkg.com/docsify-valine/dist/docsify-valine.min.js"></script>
+<!--<script src='static/js/Valine.min.js'></script>-->
+<!--<script src="//unpkg.com/docsify-valine/dist/docsify-valine.min.js"></script>-->
 <!-- 代码高亮插件-->
 <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-batch.min.js"></script>
@@ -148,6 +151,9 @@
 <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-nginx.min.js"></script>
 
 <script>
+    /**
+     * 设置GIF动画自动播放。
+     */
     window.onload = function () {
         document.querySelectorAll('img[src$=".gif"]').forEach(function(img) {
             img.addEventListener('mouseover', function() {
