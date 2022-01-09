@@ -236,3 +236,8 @@ pre {
     font-size: 15px;
     font-weight: 600;
 }
+
+.cover-main img {
+    display: inline;
+    text-align: center;
+}
