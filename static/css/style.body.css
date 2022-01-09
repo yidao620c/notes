@@ -146,8 +146,9 @@ img {
     display: block;
     border-radius: 3px;
     box-shadow: 0 0 10px #2c3e50;
-    margin: 30px auto;
-    text-align: center;
+    /*margin: 30px auto;*/
+    margin-top: 20px;
+    text-align: left;
     max-width: 75%;
 }
 

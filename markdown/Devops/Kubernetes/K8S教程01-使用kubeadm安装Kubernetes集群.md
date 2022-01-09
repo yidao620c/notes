@@ -368,7 +368,7 @@ kubectl get pod
 ```
 
 如果我们出现Running状态的时候，表示已经成功运行了
-![img.png](images/image-image-20210201010201200.png)
+![img.png](images/image-20210201010201200.png)
 
 下面我们就需要将端口暴露出去，让其它外界能够访问
 
