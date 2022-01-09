@@ -43,14 +43,23 @@ body {
     border-radius: 5px;
     letter-spacing: 1px;
 }
+.markdown-section a {
+    line-height: normal;
+}
 
 .markdown-section h1 {
-    /*letter-spacing: 5px;*/
     text-align: center;
     padding-bottom: 20px;
     border-bottom: 2px solid #00c0a5;
 }
 
+.markdown-section h2 a {
+    display: inline;
+}
+
+.markdown-section h3 a {
+    display: inline;
+}
 
 .markdown-section h1:before {
     content: "『 ";
@@ -68,7 +77,6 @@ body {
     border-bottom: 1px solid #f0f0f0;
     padding-bottom: 10px;
     font-size: 25px;
-    /*letter-spacing: 4px;*/
 }
 
 .markdown-section h2:before {
@@ -82,7 +90,6 @@ body {
     margin-left: 5px;
     font-size: 20px;
     padding-bottom: 10px;
-    /*letter-spacing: 2px;*/
 }
 
 .markdown-section h3:before {
