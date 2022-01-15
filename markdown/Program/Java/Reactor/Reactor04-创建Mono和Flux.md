@@ -106,3 +106,28 @@ public class FluxTest {
 }
 ```
 
+## 关于Mono.defer()
+
+在WebFlux编程过程中经常会碰到这3个常用的创建Mono对象的方法：`Mono.just()`、`Mono.defer()`、`Mono.create()`
+
+这里来解释一下这3者的区别和使用场景。
+
+1. Mono.just(value) is the most primitive - once you have a value you can wrap it into a Mono 
+and subscribers down the line will get it.
+2. Mono.defer(monoSupplier) lets you provide the whole expression that supplies the resulting Mono instance. 
+The evaluation of this expression is deferred until somebody subscribes. 
+Inside of this expression you can additionally use control structures like Mono.error(throwable) 
+to signal an error condition (you cannot do this with Mono.just).
+3. Mono.create(monoSinkConsumer) is the most advanced method that gives you the full control over the emitted values. 
+Instead of the need to return Mono instance from the callback (as in Mono.defer), 
+you get control over the MonoSink<T> that lets you emit values through MonoSink.success(), 
+MonoSink.success(value), MonoSink.error(throwable) methods. 
+Reactor documentation contains a few good examples of possible Mono.create use cases: 
+[link to doc](https://projectreactor.io/docs/core/release/api/reactor/core/publisher/Mono.html#create-java.util.function.Consumer-).
+
+这样就很容易能解释清楚，`mono.map(result -> methodA()).switchIfEmpty(Mono.just())`，为啥Mono.just()的执行会优先于map的执行了。
+
+最佳使用顺序的建议是: Mono.just -> Mono.defer -> Mono.create。另外在switchIfEmpty的场景推荐使用`Mono.defer`。
+
+参考链接：https://stackoverflow.com/questions/56115447/mono-defer-vs-mono-create-vs-mono-just
+
