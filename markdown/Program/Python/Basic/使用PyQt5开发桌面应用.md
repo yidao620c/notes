@@ -264,3 +264,153 @@ sizePolicy可以实现控件的微调。sizePolicy中共有如下几种水平和
 | Ignored          | 忽略   | 无视窗口控件的sizeHint与minisizeHint，按照默认来设置                          |
 
 在sizePolicy的Horizontal Policy和Vertical Policy下面还有Horizontal Stretch和Vertical Stretch两个属性。
+
+## 信号与槽
+信号和槽是PyQt编程对象之间进行通信的机制。每个继承自QWideget的控件都支持信号与槽机制。信号发射时（发送请求），
+连接的槽函数就会自动执行（针对请求进行处理）。这一小节主要讲述信号和槽最基本、最经常使用方法。就是内置信号和槽的使用的使用方法。
+
+所谓内置信号与槽的使用。是指在发射信号时，使用窗口控件的函数，而不是自定义的函数。
+信号与槽的连接方法是通过QObject.signal.connect将一个QObject的信号连接到另一个QObject的槽函数。
+
+在任何GUI设计中，按钮都是最重要的和常用的触发动作请求的方式，用来与用户进行交互操作。常见的按钮包括QPushButton、QRadioButton和QCheckBox。
+这些按钮都继承自QAbstractButton类，QAbstractButton提供的信号包括：
+
+* Clicked：鼠标左键点击按钮并释放触发该信号。最常用。记住这个就差不多够了。
+* Pressed：鼠标左键按下时触发该信号
+* Released：鼠标左键释放时触发该信号
+* Toggled：控件标记状态发生改变时触发该信号。
+
+这里实现一个点击按钮退出界面需求实现过程来介绍内置信号和内置槽。只需要在init初始化方法中加一句即可
+``` python
+self.pushButton.clicked.connect(self.close)
+```
+
+也可以将内置信号连接到自定义槽函数里。将上面的内置self.close修改成自定义方法即可，比如我想要弹出一个消息对话框。
+``` python
+from PyQt5.QtWidgets import QMessageBox
+
+class MyMainForm(QMainWindow, Ui_Form):
+    def __init__(self, parent=None):
+        super(MyMainForm, self).__init__(parent)
+        self.setupUi(self)
+        self.pushButton.clicked.connect(self.showMsg)  # 这里连接到自定义槽
+
+    def showMsg(self):
+        QMessageBox.information(self, "信息提示框", "OK,内置信号与自定义槽函数！")
+```
+
+上面是通过代码方式添加，其实也可以在Qt Designer中添加。
+
+Step1：打开Qt Designer界面，找到信号槽编辑区。如下
+![img.png](images/img016.png)
+
+发送者选择按钮名称、信号选择clicked，接受者选择MainWindow，槽选择close()。这里貌似只能选择内置槽，所以有局限性。
+
+## QThread使用方法
+本节主要讲解使用多线程模块QThread解决PyQt界面程序唉执行耗时操作时，程序卡顿出现的无响应以及界面输出无法实时显示的问题。
+用户使用工具过程中出现这些问题时会误以为程序出错，从而把程序关闭。这样，导致工具的用户使用体验不好。
+下面我们通过模拟上述出现的问题并讲述使用多线程QThread模块解决此类问题的方法。
+
+使用PyQt实现在文本框中每秒打印1个数字。核心代码逻辑如下：
+``` python
+class MyMainForm(QMainWindow, Ui_Form):
+    def __init__(self, parent=None):
+        super(MyMainForm, self).__init__(parent)
+        self.setupUi(self)
+        self.runButton.clicked.connect(self.display)
+
+    def display(self):
+        for i in range(20):
+            time.sleep(1)
+            self.listWidget.addItem(str(i))
+```
+程序运行过程结果如下（点击Run按钮后界面出现未响应字样，同时程序也没有出现每隔1秒打印1个数字，实际结果是循环结束后20个数字一同展示）。
+
+上述实现的GUI程序都是单线程运行，对于需要执行一个特别耗时的操作时就会出现该问题现象。要解决这种问题可以考虑使用多线程模块QThread。
+
+QThread是Qt的线程类中最核心的底层类。由于PyQt的的跨平台特性，QThread要隐藏所有与平台相关的代码 要使用的QThread开始一个线程，
+可以创建它的一个子类，然后覆盖其它QThread.run()函数。
+``` python
+class Thread(QThread):
+    def __init__(self):
+        super(Thread,self).__init__()
+    def run(self):
+        pass
+
+thread = Thread()
+thread.start()
+```
+可以看出，PyQt的线程使用非常简单，建立一个自定义的类（如Thread），自我继承自QThread ，并实现其run()方法即可。
+在使用线程时可以直接得到Thread实例，调用其start()函数即可启动线程，线程启动之后，会自动调用其实现的run()的函数，该方法就是线程的执行函数 。
+
+业务的线程任务就写在run()函数中，当run()退出之后线程就基本结束了，QThread有started和finished信号，可以为这两个信号指定槽函数，
+在线程启动和结束之时执行一段代码进行资源的初始化和释放操作，更灵活的使用方法是，在自定义的QThread实例中自定义信号，
+并将信号连接到指定的槽函数，当满足一定的业务条件时发射此信号。
+
+QThread类中的常用方法：
+
+* start()：启动线程
+* wait()：等待线程，直到满足如下条件之一
+
+> （1）与此QThread对象关联的线程已完成执行（即从run返回时），如果线程完成执行，此函数返回True，如果线程尚未启动，也返回True
+> 
+> （2）等待时间的单位是毫秒，如果时间是ULONG_MAX（默认值·），则等待，永远不会超时(线程必须从run返回），如果等待超时，此函数将会返回False
+
+* sleep()：强制当前线程睡眠多少秒
+
+QThread类中的常用信号：
+
+* started：在开始执行run函数之前，从相关线程发射此信号
+* finished：当程序完成业务逻辑时，从相关线程发射此信号
+
+使用QThread重新实现刚刚程序卡顿的问题，先继承QThread类创建多线程，使用主线程更新界面，
+使用子线程实时处理数据（重写run()函数，将耗时的操作放入run()函数中），最后将结果显示到界面上。代码如下：
+``` python
+# -*- coding: utf-8 -*-
+
+import sys
+import time
+from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtWidgets import QApplication, QMainWindow
+from QThread_Example_UI import Ui_Form
+
+class MyMainForm(QMainWindow, Ui_Form):
+    def __init__(self, parent=None):
+        super(MyMainForm, self).__init__(parent)
+        self.setupUi(self)
+        # 实例化线程对象
+        self.work = WorkThread()
+        self.runButton.clicked.connect(self.execute)
+
+    def execute(self):
+        # 启动线程
+        self.work.start()
+        # 线程自定义信号连接的槽函数
+        self.work.trigger.connect(self.display)
+
+    def display(self,str):
+        # 由于自定义信号时自动传递一个字符串参数，所以在这个槽函数中要接受一个参数
+        self.listWidget.addItem(str)
+
+class WorkThread(QThread):
+    # 自定义信号对象。参数str就代表这个信号可以传一个字符串
+    trigger = pyqtSignal(str)
+
+    def __int__(self):
+        # 初始化函数
+        super(WorkThread, self).__init__()
+
+    def run(self):
+        #重写线程执行的run函数
+        #触发自定义信号
+        for i in range(20):
+            time.sleep(1)
+            # 通过自定义信号把待显示的字符串传递给槽函数
+            self.trigger.emit(str(i))
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    myWin = MyMainForm()
+    myWin.show()
+    sys.exit(app.exec_())
+```

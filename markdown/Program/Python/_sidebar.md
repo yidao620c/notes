@@ -4,10 +4,12 @@ Python编程技术
 * Python基础
     * [Python命名规约](markdown/Program/Python/Basic/Python命名规约.md)
     * [Vagrant创建虚拟化开发环境](markdown/Program/Python/Basic/Vagrant创建虚拟化开发环境.md)
+    * [将Python编译成二进制](markdown/Program/Python/Basic/将Python编译成二进制.md)
     * [一些有趣的python技巧](markdown/Program/Python/Basic/一些有趣的python技巧.md)
     * [使用pyenv创建多版本python环境](markdown/Program/Python/Basic/使用pyenv创建多版本python环境.md)
+    * [使用PyQt5开发桌面应用](markdown/Program/Python/Basic/使用PyQt5开发桌面应用.md)
     * [使用PyInstaller打包Python程序](markdown/Program/Python/Basic/使用PyInstaller打包Python程序.md)
-    * [将Python编译成二进制](markdown/Program/Python/Basic/将Python编译成二进制.md)
+    * [使用Nuitka打包Python程序](markdown/Program/Python/Basic/使用Nuitka打包Python程序.md)
 * Python核心
     * [Python核心01-函数式编程](markdown/Program/Python/Core/Python核心01-函数式编程.md)
     * [Python核心02-字符串编码](markdown/Program/Python/Core/Python核心02-字符串编码.md)
