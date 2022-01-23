@@ -1,8 +1,8 @@
 * 编程基础
-  * [算法](markdown/Program/Algorithm/_readme.md)
   * [Java](markdown/Program/Java/_readme.md)
   * [Python](markdown/Program/Python/_readme.md)
   * [Web前端](markdown/Program/Web/_readme.md)
+  * [算法笔记](markdown/Program/Algorithm/_readme.md)
   * [开发工具](markdown/Program/Tools/_readme.md)
   * [其他技术](markdown/Program/Other/_readme.md)
 * 高阶技术
