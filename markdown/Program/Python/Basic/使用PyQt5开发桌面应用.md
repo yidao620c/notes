@@ -36,19 +36,19 @@ pip install PyQt5-tools -i http://pypi.douban.com/simple/ --trusted-host pypi.do
 
 * Name：Qt Designer。方便记忆。实际可以任意取值。
 * Program：designer.exe程序绝对路径。也就是上面安装PyQt5所说的路径，根据实际安装路径填写。
-* Working directory: $FileDir$，这样是放根目录，但如果工程下创建了单独的包名叫pyqt，那么填写$FileDir$\pyqt。
+* Working directory: $FileDir$，固定取值。
 
 2）配置PyUIC。该工具是用于将Qt Designer工具开发完成的.ui文件转化为.py文件。配置打开路径同Qt Designer。参数配置说明：
 
 * Name：PyUIC。方便记忆。实际可以任意取值。
 * Program：$PyInterpreterDirectory$\python.exe。固定取值。
-* Arguments：`-m PyQt5.uic.pyuic $FileName$ -o $FileNameWithoutExtension$.py`。固定取值。
+* Arguments：`-m PyQt5.uic.pyuic $FileName$ -o $FileNameWithoutExtension$_ui.py`。固定取值。
 * Working directory: $FileDir$。固定取值。
 
 3）配置Pyrcc，用于PyQt5的资源文件转码。参数配置说明：
 
 * Name：Pyrcc。方便记忆。实际可以任意取值。
-* Program：$PyInterpreterDirectory$\python.exe。固定取值。
+* Program：pyrcc5.exe的绝对路径比如`C:\Python38\Scripts\pyrcc5.exe`。
 * Arguments：`$FileName$ -o $FileNameWithoutExtension$_rc.py`。固定取值。
 * Working directory: $FileDir$。固定取值。
 
