@@ -2,10 +2,10 @@
   * [Java](markdown/Program/Java/_readme.md)
   * [Python](markdown/Program/Python/_readme.md)
   * [Web前端](markdown/Program/Web/_readme.md)
-  * [算法笔记](markdown/Program/Algorithm/_readme.md)
   * [开发工具](markdown/Program/Tools/_readme.md)
   * [其他技术](markdown/Program/Other/_readme.md)
 * 高阶技术
+  * [算法笔记](markdown/Advance/Algorithm/_readme.md)
   * [信息安全](markdown/Advance/Security/_readme.md)
   * [架构设计](markdown/Advance/Architecture/_readme.md)
 * 中间件
@@ -18,5 +18,4 @@
 * 运维
   * [NetWork](markdown/Devops/Network/_readme.md)
   * [Linux](markdown/Devops/Linux/_readme.md)
-  * [Docker](markdown/Devops/Docker/_readme.md)
   * [Kubernetes](markdown/Devops/Kubernetes/_readme.md)
