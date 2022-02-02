@@ -7,6 +7,7 @@ Linux操作系统
     * [vim简易教程](markdown/Devops/Linux/Core/vim简易教程.md)
     * [Linux一些使用小技巧](markdown/Devops/Linux/Core/Linux一些使用小技巧.md)
     * [CentOS7忘记root密码解决办法](markdown/Devops/Linux/Core/CentOS7忘记root密码解决办法.md)
+    * [CentOS7搭建常用的开发环境](markdown/Devops/Linux/Core/CentOS7搭建常用的开发环境.md)
     * [CentOS7搭建NFS网络文件系统](markdown/Devops/Linux/Core/CentOS7搭建NFS网络文件系统.md)
     * [CentOS7搭建ngrok服务器](markdown/Devops/Linux/Core/CentOS7搭建ngrok服务器.md)
     * [CentOS7搭建NTP服务器](markdown/Devops/Linux/Core/CentOS7搭建NTP服务器.md)
