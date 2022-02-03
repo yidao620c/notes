@@ -190,7 +190,6 @@ npm config get registry
 ```
 
 ## 安装和配置Docker
-
 ```
 # 卸载旧版本（如果之前安装过的话）
 yum remove docker  docker-common docker-selinux docker-engine
@@ -204,17 +203,25 @@ sudo yum -y install docker-ce
 ```
 
 编辑`/etc/docker/daemon.json`，如果没有就创建一个：
-
 ```
 sudo mkdir /etc/docker
 vim /etc/docker/daemon.json
 ```
 
 写入如下内容：
-
 ```
 {
-  "storage-driver": "devicemapper"
+    "registry-mirrors": [
+        "https://docker.mirrors.ustc.edu.cn/", 
+        "https://1rlt72n0.mirror.aliyuncs.com", 
+        "https://registry.docker-cn.com", 
+        "http://hub-mirror.c.163.com", 
+        "https://docker.mirrors.ustc.edu.cn", 
+        "https://reg-mirror.qiniu.com", 
+        "https://dockerhub.azk8s.cn", 
+        "https://mirror.ccs.tencentyun.com"
+    ], 
+    "storage-driver": "devicemapper"
 }
 ```
 
@@ -223,28 +230,6 @@ vim /etc/docker/daemon.json
 ```
 sudo systemctl start docker
 sudo systemctl status docker
-```
-
-**镜像下载加速**
-
-由于 Docker Hub 的服务器在国外，下载镜像会比较慢。幸好 DaoCloud 为我们提供了免费的国内镜像服务。
-
-下面介绍如果使用镜像服务。在`daocloud.io` 免费注册一个用户，可直接用GitHub用户注册。进入加速器页面: <https://www.daocloud.io/mirror>
-
-对于linux平台，下面有一行脚本：
-```
-curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://f1361db2.m.daocloud.io
-```
-
-我测试的时候，这个脚本会在`/etc/docker/daemon.json`中写入：
-```
-{"registry-mirrors": ["http://f1361db2.m.daocloud.io"],}
-```
-
-然后重启docker，体验飞一般的感觉：
-```
-sudo systemctl restart docker.service
-sudo systemctl enable docker.service
 ```
 
 **安装Compose**

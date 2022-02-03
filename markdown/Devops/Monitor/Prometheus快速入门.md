@@ -8,11 +8,6 @@
 ./grafana-server web
 ```
 
-查询的GraphQL语句：
-```
-
-```
-
 ## Grafana使用
 By default, Grafana does not automatically refresh the dashboard. Queries run on 
 their own schedule according to the panel settings. However, if you want to regularly 
