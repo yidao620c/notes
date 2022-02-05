@@ -10,15 +10,252 @@ Micrometer 为 Java 平台上的性能数据收集提供了一个通用的 API�
 将 actuator 采集到的数据适合给各种监控工具。</span>
 
 Micrometer 中有两个最核心的概念，分别是计量器（Meter）和计量器注册表（MeterRegistry）。
-计量器用来收集不同类型的性能指标信息，Micrometer 提供了如下几种不同类型的计量器：
 
-* 计数器（Counter）: 表示收集的数据是按照某个趋势（增加／减少）一直变化的，也是最常用的一种计量器，
+计量器Meter用来收集不同类型的性能指标信息，Micrometer 提供了如下几种不同类型的计量器：
+
+### Counter
+计数器，它允许你增加固定的数量，且数量必须为正数，也就是说它描述一个递增的值。也是最常用的一种计量器，
 例如接口请求总数、请求错误总数、队列数量变化等。
-* 计量仪（Gauge）: 表示搜集的瞬时的数据，可以任意变化的，例如常用的 CPU Load、Mem 使用量、
-Network 使用量、实时在线人数统计等。
-* 计时器（Timer）: 适用于记录耗时比较短的事件的执行时间，通过时间分布展示事件的序列和发生频率。
-* 分布概要（Distribution summary）: 用来记录事件的分布，它的使用方式和Timer十分相似，
-但是它的记录值并不依赖于时间单位，可以用于统计网络请求平均延迟、请求延迟占比等。
+``` java
+// 构造器创建
+Counter counter = Counter
+    .builder("http.request")
+    .baseUnit("num") // optional
+    .description("a description of what this counter does") // optional
+    .tags("uri", "/order/create") // optional
+    .register(registry);
+counter.increment();
+    
+// 直接从Registry创建
+MeterRegistry meterRegistry = new SimpleMeterRegistry();
+Counter counter = meterRegistry.counter("http.request", "uri", "/order/create");
+counter.increment();
+```
+
+### Function Counter
+特化类型的计数器，Counter的值由某个对象执行某个方法提供，而无需手动调用`counter.increment`。
+通常来说主要是用于包装已经存在的计数器或者统计对象，方法需要是单调递增的。
+``` java
+// 构造器创建
+public class FunctionCounterMain {
+    public static void main(String[] args) throws Exception {
+        MeterRegistry registry = new SimpleMeterRegistry();
+        AtomicInteger n = new AtomicInteger(0);
+        //这里ToDoubleFunction匿名实现其实可以使用Lambda表达式简化为AtomicInteger::get
+        FunctionCounter.builder("functionCounter", n, new ToDoubleFunction<AtomicInteger>() {
+            @Override
+            public double applyAsDouble(AtomicInteger value) {
+                return value.get();
+            }
+        }).baseUnit("function")
+                .description("functionCounter")
+                .tag("createOrder", "CHANNEL-A")
+                .register(registry);
+        //下面模拟三次计数        
+        n.incrementAndGet();
+        n.incrementAndGet();
+        n.incrementAndGet();
+    }
+}
+
+// 直接从Registry创建
+Cache cache = ...; // suppose we have a Guava cache with stats recording on
+registry.more().counter("evictions", tags, cache, c -> c.stats().evictionCount());
+```
+FunctionCounter使用的一个明显的好处是，我们不需要感知FunctionCounter实例的存在，
+实际上我们只需要操作作为FunctionCounter实例构建元素之一的AtomicInteger实例即可，
+这种接口的设计方式在很多框架里面都可以看到。
+
+### Gauge
+Gauge可以理解为直接的数值指标，典型的例子是线程池的活跃线程数量、集合的大小等，
+当指标不是递增的而是一个上下浮动的值时，你应该采用Gauge，同时Gauge也翻译为仪表盘，
+典型如汽车的速度仪表，这样就非常好理解了。
+``` java
+// 构造器创建
+Gauge gauge = Gauge
+    .builder("gauge", myObj, myObj::gaugeValue)
+    .description("a description of what this gauge does") // optional
+    .tags("region", "test") // optional
+    .register(registry);
+
+// 直接从registry创建
+registry.gauge("listGauge", Collections.emptyList(), new ArrayList<>(), List::size);
+```
+
+### Time Gauge
+与Gauge功能相似，但是记录的内容是时间，本质上就是比普通Gauge多了一个时间单位属性。
+``` java
+// 构造器创建
+TimeGauge timeGauge = TimeGauge.builder("timeGauge", count,
+        TimeUnit.SECONDS, AtomicInteger::get)
+        .tag("tagkey", "tagVal")
+        .register(registry);
+
+// 直接从registry创建
+registry.more().timeGauge("timeGauge", count, TimeUnit.SECONDS, AtomicInteger::get);
+```
+
+### Timer
+Timer(计时器)适用于记录耗时比较短的事件的执行时间，通过时间分布展示事件的序列和发生频率。
+所有的Timer的实现至少记录了发生的事件的数量和这些事件的总耗时，从而生成一个时间序列。
+
+Timer的基本单位基于服务端的指标而定，但是实际上我们不需要过于关注Timer的基本单位，
+因为Micrometer在存储生成的时间序列的时候会自动选择适当的基本单位。
+
+根据个人经验和实践，总结如下：
+
+* 记录指定方法的执行时间用于展示。
+* 记录一些任务的执行时间，从而确定某些数据来源的速率，例如消息队列消息的消费速率等。
+
+在实际生产环境中，可以通过spring-aop把记录方法耗时的逻辑抽象到一个切面中，这样就能减少不必要的冗余的模板代码。
+
+``` java
+// 构造器创建
+Timer timer = Timer
+    .builder("my.timer")
+    .description("a description of what this timer does") // optional
+    .tags("region", "test") // optional
+    .register(registry);
+
+// 直接从Registry创建
+registry.timer("my.timer", "region", "test");
+
+// record directly
+timer.record(Duration.of(60L, ChronoUnit.SECONDS)); 
+// record function
+timer.record(() -> {
+     // some operation ...
+}); 
+// wrap function
+timer.wrap(() -> yourFunction());
+
+// use sample
+Timer.Sample sample = Timer.start();
+// do something
+sample.stop(timer);
+```
+
+### Function Timer
+Timer的特化类型，Function Timer由两个单调递增的函数组成，一个用于计数，一个用于统计总耗时。
+同样常用于包装已经存在的监控对象。Function Timer在Timer计数功能基础之上增加了每个记录的耗时。
+``` java
+// 构造器创建
+FunctionTimer.builder("cache.gets.latency", cache,
+        c -> c.getLocalMapStats().getGetOperationCount(),
+        c -> c.getLocalMapStats().getTotalGetLatency(),
+        TimeUnit.NANOSECONDS)
+    .tags("name", cache.getName())
+    .description("Cache gets")
+    .register(registry);
+
+// 直接从Registry创建
+registry.more().timer("cache.gets.latency", cache,
+        c -> c.getLocalMapStats().getGetOperationCount(),
+        c -> c.getLocalMapStats().getTotalGetLatency(),
+        TimeUnit.NANOSECONDS);
+```
+
+### Long Task Timer
+Long Task Timer同样也是Timer的特殊类型。统计的是当前有多少正在执行的任务，以及这些这任务已经耗费了多少时间，
+适用于监控长时间执行的任务和方法，统计类似当前负载量的相关指标。Long Task Timer在事件开始时记录，
+在事件结束后将事件移除。
+``` java
+// 构造器创建
+LongTaskTimer longTaskTimer = LongTaskTimer
+    .builder("long.task.timer")
+    .description("a description of what this timer does") // optional
+    .tags("region", "test") // optional
+    .register(registry);
+
+// 直接从Registry创建
+LongTaskTimer scrapeTimer = registry.more().longTaskTimer("scrape");
+
+// record function
+scrapeTimer.record(() -> {
+    // some operation ...
+});
+
+// record by sample
+LongTaskTimer.Sample start = scrapeTimer.start();
+// do something
+start.stop();
+```
+
+LongTaskTimer适合用于长时间持续运行的事件耗时的记录，例如相对耗时的定时任务。在Spring应用中，
+可以简单地使用@Scheduled和@Timed注解，基于spring-aop完成定时调度任务的总耗时记录：
+``` java
+@Timed(value = "aws.scrape", longTask = true)
+@Scheduled(fixedDelay = 360000)
+void scrapeResources() {
+    //这里做相对耗时的业务逻辑
+}
+```
+
+当然，在非spring体系中也能方便地使用LongTaskTimer：
+``` java
+public class LongTaskTimerMain {
+    public static void main(String[] args) throws Exception{
+        MeterRegistry meterRegistry = new SimpleMeterRegistry();
+        LongTaskTimer longTaskTimer = meterRegistry.more().longTaskTimer("longTaskTimer");
+        longTaskTimer.record(() -> {
+            //这里编写Task的逻辑
+        });
+        //或者这样
+        Metrics.more().longTaskTimer("longTaskTimer").record(()-> {
+            //这里编写Task的逻辑
+        });
+    }
+}
+```
+
+### Distribution Summary
+Distribution Summary翻译为分布概要，主要用于跟踪事件的分布，它的记录形式与Timer十分相似，
+但是记录的内容不依赖于时间单位，可以是任意数值，
+比如在监测范围内各个Http请求的响应内容大小时就可以使用Distribution Summary。
+为了更加明确地表明记录的内容，通常创建Distribution Summary时应该设置baseUnit属性。
+
+分布概要根据每个事件所对应的值，把事件分配到对应的桶（bucket）中。Micrometer 默认的桶的值从 1 到最大的 long 值。
+可以通过 minimumExpectedValue 和 maximumExpectedValue 来控制值的范围。如果事件所对应的值较小，
+可以通过 scale 来设置一个值来对数值进行放大。与分布概要密切相关的是直方图和百分比（percentile）。
+大多数时候，我们并不关注具体的数值，而是数值的分布区间。比如在查看 HTTP 服务响应时间的性能指标时，
+通常关注是的几个重要的百分比，如 50%，75%和 90%等。所关注的是对于这些百分比数量的请求都在多少时间内完成。
+Micrometer 提供了两种不同的方式来处理百分比。
+
+* 对于 Prometheus 这样本身提供了对百分比支持的监控系统，Micrometer 直接发送收集的直方图数据，
+由监控系统完成计算。
+* 对于其他不支持百分比的系统，Micrometer 会进行计算，并把百分比结果发送到监控系统。
+``` java
+public void summary() {
+    DistributionSummary summary = DistributionSummary.builder("simple")
+        .description("simple distribution summary")
+        .minimumExpectedValue(1L)
+        .maximumExpectedValue(10L)
+        .publishPercentiles(0.5, 0.75, 0.9)
+        .register(registry);
+    summary.record(1);
+    summary.record(1.3);
+    summary.record(2.4);
+    summary.record(3.5);
+    summary.record(4.1);
+    System.out.println(summary.takeSnapshot());
+}
+```
+
+使用场景：不依赖于时间单位的记录值的测量，例如服务器有效负载值，缓存的命中率等。
+
+``` java
+// 构造器创建
+DistributionSummary summary = DistributionSummary
+    .builder("response.size")
+    .description("a description of what this summary does") // optional
+    .baseUnit("bytes") // optional (1)
+    .tags("region", "test") // optional
+    .scale(100) // optional (2)
+    .register(registry);
+
+// 直接从registry创建
+DistributionSummary summary = registry.summary("response.size");
+```
 
 ## Spring Boot 工程集成 Micrometer
 我们一般说 Spring Boot 集成 Micrometer 值得时 Spring 2.x 版本，
@@ -111,9 +348,12 @@ public class SpringmvcDemoApplication {
 }
 ```
 
-最后，启动服务，浏览器访问 http://127.0.0.1:8080/actuator/prometheus 
+最后，启动服务，浏览器访问 `http://127.0.0.1:8080/actuator/prometheus`
 就可以看到应用的一系列不同类型 metrics 信息，例如 `http_server_requests_seconds summary`、
 `jvm_memory_used_bytes gauge`、`jvm_gc_memory_promoted_bytes_total counter` 等等。
+
+> [!TIP]
+> 程序中配置的Meter名称转换后会改变，我们都可以通过访问`/actuator/prometheus`这个链接来查看所有的Query类型。
 
 ## 配置 Prometheus 监控应用指标
 修改 prometheus.yml 配置，在上篇文章配置示例基础上，添加上边启动的服务地址来执行监控。重启Prometheus容器。
@@ -296,3 +536,4 @@ app_online_count{application="springboot2-prometheus"}
 
 继续在 Grafana 上之前的Row里增加一个新的Panel，并选择 Query 语句为上面的查询语句。将图表类型选择为仪表盘类型。
 ![img.png](images/img017.png)
+
