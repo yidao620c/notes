@@ -135,6 +135,14 @@ Timer.Sample sample = Timer.start();
 sample.stop(timer);
 ```
 
+另外，Timer的使用还可以基于它的内部类Timer.Sample，通过start和stop两个方法记录两者之间的逻辑的执行耗时。例如：
+``` java
+Timer.Sample sample = Timer.start(registry);
+// 这里做业务逻辑
+Response response = ...
+sample.stop(registry.timer("my.timer", "response", response.status()));
+```
+
 ### Function Timer
 Timer的特化类型，Function Timer由两个单调递增的函数组成，一个用于计数，一个用于统计总耗时。
 同样常用于包装已经存在的监控对象。Function Timer在Timer计数功能基础之上增加了每个记录的耗时。
