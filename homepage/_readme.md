@@ -1,10 +1,8 @@
 # readme
 
-> Programming notes
->
 > 这里记录个人平时的一些技术总结和实用的开发技能。
 > 
-> ↑↑↑ 文章导航在上面。
+> ↑↑↑ 文章导航菜单在上面。
 
 ## 📣关于我
 
@@ -20,7 +18,7 @@
 
 **公众号**
 
-2019年开通个人微信公众号”飞污熊”，分享个人学习笔记与心得。分享Python编程语言和架构设计相关干货。
+2019年开通个人微信公众号”飞污熊”，分享个人学习笔记与心得。分享Python编程语言和算法相关干货。
 大道至简，帮助更多的小白从入门拿到跑路。有兴趣的可以扫码关注。
 
 ![img.png](homepage/images/wuxiong.png) 
@@ -35,5 +33,4 @@
 * LemonTree：基于SpringBoot+Vue3的Java快速开发平台
 * NorthStar：基于Django+Vue3的Python快速开发平台
 
-![](homepage/images/running.gif)
 
