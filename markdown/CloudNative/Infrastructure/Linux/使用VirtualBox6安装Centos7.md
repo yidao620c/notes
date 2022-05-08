@@ -1,6 +1,7 @@
 # 使用VirtualBox6安装Centos7
 
-VirtualBox 是一款开源虚拟机软件。VirtualBox 是由德国 Innotek 公司开发， 由Sun Microsystems公司出品的软件，使用Qt编写，在 Sun 被 Oracle 收购后正式更名成 Oracle VM
+VirtualBox 是一款开源虚拟机软件。VirtualBox 是由德国 Innotek 公司开发，由Sun Microsystems公司出品的软件，
+使用Qt编写，在 Sun 被 Oracle 收购后正式更名成 Oracle VM
 VirtualBox。
 
 本文演示如何在Win10上面安装VirtualBox 6，并安装CentOS 7操作系统。
@@ -11,9 +12,11 @@ VirtualBox。
 
 然后下载centos7的mini.iso文件，下载地址：<https://www.centos.org/download/>
 
-打开VirtualBox 6，新建一个虚拟机，网络设置成桥接模式，并且在高级中设置网卡混杂模式为全部允许。 挂载刚刚下载的镜像文件，然后一步步去安装，最好选择语言为English界面。
+打开VirtualBox 6，新建一个虚拟机，网络设置成桥接模式，并且在高级中设置网卡混杂模式为全部允许。
+挂载刚刚下载的镜像文件，然后一步步去安装，最好选择语言为English界面。
 
-安装完成后配置静态IP地址，先用ifconfig看看windows宿主机上面的ip。 然后编辑文件`/etc/sysconfig/network-scripts/ifcfg-enp0s3`，注意IP设置为跟宿主机上同网段。
+安装完成后配置静态IP地址，先用ifconfig看看windows宿主机上面的ip。
+然后编辑文件`/etc/sysconfig/network-scripts/ifcfg-enp0s3`，注意IP设置为跟宿主机上同网段。
 
 ```
 TYPE=Ethernet

@@ -23,7 +23,7 @@
 * RabbitMQ
     * [安装指南](markdown/CloudNative/Middleware/RabbitMQ/安装指南.md)
 * Redis
-    * [Redis教程01-入门与安装](markdown/CloudNative/Middleware/Redis/Redis教程01-入门与安装.md)
-    * [Redis教程02-基本操作](markdown/CloudNative/Middleware/Redis/Redis教程02-基本操作.md)
-    * [Redis教程03-进阶知识](markdown/CloudNative/Middleware/Redis/Redis教程03-进阶知识.md)
-    * [Redis教程04-Docker安装Redis集群](markdown/CloudNative/Middleware/Redis/Redis教程04-Docker安装Redis集群.md)
+    * [01-入门与安装](markdown/CloudNative/Middleware/Redis/01-入门与安装.md)
+    * [02-基本操作](markdown/CloudNative/Middleware/Redis/02-基本操作.md)
+    * [03-进阶知识](markdown/CloudNative/Middleware/Redis/03-进阶知识.md)
+    * [Docker安装Redis集群](markdown/CloudNative/Middleware/Redis/Docker安装Redis集群.md)

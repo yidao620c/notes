@@ -1,6 +1,7 @@
 # Redis教程04-Docker安装Redis集群
 
-Redis集群分两种模式，一种是Master-Slave模式，就是主从模式，一个master带多个slave， 另外一种是cluster模式，由多组master-slave组成。
+Redis集群分两种模式，一种是Master-Slave模式，就是主从模式，一个master带多个slave，
+另外一种是cluster模式，由多组master-slave组成。
 
 ## 主从模式
 
