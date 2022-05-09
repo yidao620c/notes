@@ -13,6 +13,7 @@
     * [使用Swagger生成RESTful文档](markdown/CloudNative/Tools/Knowledge/使用Swagger生成RESTful文档.md)
     * [使用smart-doc生成API文档](markdown/CloudNative/Tools/Knowledge/使用smart-doc生成API文档.md)
     * [数据库文档生成工具screw](markdown/CloudNative/Tools/Knowledge/数据库文档生成工具screw.md)
+    * [Hexo增加百度联盟广告](markdown/CloudNative/Tools/Knowledge/Hexo增加百度联盟广告.md)
 * Jenkins
     * [Jenkins教程01-安装配置](markdown/CloudNative/Tools/Jenkins/Jenkins教程01-安装配置.md)
     * [Jenkins教程02-管道详解](markdown/CloudNative/Tools/Jenkins/Jenkins教程02-管道详解.md)
