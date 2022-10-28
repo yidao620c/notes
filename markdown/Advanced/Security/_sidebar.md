@@ -33,5 +33,5 @@
     * [RSA加解密](markdown/Advanced/Security/Crypto/RSA加解密.md)
     * [Java加解密算法](markdown/Advanced/Security/Crypto/Java加解密算法.md)
     * [使用PSS填充的签名验签工具](markdown/Advanced/Security/Crypto/使用PSS填充的签名验签工具.md)
-* 其他类
-    * [CISSP认证](markdown/Advanced/Security/Other/CISSP认证.md)
+* 知识星球
+    * [CISSP认证](markdown/Advanced/Security/Common/CISSP认证.md)

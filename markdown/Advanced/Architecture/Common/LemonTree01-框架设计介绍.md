@@ -16,5 +16,5 @@ LemonTree（柠檬树）是个人设计的一套Java快速开发框架，基于S
 
 整体架构如下
 
-![img.png](images/img001.png)
+![img.png](../images/img001.png)
 

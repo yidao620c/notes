@@ -30,7 +30,7 @@ pip install PyQt5-tools -i http://pypi.douban.com/simple/ --trusted-host pypi.do
 
 ## PyCharm中PyQt5工具配置
 
-还有一种更推荐方式，就是在PyCharm中集成。打开PyCharm，选择Settings -> Tools -> External Tools，点击左上角的绿色加号。
+还有一种更推荐方式，就是在PyCharm中集成。打开PyCharm，选择`Settings -> Tools -> External Tools`，点击左上角的绿色加号。
 
 1）配置Qt Designer，参数配置说明：
 
