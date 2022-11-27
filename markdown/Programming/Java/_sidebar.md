@@ -16,6 +16,7 @@ Java编程语言
     * [Java泛型的PECS原则](markdown/Programming/Java/Core/Java泛型的PECS原则.md)
 * JVM性能调优
     * [Java内存区域与内存溢出异常](markdown/Programming/Java/JVM/Java内存区域与内存溢出异常.md)
+    * [JDK8中字符串常量池详解](markdown/Programming/Java/JVM/JDK8中字符串常量池详解.md)
     * [JVM工具-基础监控工具](markdown/Programming/Java/JVM/JVM工具-基础监控工具.md)
     * [JVM工具-可视化工具JHSDB](markdown/Programming/Java/JVM/JVM工具-可视化工具JHSDB.md)
     * [JVM工具-可视化工具JConsole](markdown/Programming/Java/JVM/JVM工具-可视化工具JConsole.md)
