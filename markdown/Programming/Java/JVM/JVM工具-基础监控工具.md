@@ -38,14 +38,18 @@ hprof       | hprof能够展现CPU使用率，统计堆内存使用情况
 我们选取PID=67136的Java进程作为后续研究对象。
 
 ## jstat：JVM统计信息监测工具
+
 jstat用于监视JVM各种运行状态信息，可显示本地或远程（需要开启RMI支持）虚拟机进程中的类加载、内存、垃圾收集、JIT等运行时数据。
 在控制台环境下，它是运行期定位虚拟机性能问题的常用工具。
 
 jstat命令格式：
+
 ```
 jstat [option vmid [interval] [count]]
 ```
+
 参数interval和count代表查询间隔和次数，如果省略则只查询一次。比如如果要每隔200ms查询一次进程1223垃圾收集状态，一共查询10次。则
+
 ```
 jstat -gc 1223 200 10
 ```
@@ -68,13 +72,33 @@ jstat主要选项如下
 -printcompilation | 输出已经被JIT编译的方法
 
 jstat执行样例：
+
 ```
 jstat -gcutil 12592
 S0     S1     E      O      M     CCS    YGC   YGCT    FGC    FGCT    CGC    CGCT     GCT
 0.00  92.02   0.00  17.37  97.60  94.52   5    0.027     0    0.000     2    0.007    0.033
 ```
 
+ 缩写   | 含义                              | 原文                                                                            
+------|---------------------------------|-------------------------------------------------------------------------------
+ S0   | 新生代中Survivor space 0区已使用空间的百分比	 | Survivor space 0 utilization as a percentage of the space's current capacity. 
+ S1   | 新生代中Survivor space 1区已使用空间的百分比	 | Survivor space 1 utilization as a percentage of the space's current capacity. 
+ E    | 新生代已使用空间百分比                     | Eden space utilization as a percentage of the space's current capacity        
+ O    | 老年代已使用空间百分比                     | Old space utilization as a percentage of the space's current capacity.        
+ M    | 元空间                             | Metaspace utilization as a percentage of the space's current capacity         
+ CCS  | 压缩类空间利用率百分比                     | Compressed class space utilization as a percentage                            
+ YGC  | YGC事件的数量                        | Number of young generation GC events.                                         
+ YGCT | 年轻一代垃圾收集时间                      | Young generation garbage collection time                                      
+ FGC  | FGC事件的数量                        | Number of full GC events.                                                     
+ FGCT | 完全垃圾收集时间                        | Full garbage collection time                                                  
+ CGC  | 并发GC统计                          | Concurrent GC Count                                                           
+ CGCT | 并发GC收集时间                        | Concurrent GC Collection Time                                                 
+ GCT  | 垃圾回收总时间                         | Total garbage collection time.                                                
+
+CGC和CGCT是ZGC的标志，ZGC（The Z Garbage Collector）是JDK 11中推出的一款低延迟垃圾回收器，是一个并发垃圾回收器。
+
 ## jmap：Java内存映像工具
+
 jmap命令用于生成堆转储快照，一般称为heapdump或dump文件，该工具在JDK9中集成到了JHSDB中。
 
 命令格式：`jmap [option] vmid`
@@ -91,6 +115,7 @@ option的几个主要选项如下
 -F                | 强制生成dump快照，这个在-dump选项没有响应时使用
 
 使用jmap的样例
+
 ```
 C:\Users\xiongneng>jmap -dump:format=b,file=test.dump 12592
 Dumping heap to C:\Users\xiongneng\test.dump ...
@@ -98,6 +123,7 @@ Heap dump file created [29413292 bytes in 0.089 secs]
 ```
 
 ## top使用
+
 除了常用的打印所有进程使用资源外，还可以对单独的进程，打印线程资源排行榜，按T键可对TIME倒序排列，也就是CPU运行时间。
 TIME列就是各个Java线程耗费的CPU时间，我们线程pid为67163的线程作为后续线程研究对象
 
@@ -162,6 +188,7 @@ Full thread dump Java HotSpot(TM) 64-Bit Server VM (25.161-b12 mixed mode):
 ```
 
 查看该线程的堆栈：
+
 ```bash
 [root@CZT-FS1 board-api]# jstack -l 67136 | grep 1065b -A20
 "System Clock" #17 daemon prio=5 os_prio=0 tid=0x00007f322d089000 nid=0x1065b runnable [0x00007f320487c000]
