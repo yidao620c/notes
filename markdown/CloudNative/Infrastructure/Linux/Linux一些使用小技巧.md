@@ -58,8 +58,10 @@ find / -not \( -path /opt/docker -prune \) -not \( -path /proc -prune \) -nouser
 实际网卡信息来看，不是固定的
 
 5、关闭防火墙的开机自启动
-
-systemctl disable ip6tables.service
+```
+systemctl disable firewalld
+systemctl stop firewalld
+```
 
 6、执行sysctl -p或者reboot重启命令
 
