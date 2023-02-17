@@ -48,13 +48,13 @@ find / -not \( -path /opt/docker -prune \) -not \( -path /proc -prune \) -nouser
 ```
 
 ## 关闭IPv6
-1、使用ifconfig命令查看网卡信息，如果出现inet6 fe80::20c:29ff:fed0:3514，说明机器开启了ipv6
+1、使用ifconfig命令查看网卡信息，如果出现`inet6 fe80::20c:29ff:fed0:3514`，说明机器开启了ipv6
 
-2、编辑/etc/sysctl.conf配置，增加net.ipv6.conf.all.disable_ipv6=1
+2、编辑`/etc/sysctl.conf`配置，增加`net.ipv6.conf.all.disable_ipv6=1`
 
-3、编辑/etc/sysconfig/network配置，增加 NETWORKING_IPV6=no，保存并退出
+3、编辑`/etc/sysconfig/network`配置，增加`NETWORKING_IPV6=no`，保存并退出
 
-4、编辑/etc/sysconfig/network-scripts/ifcfg-eno16777736，确保IPV6INIT=no，ifcfg-eno16777736是根据自己机器的，
+4、编辑`/etc/sysconfig/network-scripts/ifcfg-eno16777736`，确保`IPV6INIT=no`，ifcfg-eno16777736是根据自己机器的，
 实际网卡信息来看，不是固定的
 
 5、关闭防火墙的开机自启动
@@ -63,7 +63,7 @@ systemctl disable firewalld
 systemctl stop firewalld
 ```
 
-6、执行sysctl -p或者reboot重启命令
+6、执行`sysctl -p`或者reboot重启命令
 
 7、再次使用ifconfig进行验证，只剩下ipv4，ipv6消失了，关闭成功
 
